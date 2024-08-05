@@ -1,6 +1,6 @@
-package learn.job_tracker.data.mappers;
+package job_tracker.data.mappers;
 
-import learn.job_tracker.models.Post;
+import job_tracker.models.Post;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

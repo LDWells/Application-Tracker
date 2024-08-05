@@ -1,7 +1,12 @@
-package learn.job_tracker.data.mappers;
+/************************************************************************
+ * Author: LaDarion Wells
+ * Date Created: 8/5/2024
+ ************************************************************************/
+
+package job_tracker.data.mappers;
 
 
-import learn.job_tracker.models.Application;
+import job_tracker.models.Application;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
