@@ -1,4 +1,4 @@
-package job_tracker;
+package learn.job_tracker;
 
 public class App {
 }

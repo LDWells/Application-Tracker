@@ -1,4 +1,4 @@
-package job_tracker.models;
+package learn.job_tracker.models;
 
 public class Comment {
 }
