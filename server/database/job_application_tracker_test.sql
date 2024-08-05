@@ -69,3 +69,5 @@ CREATE TABLE `Comment` (
     FOREIGN KEY (post_id) REFERENCES Post(id),
     FOREIGN KEY (user_id) REFERENCES User(id)
 );
+
+-- test
