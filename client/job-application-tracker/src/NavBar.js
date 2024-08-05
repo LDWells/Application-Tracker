@@ -25,6 +25,7 @@ function NavBar()
 					<Link className="dropdown-item dropdownText NavBarDropdownItems" to={"/post/add"}>Add a Community Post</Link>
 				</div>
 			</div>
+			<Link className="btn btn-outline-light NavBarText" to={"/login"}>Log In</Link>
 		</nav>
 	)
 }

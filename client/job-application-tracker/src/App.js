@@ -11,6 +11,7 @@ import TaskFormPage from "./TaskFormPage";
 import CommunityPage from "./CommunityPage";
 import PostDetailsPage from "./PostDetailsPage"
 import PostFormPage from "./PostFormPage";
+import LogInPage from "./LogInPage";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/post/:id" element={<PostDetailsPage/>}/>
           <Route path="/post/add" element={<PostFormPage/>}/>
           <Route path="/post/edit/:id" element={<PostFormPage/>}/>
+          <Route path="/login" element={<LogInPage/>}/>
           <Route path="*" element={<NotFoundPage/>}/>
         </Routes>
       </Router>

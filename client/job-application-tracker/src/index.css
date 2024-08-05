@@ -34,7 +34,7 @@ button{
   color: white;
   font-size: 4rem;
   margin-left: 2rem;
-  margin-right: 49rem;
+  margin-right: 20rem;
 }
 .dropdownText{
   font-size: 2rem;
@@ -52,4 +52,9 @@ button{
 }
 .center{
   text-align: center;
+}
+
+/* Login Page */
+.LogInBoxStyle{
+  border-radius: 1rem;
 }
