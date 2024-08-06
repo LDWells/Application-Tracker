@@ -1,5 +1,6 @@
 package job_tracker.domain;
 
+import job_tracker.models.ApplicationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import job_tracker.data.ApplicationRepository;
 import job_tracker.models.Application;
@@ -37,5 +38,13 @@ public class ApplicationService {
 
     public boolean deleteApplicationById(int id) {
         return applicationRepository.deleteById(id);
+    }
+
+    public List<ApplicationDTO> findAllApplicationsWithDetails() {
+        return applicationRepository.findAllWithDetails();
+    }
+
+    public ApplicationDTO findApplicationByIdWithDetails(int id) {
+        return applicationRepository.findByIdWithDetails(id);
     }
 }
