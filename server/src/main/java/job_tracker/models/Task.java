@@ -53,6 +53,14 @@ public class Task {
         this.status = status;
     }
 
+    public Task(int applicationId, String description, LocalDate dueDate, LocalDate reminderDate, Status status) {
+        this.applicationId = applicationId;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.reminderDate = reminderDate;
+        this.status = status;
+    }
+
     public int getId() {
         return id;
     }

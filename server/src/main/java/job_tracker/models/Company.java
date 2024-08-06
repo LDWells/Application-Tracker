@@ -44,6 +44,10 @@ public class Company {
         this.address = address;
     }
 
+    public Company(String name, String address) {
+        this.name = name;
+        this.address = address;
+    }
     public int getId() {
         return id;
     }
