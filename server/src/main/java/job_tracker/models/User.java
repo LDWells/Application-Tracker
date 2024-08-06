@@ -3,10 +3,9 @@
  * Filename: User.java
  * Date Created: 8/5/2024
  * Modifications: 8/5/2024 - created and finished model - Shawn Gibbons
+ * 8/6/2024 - Modified the model to work with AppUser - Ahmad Mashal
  ************************************************************************/
 package job_tracker.models;
-
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import javax.persistence.*;
 import java.util.Objects;
