@@ -66,7 +66,7 @@ class JdbcTaskRepositoryTest {
 
     @Test
     void shouldDeleteById() {
-        assertTrue(repository.deleteById(5));
-        assertFalse(repository.deleteById(5));
+        assertTrue(repository.deleteById(15));
+        assertFalse(repository.deleteById(15));
     }
 }

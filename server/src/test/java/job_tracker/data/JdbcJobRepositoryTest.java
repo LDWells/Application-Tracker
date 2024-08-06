@@ -45,7 +45,7 @@ class JdbcJobRepositoryTest {
 
     @Test
     void shouldAdd() {
-        Job job = new Job(5, "Tutor", "Help students.");
+        Job job = new Job(11, "Tutor", "Help students.");
         Job actual = repository.add(job);
         assertNotNull(actual);
         assertEquals(NEXT_ID, actual.getId());
@@ -62,7 +62,7 @@ class JdbcJobRepositoryTest {
 
     @Test
     void shouldDeleteById() {
-        assertTrue(repository.deleteById(5));
-        assertFalse(repository.deleteById(5));
+        assertTrue(repository.deleteById(15));
+        assertFalse(repository.deleteById(15));
     }
 }

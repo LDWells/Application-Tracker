@@ -2,31 +2,24 @@
 import {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 //Temp code
-const APPLICATION_DEFAULT = {
-	id: 1,
-	userId: 1,
-	jobId: 1,
-	applicationDate: '01/01/2024',
-	status: 'Applied'
-};
 
-const APPLICATION_DEFAULT2 = {
-	id: 2,
-	userId: 1,
-	jobId: 2,
-	applicationDate: '02/02/2024',
-	status: 'Rejected'
-};
 
-const APPLICATIONS_DEFAULT = [
-	APPLICATION_DEFAULT,
-	APPLICATION_DEFAULT2
-];
+
 
 function ApplicationListPage()
 {
 
 	const [applications, setApplications] = useState(APPLICATIONS_DEFAULT);
+	const [jobs, setJobs] = useState(JOBS_DEFAULT);
+	const [companies, setCompanies] = useState(COMPANIES_DEFAULT);
+
+	const findJobById = (jobId) => {
+		return jobs.find(j => j.id === jobId)
+	}
+
+	const findCompanyById = (companyId) => {
+		return companies.find(c => c.id === companyId)
+	}
 
 	return (
 		<>
@@ -34,6 +27,15 @@ function ApplicationListPage()
 			<p>Component to display list of applications in non detailed view</p>
 			<p>this will have for each application, the company name, the job title, the submission date, and the status</p>
 			<section className='container'>
+				{applications.map(a => 
+					<div key={a.id}>
+						{/* <h3>{findCompanyById(findJobById(a.jobId)).name}</h3>
+						<h3>{findJobById(a.jobId).title}</h3> */}
+						<h3>{a.applicationDate}</h3>
+						<h3>{a.status}</h3>
+					</div>
+				)}
+				<section className='container'>
 				<table className="table table-dark table-striped table-bordered">
 					<thead>
 						{/* <th>Company Name</th>
@@ -59,6 +61,7 @@ function ApplicationListPage()
 					)}
 					</tbody>
 				</table>
+			</section>
 			</section>
 		</>
 	)

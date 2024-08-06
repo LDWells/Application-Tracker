@@ -28,8 +28,11 @@ class JdbcCommentRepositoryTest {
 
     @Test
     void shouldFindById() {
-        assertEquals(3, repository.findById(1).getUserId());
-        assertEquals(LocalDate.of(2023, 4, 11), repository.findById(4).getCommentDate());
+        Comment comment = repository.findById(12);
+        assertNotNull(comment);
+        assertEquals(12, comment.getId());
+        assertEquals(13, comment.getUserId());
+        assertEquals(LocalDate.of(2023, 12, 16), comment.getCommentDate());
     }
 
 
@@ -62,7 +65,7 @@ class JdbcCommentRepositoryTest {
 
     @Test
     void shouldDeleteById() {
-        assertTrue(repository.deleteById(5));
-        assertFalse(repository.deleteById(5));
+        assertTrue(repository.deleteById(15));
+        assertFalse(repository.deleteById(15));
     }
 }
