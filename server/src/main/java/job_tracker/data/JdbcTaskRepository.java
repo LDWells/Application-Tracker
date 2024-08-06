@@ -1,11 +1,16 @@
 package job_tracker.data;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import job_tracker.data.TaskRepository;
 import job_tracker.data.mappers.TaskMapper;
 import job_tracker.models.Task;
 
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 
 @Repository
@@ -29,8 +34,29 @@ public class JdbcTaskRepository implements TaskRepository {
 
     @Override
     public Task add(Task task) {
-        jdbcTemplate.update("INSERT INTO Task (application_id, description, due_date, reminder_date, status) VALUES (?, ?, ?, ?, ?)",
-                task.getApplicationId(), task.getDescription(), task.getDueDate(), task.getReminderDate(), task.getStatus().toString());
+        final String sql = "INSERT INTO Task (application_id, description, due_date, reminder_date, status) "
+                + " VALUES (?, ?, ?, ?, ?);";
+
+        //Needed to auto-generate primary id
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        int rowsAffected = jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, task.getApplicationId());
+            ps.setString(2, task.getDescription());
+            ps.setDate(3, task.getDueDate() == null ? null : Date.valueOf(task.getDueDate()));
+            ps.setDate(4, task.getReminderDate() == null ? null : Date.valueOf(task.getReminderDate()));
+            ps.setString(5, task.getStatus().toString());
+
+
+            return ps;
+        }, keyHolder);
+
+        if (rowsAffected <= 0) {
+            return null;
+        }
+
+        task.setId(keyHolder.getKey().intValue());
+
         return task;
     }
 
@@ -41,7 +67,7 @@ public class JdbcTaskRepository implements TaskRepository {
     }
 
     @Override
-    public boolean delete(int id) {
+    public boolean deleteById(int id) {
         return jdbcTemplate.update("DELETE FROM Task WHERE id = ?", id) > 0;
     }
 }

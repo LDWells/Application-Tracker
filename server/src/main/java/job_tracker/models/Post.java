@@ -59,6 +59,13 @@ public class Post {
         this.postDate = postDate;
     }
 
+    public Post(int userId, String title, String content, LocalDate postDate) {
+        this.userId = userId;
+        this.title = title;
+        this.content = content;
+        this.postDate = postDate;
+    }
+
     public int getId() {
         return id;
     }

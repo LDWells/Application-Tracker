@@ -46,19 +46,32 @@ public class Application {
     @PastOrPresent(message = "Application date cannot be in the future")
     private LocalDate applicationDate;
 
+
     @NotBlank(message = "Status cannot be blank")
+    private String appliedOn;
+
     private Status status;
 
     public Application() {
     }
 
-    public Application(int id, int userId, int jobId, LocalDate applicationDate, Status status) {
+    public Application(int id, int userId, int jobId, LocalDate applicationDate, String appliedOn, Status status) {
         this.id = id;
         this.userId = userId;
         this.jobId = jobId;
         this.applicationDate = applicationDate;
+        this.appliedOn = appliedOn;
         this.status = status;
     }
+
+    public Application(int userId, int jobId, LocalDate applicationDate, String appliedOn, Status status) {
+        this.userId = userId;
+        this.jobId = jobId;
+        this.applicationDate = applicationDate;
+        this.appliedOn = appliedOn;
+        this.status = status;
+    }
+
 
     public int getId() {
         return id;
@@ -92,6 +105,14 @@ public class Application {
         this.applicationDate = applicationDate;
     }
 
+    public String getAppliedOn() {
+        return appliedOn;
+    }
+
+    public void setAppliedOn(String appliedOn) {
+        this.appliedOn = appliedOn;
+    }
+
     public Status getStatus() {
         return status;
     }
@@ -99,4 +120,5 @@ public class Application {
     public void setStatus(Status status) {
         this.status = status;
     }
+
 }

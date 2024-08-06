@@ -9,5 +9,5 @@ public interface CommentRepository {
     List<Comment> findAll();
     Comment add(Comment comment);
     boolean update(Comment comment);
-    boolean delete(int id);
+    boolean deleteById(int id);
 }

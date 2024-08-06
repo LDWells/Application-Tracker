@@ -58,6 +58,14 @@ public class Comment {
         this.commentDate = commentDate;
     }
 
+    public Comment(int postId, int userId, String content, LocalDate commentDate) {
+        this.postId = postId;
+        this.userId = userId;
+        this.content = content;
+        this.commentDate = commentDate;
+    }
+
+
     public int getId() {
         return id;
     }

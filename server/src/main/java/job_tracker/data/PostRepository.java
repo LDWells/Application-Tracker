@@ -9,5 +9,5 @@ public interface PostRepository {
     List<Post> findAll();
     Post add(Post post);
     boolean update(Post post);
-    boolean delete(int id);
+    boolean deleteById(int id);
 }

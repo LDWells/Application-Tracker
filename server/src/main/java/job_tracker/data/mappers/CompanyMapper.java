@@ -14,11 +14,11 @@ public class CompanyMapper implements RowMapper<Company> {
     @Override
     public Company mapRow(ResultSet resultSet, int i) throws SQLException {
         Company company  = new Company();
-        company.setCompanyId(resultSet.getInt("id"));
-        company.setCompanyName(resultSet.getString("name")); //change to company_name if this cause problems
-        company.setCompanyAdrress(resultSet.getString("address"));
+        company.setId(resultSet.getInt("id"));
+        company.setName(resultSet.getString("name")); //change to company_name if this cause problems
+        company.setAddress(resultSet.getString("address"));
 
         return company;
     }
 }
-}
+
