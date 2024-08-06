@@ -64,3 +64,30 @@ CREATE TABLE `Comment` (
     CONSTRAINT fk_comment_post FOREIGN KEY (post_id) REFERENCES Post(id),
     CONSTRAINT fk_comment_user FOREIGN KEY (user_id) REFERENCES `User`(id)
 );
+
+CREATE TABLE app_user (
+    app_user_id INT AUTO_INCREMENT PRIMARY KEY,
+    google_id VARCHAR(255) UNIQUE,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    disabled BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+CREATE TABLE app_user_role (
+    app_user_id INT,
+    app_role_id INT,
+    PRIMARY KEY (app_user_id, app_role_id),
+    FOREIGN KEY (app_user_id) REFERENCES app_user(app_user_id),
+    FOREIGN KEY (app_role_id) REFERENCES app_role(app_role_id)
+);
+
+CREATE TABLE app_role (
+    app_role_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE
+);
+
+-- Populate the app_role table
+INSERT INTO app_role (name) VALUES
+('USER'),
+('ADMIN');

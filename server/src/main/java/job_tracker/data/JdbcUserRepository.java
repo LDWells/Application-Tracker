@@ -64,6 +64,25 @@ public class JdbcUserRepository implements UserRepository{
     }
 
     @Override
+    public User save(User user) {
+        final String sql = "INSERT INTO `User` (google_id, username, email, password, role) VALUES (?, ?, ?, ?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, user.getGoogleId());
+            ps.setString(2, user.getUsername());
+            ps.setString(3, user.getEmail());
+            ps.setString(4, user.getPassword());
+            ps.setString(5, user.getRole().name());
+            return ps;
+        }, keyHolder);
+
+        user.setId(keyHolder.getKey().intValue());
+        return user;
+    }
+
+    @Override
     public boolean update(User user) {
         return jdbcTemplate.update("UPDATE `User` SET google_id = ?, username = ?, email = ?, password = ?, role = ? WHERE id = ?",
                 user.getGoogleId(), user.getUsername(), user.getEmail(), user.getPassword(), user.getRole().toString(), user.getId()) > 0;
