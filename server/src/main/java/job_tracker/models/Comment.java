@@ -6,6 +6,8 @@
  ************************************************************************/
 package job_tracker.models;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 /************************************************************************
@@ -34,8 +36,14 @@ import java.time.LocalDate;
  *************************************************************************/
 public class Comment {
     private int id;
+
+    @NotNull(message = "Post ID cannot be null")
     private int postId;
+
+    @NotNull(message = "User ID cannot be null")
     private int userId;
+
+    @NotBlank(message = "Content cannot be blank")
     private String content;
     private LocalDate commentDate;
 

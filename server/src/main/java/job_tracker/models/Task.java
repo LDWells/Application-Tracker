@@ -6,6 +6,10 @@
  ************************************************************************/
 package job_tracker.models;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.FutureOrPresent;
 import java.time.LocalDate;
 
 /************************************************************************
@@ -35,10 +39,21 @@ import java.time.LocalDate;
  *************************************************************************/
 public class Task {
     private int id;
+
+    @NotNull(message = "Application ID cannot be null")
     private int applicationId;
+
+    @NotBlank(message = "Description cannot be blank")
+    @Size(max = 255, message = "Description cannot be longer than 255 characters")
     private String description;
+
+    @FutureOrPresent(message = "Due date cannot be in the past")
     private LocalDate dueDate;
+
+    @FutureOrPresent(message = "Reminder date cannot be in the past")
     private LocalDate reminderDate;
+
+    @NotBlank(message = "Status cannot be blank")
     private Status status;
 
     public Task() {
