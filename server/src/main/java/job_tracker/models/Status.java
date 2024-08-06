@@ -10,5 +10,7 @@ public enum Status {
     APPLIED,
     INTERVIEW,
     OFFER,
-    REJECTED
+    REJECTED,
+    PENDING,
+    COMPLETED
 }

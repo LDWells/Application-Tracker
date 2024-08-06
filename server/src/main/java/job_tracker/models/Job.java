@@ -43,6 +43,12 @@ public class Job {
         this.description = description;
     }
 
+    public Job(int companyId, String title, String description) {
+        this.companyId = companyId;
+        this.title = title;
+        this.description = description;
+    }
+
     public int getId() {
         return id;
     }

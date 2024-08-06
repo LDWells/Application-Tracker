@@ -21,9 +21,10 @@ public class ApplicationMapper implements RowMapper<Application> {
         application.setId(resultSet.getInt("id"));
         application.setUserId(resultSet.getInt("user_id"));
         application.setJobId(resultSet.getInt("job_id"));
-        if (resultSet.getDate("date") != null) {
-            application.setApplicationDate(resultSet.getDate("date").toLocalDate());
+        if (resultSet.getDate("application_date") != null) {
+            application.setApplicationDate(resultSet.getDate("application_date").toLocalDate());
         }
+        application.setAppliedOn(resultSet.getString("applied_on"));
         application.setStatus(Status.valueOf(resultSet.getString("status").toUpperCase()));
         return application;
     }

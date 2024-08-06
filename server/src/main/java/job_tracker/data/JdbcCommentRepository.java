@@ -3,8 +3,13 @@ package job_tracker.data;
 import job_tracker.data.mappers.CommentMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import job_tracker.models.Comment;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 
 @Repository
@@ -28,8 +33,26 @@ public class JdbcCommentRepository implements CommentRepository {
 
     @Override
     public Comment add(Comment comment) {
-        jdbcTemplate.update("INSERT INTO Comment (post_id, user_id, content, comment_date) VALUES (?, ?, ?, ?)",
-                comment.getPostId(), comment.getUserId(), comment.getContent(), comment.getCommentDate());
+        final String sql = "INSERT INTO Comment (post_id, user_id, content, comment_date) "
+                + " VALUES (?, ?, ?, ?);";
+
+        //Needed to auto-generate primary id
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        int rowsAffected = jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, comment.getPostId());
+            ps.setInt(2, comment.getUserId());
+            ps.setString(3, comment.getContent());
+            ps.setDate(4, comment.getCommentDate() == null ? null : Date.valueOf(comment.getCommentDate()));
+            return ps;
+        }, keyHolder);
+
+        if (rowsAffected <= 0) {
+            return null;
+        }
+
+        comment.setId(keyHolder.getKey().intValue());
+
         return comment;
     }
 
@@ -40,7 +63,7 @@ public class JdbcCommentRepository implements CommentRepository {
     }
 
     @Override
-    public boolean delete(int id) {
+    public boolean deleteById(int id) {
         return jdbcTemplate.update("DELETE FROM Comment WHERE id = ?", id) > 0;
     }
 }
