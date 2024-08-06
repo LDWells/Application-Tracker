@@ -65,6 +65,11 @@ CREATE TABLE `Comment` (
     CONSTRAINT fk_comment_user FOREIGN KEY (user_id) REFERENCES `User`(id)
 );
 
+CREATE TABLE app_role (
+    app_role_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE
+);
+
 CREATE TABLE app_user (
     app_user_id INT AUTO_INCREMENT PRIMARY KEY,
     google_id VARCHAR(255) UNIQUE,
@@ -80,11 +85,6 @@ CREATE TABLE app_user_role (
     PRIMARY KEY (app_user_id, app_role_id),
     FOREIGN KEY (app_user_id) REFERENCES app_user(app_user_id),
     FOREIGN KEY (app_role_id) REFERENCES app_role(app_role_id)
-);
-
-CREATE TABLE app_role (
-    app_role_id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL UNIQUE
 );
 
 DELIMITER //
@@ -106,6 +106,9 @@ BEGIN
     DELETE FROM Job;
     DELETE FROM Company;
     DELETE FROM `User`;
+    DELETE FROM app_role;
+    DELETE FROM app_user;
+    DELETE FROM app_user_role;
 
     -- Reset auto-increment values
     ALTER TABLE `User` AUTO_INCREMENT = 1;
