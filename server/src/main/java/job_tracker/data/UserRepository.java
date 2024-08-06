@@ -9,6 +9,7 @@ public interface UserRepository {
     User findByEmail(String email);
     List<User> findAll();
     User add(User user);
+    User save(User user);
     boolean update(User user);
     boolean deleteById(int id);
 }
