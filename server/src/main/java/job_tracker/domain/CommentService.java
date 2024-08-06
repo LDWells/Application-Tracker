@@ -38,6 +38,6 @@ public class CommentService {
     }
 
     public boolean deleteComment(int id) {
-        return commentRepository.delete(id);
+        return commentRepository.deleteById(id);
     }
 }

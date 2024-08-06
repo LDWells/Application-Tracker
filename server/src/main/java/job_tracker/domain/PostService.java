@@ -38,6 +38,6 @@ public class PostService {
     }
 
     public boolean deletePost(int id) {
-        return postRepository.delete(id);
+        return postRepository.deleteById(id);
     }
 }
