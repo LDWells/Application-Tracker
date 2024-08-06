@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 //Temp code
 
-const APPLICATIONDTO_DEFAULT = {
+const APPLICATION_DTO_DEFAULT = {
 	companyId: 1,
 	companyName: 'Tech Corp',
 	campanyAddress: '123 Tech Lane, Silicon Valley, CA',
@@ -14,10 +14,10 @@ const APPLICATIONDTO_DEFAULT = {
 	userId: 2,
 	applicationDate: '01/15/2023',
 	appliedOn: 'LinkedIn',
-	status: 'APPLIED'
+	status: 'OFFER'
 };
 
-const APPLICATIONDTO_DEFAULT2 = {
+const APPLICATION_DTO_DEFAULT2 = {
 	companyId: 2,
 	companyName: 'Biz Solutions',
 	campanyAddress: '456 Business St, New York, NY',
@@ -28,19 +28,19 @@ const APPLICATIONDTO_DEFAULT2 = {
 	userId: 3,
 	applicationDate: '02/20/2023',
 	appliedOn: 'Indeed',
-	status: 'INTERVIEW'
+	status: 'REJECTED'
 };
 
-const APPLICATIONDTOS_DEFAULT = [
-	APPLICATIONDTO_DEFAULT,
-	APPLICATIONDTO_DEFAULT2
+const APPLICATION_DTOS_DEFAULT = [
+	APPLICATION_DTO_DEFAULT,
+	APPLICATION_DTO_DEFAULT2
 ];
 
 
 function ApplicationListPage()
 {
 
-	const [applications, setApplications] = useState(APPLICATIONDTOS_DEFAULT);
+	const [applications, setApplications] = useState(APPLICATION_DTOS_DEFAULT);
 
 	const statusColor = (status) => {
 		if (status === "APPLIED")
@@ -63,9 +63,9 @@ function ApplicationListPage()
 
 	return (
 		<>
-			<h1>Application List Page</h1>
+			{/* <h1>Application List Page</h1>
 			<p>Component to display list of applications in non detailed view</p>
-			<p>this will have for each application, the company name, the job title, the submission date, and the status</p>
+			<p>this will have for each application, the company name, the job title, the submission date, and the status</p> */}
 			<section className='applicationListContainer'>
 				{applications.map(a => 
 					<div key={a.id} className='applicationListBox mb-5'>

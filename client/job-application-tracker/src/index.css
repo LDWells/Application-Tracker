@@ -1,3 +1,4 @@
+/* General */
 *{
 	box-sizing: border-box;
 	max-width: 100%;
@@ -37,6 +38,18 @@ h6{
 button{
 	font-size: 2rem !important;
 }
+.center{
+  text-align: center;
+}
+hr{
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+/* NavBar */
 .linkNav{
   font-size: 2rem;
   margin: 2rem 0;
@@ -65,14 +78,11 @@ button{
   width: 24rem;
   color: white;
 }
-.center{
-  text-align: center;
-}
-
 /* Login Page */
 .LogInBoxStyle{
   border-radius: 1rem;
 }
+/* Application List Page */
 .applicationListBox{
   border-style: solid;
   border-color: white;
@@ -82,10 +92,22 @@ button{
 }
 .applicationListContainer{
   width: 35%;
-  margin: 0 5%;
+  margin: 2% 5%;
 }
 .applicationListButton{
   float: right;
   font-size: 1.5rem;
   margin-right: 2rem;
+}
+/* Singular Application */
+.applicationBox{
+  border-style: solid;
+  border-color: white;
+}
+.applicationBoxText{
+  margin: 1rem 2rem;
+}
+.applicationContainer{
+  width: 80%;
+  margin: 2% 10%;
 }
