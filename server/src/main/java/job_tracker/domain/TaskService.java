@@ -38,6 +38,6 @@ public class TaskService {
     }
 
     public boolean deleteTask(int id) {
-        return taskRepository.delete(id);
+        return taskRepository.deleteById(id);
     }
 }
