@@ -6,6 +6,9 @@
  ************************************************************************/
 package job_tracker.models;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 /************************************************************************
@@ -32,9 +35,17 @@ import java.time.LocalDate;
  *************************************************************************/
 public class Post {
     private int id;
+
+    @NotNull(message = "User ID cannot be null")
     private int userId;
+
+    @NotBlank(message = "Title cannot be blank")
+    @Size(max = 255, message = "Title cannot be longer than 255 characters")
     private String title;
+
+    @NotBlank(message = "Content cannot be blank")
     private String content;
+
     private LocalDate postDate;
 
     public Post() {

@@ -6,6 +6,10 @@
  ************************************************************************/
 package job_tracker.models;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
+
 /************************************************************************
  * Class: Job
  *
@@ -29,7 +33,12 @@ package job_tracker.models;
  *************************************************************************/
 public class Job {
     private int id;
+
+    @NotNull(message = "Company ID cannot be null")
     private int companyId;
+
+    @NotBlank(message = "Title cannot be blank")
+    @Size(max = 100, message = "Title cannot be longer than 100 characters")
     private String title;
     private String description;
 

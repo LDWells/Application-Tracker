@@ -6,6 +6,9 @@
  ************************************************************************/
 package job_tracker.models;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 /************************************************************************
  * Class: Company
  *
@@ -27,7 +30,12 @@ package job_tracker.models;
  *************************************************************************/
 public class Company {
     private int id;
+
+    @NotBlank(message = "Name cannot be blank")
+    @Size(max = 100, message = "Name cannot be longer than 100 characters")
     private String name;
+
+    @Size(max = 255, message = "Address cannot be longer than 255 characters")
     private String address;
 
     public Company() {
