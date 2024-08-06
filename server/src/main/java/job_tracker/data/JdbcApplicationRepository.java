@@ -1,7 +1,9 @@
 package job_tracker.data;
 
+import job_tracker.data.mappers.ApplicationDtoMapper;
 import job_tracker.data.mappers.ApplicationMapper;
 import job_tracker.models.Application;
+import job_tracker.models.ApplicationDTO;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -67,5 +69,30 @@ public class JdbcApplicationRepository implements ApplicationRepository {
     public boolean deleteById(int id) {
         jdbcTemplate.update("DELETE FROM Task WHERE application_id = ? ", id); //need to first remove from referenced table
         return jdbcTemplate.update("DELETE FROM Application WHERE id = ?", id) > 0;
+    }
+
+    @Override
+    public List<ApplicationDTO> findAllWithDetails() {
+        String sql = "SELECT c.id AS company_id, c.name AS company_name, c.address AS company_address, " +
+                "j.id AS job_id, j.title AS job_title, j.description AS job_description, " +
+                "a.id AS application_id, a.user_id, a.application_date, a.applied_on, a.status " +
+                "FROM Company c " +
+                "LEFT JOIN Job j ON c.id = j.company_id " +
+                "LEFT JOIN Application a ON j.id = a.job_id";
+
+        return jdbcTemplate.query(sql, new ApplicationDtoMapper());
+    }
+
+    @Override
+    public ApplicationDTO findByIdWithDetails(int id) {
+        String sql = "SELECT c.id AS company_id, c.name AS company_name, c.address AS company_address, " +
+                "j.id AS job_id, j.title AS job_title, j.description AS job_description, " +
+                "a.id AS application_id, a.user_id, a.application_date, a.applied_on, a.status " +
+                "FROM Company c " +
+                "LEFT JOIN Job j ON c.id = j.company_id " +
+                "LEFT JOIN Application a ON j.id = a.job_id " +
+                "WHERE a.id = ?";
+
+        return jdbcTemplate.queryForObject(sql, new ApplicationDtoMapper(), id);
     }
 }

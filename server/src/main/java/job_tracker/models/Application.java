@@ -6,6 +6,9 @@
  ************************************************************************/
 package job_tracker.models;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDate;
 
 /************************************************************************
@@ -33,10 +36,20 @@ import java.time.LocalDate;
  *************************************************************************/
 public class Application {
     private int id;
+
+    @NotNull(message = "User ID cannot be null")
     private int userId;
+
+    @NotNull(message = "Job ID cannot be null")
     private int jobId;
+
+    @PastOrPresent(message = "Application date cannot be in the future")
     private LocalDate applicationDate;
+
+
+    @NotBlank(message = "Status cannot be blank")
     private String appliedOn;
+
     private Status status;
 
     public Application() {
