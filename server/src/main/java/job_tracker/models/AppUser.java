@@ -20,16 +20,18 @@ public class AppUser extends User {
 
     private List<String> roles = new ArrayList<>();
 
-    public AppUser(int appUserId, String username, String password, boolean disabled, List<String> roles) {
+    public AppUser(int appUserId, String username, String email, String password, boolean disabled, List<String> roles) {
         super(username, password, !disabled, true, true, true, convertRolesToAuthorities(roles));
         this.appUserId = appUserId;
+        this.email = email;  // Set email in constructor
         this.password = password;  // Set password in constructor
     }
 
-    public AppUser(int appUserId, String googleId, String username, String password, boolean disabled, List<String> roles) {
+    public AppUser(int appUserId, String googleId, String username, String email, String password, boolean disabled, List<String> roles) {
         super(username, password, !disabled, true, true, true, convertRolesToAuthorities(roles));
         this.appUserId = appUserId;
         this.googleId = googleId;
+        this.email = email;  // Set email in constructor
         this.password = password;  // Set password in constructor
     }
 

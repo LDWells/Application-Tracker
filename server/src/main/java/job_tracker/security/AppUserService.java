@@ -33,13 +33,14 @@ public class AppUserService implements UserDetailsService {
         return appUser;
     }
 
-    public AppUser create(String username, String password) {
+    public AppUser create(String username, String email, String password) {
         validate(username);
+        validateEmail(email);
         validatePassword(password);
 
         password = encoder.encode(password);
 
-        AppUser appUser = new AppUser(0, username, password, false, List.of("User"));
+        AppUser appUser = new AppUser(0, username, email, password, false, List.of("User"));
 
         return repository.create(appUser);
     }
@@ -51,6 +52,20 @@ public class AppUserService implements UserDetailsService {
 
         if (username.length() > 50) {
             throw new ValidationException("username must be less than 50 characters");
+        }
+    }
+
+    private void validateEmail(String email) {
+        if (email == null || email.isBlank()) {
+            throw new ValidationException("Email is required");
+        }
+
+        if (email.length() > 100) {
+            throw new ValidationException("Email must be less than 100 characters");
+        }
+
+        if (!email.contains("@")) {
+            throw new ValidationException("Email must be valid");
         }
     }
 
