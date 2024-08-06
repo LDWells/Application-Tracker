@@ -10,6 +10,12 @@ public interface AppUserRepository {
     AppUser findByUsername(String username);
 
     @Transactional
+    AppUser findByEmail(String email);
+
+    @Transactional
+    AppUser findByGoogleId(String googleId);
+
+    @Transactional
     List<AppUser> findAll();
 
     @Transactional

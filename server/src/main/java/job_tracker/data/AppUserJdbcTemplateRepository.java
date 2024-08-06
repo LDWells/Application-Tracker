@@ -42,6 +42,26 @@ public class AppUserJdbcTemplateRepository implements AppUserRepository {
 
     @Override
     @Transactional
+    public AppUser findByEmail(String email) {
+        List<String> roles = List.of(Role.USER.getName(), Role.ADMIN.getName());
+        final String sql = "SELECT app_user_id, username, password_hash, disabled FROM app_user WHERE email = ?;";
+        return jdbcTemplate.query(sql, new AppUserMapper(roles), email)
+                .stream()
+                .findFirst().orElse(null);
+    }
+
+    @Override
+    @Transactional
+    public AppUser findByGoogleId(String googleId) {
+        List<String> roles = List.of(Role.USER.getName(), Role.ADMIN.getName());
+        final String sql = "SELECT app_user_id, username, password_hash, disabled FROM app_user WHERE google_id = ?;";
+        return jdbcTemplate.query(sql, new AppUserMapper(roles), googleId)
+                .stream()
+                .findFirst().orElse(null);
+    }
+
+    @Override
+    @Transactional
     public List<AppUser> findAll() {
         List<String> roles = new ArrayList<>();
         roles.add(Role.USER.getName());
@@ -73,8 +93,7 @@ public class AppUserJdbcTemplateRepository implements AppUserRepository {
 
         user.setAppUserId(keyHolder.getKey().intValue());
 
-        if (user.getGoogleId() != null)
-        {
+        if (user.getGoogleId() != null) {
             user.setGoogleId(keyHolder.getKey().toString());
         }
 
@@ -106,20 +125,34 @@ public class AppUserJdbcTemplateRepository implements AppUserRepository {
         return jdbcTemplate.update("delete from user where id = ?;", user.getAppUserId()) > 0;
     }
 
+    //    private void updateRoles(AppUser user) {
+//        // delete all roles, then re-add
+//        jdbcTemplate.update("update app_user where app_user_id = ?;", user.getAppUserId());
+//
+//        Collection<GrantedAuthority> authorities = user.getAuthorities();
+//
+//        if (authorities == null) {
+//            return;
+//        }
+//
+//        for (String role : AppUser.convertAuthoritiesToRoles(authorities)) {
+//            String sql = "insert into app_user_role (app_user_id, app_role_id) "
+//                    + "select ?, app_role_id from app_role where `name` = ?;";
+//            jdbcTemplate.update(sql, user.getAppUserId(), role);
+//        }
+//    }
     private void updateRoles(AppUser user) {
-        // delete all roles, then re-add
-        jdbcTemplate.update("update app_user where app_user_id = ?;", user.getAppUserId());
+        // We nee to delete all roles, then re-add
+        jdbcTemplate.update("DELETE FROM app_user_role WHERE app_user_id = ?", user.getAppUserId());
 
         Collection<GrantedAuthority> authorities = user.getAuthorities();
 
-        if (authorities == null) {
-            return;
-        }
-
-        for (String role : AppUser.convertAuthoritiesToRoles(authorities)) {
-            String sql = "insert into app_user_role (app_user_id, app_role_id) "
-                    + "select ?, app_role_id from app_role where `name` = ?;";
-            jdbcTemplate.update(sql, user.getAppUserId(), role);
+        if (authorities != null) {
+            for (String role : AppUser.convertAuthoritiesToRoles(authorities)) {
+                String sql = "INSERT INTO app_user_role (app_user_id, app_role_id) "
+                        + "SELECT ?, app_role_id FROM app_role WHERE `name` = ?;";
+                jdbcTemplate.update(sql, user.getAppUserId(), role);
+            }
         }
     }
 }

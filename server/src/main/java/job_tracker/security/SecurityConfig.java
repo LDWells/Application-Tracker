@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -15,27 +17,28 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtConverter converter;
+    private final CustomOAuth2UserService oAuth2UserService;
 
-    public SecurityConfig(JwtConverter converter) {
+    public SecurityConfig(JwtConverter converter, CustomOAuth2UserService oAuth2UserService) {
         this.converter = converter;
+        this.oAuth2UserService = oAuth2UserService;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-
-        http.cors();
-
-        http.authorizeRequests()
-                // TODO add antMatchers here to configure access to specific API endpoints
-                .antMatchers("/api/user/authenticate").permitAll()
-                .antMatchers("/api/user/register").permitAll()
-                // require authentication for any request...
+        http.csrf().disable().cors().and()
+                .authorizeRequests()
+                .antMatchers("/api/user/authenticate", "/api/user/register", "/oauth2/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
+                .oauth2Login()
+                .loginPage("/login")
+                .userInfoEndpoint().userService(oAuth2UserService)
+                .and()
+                .successHandler(successHandler())
+                .and()
                 .addFilter(new JwtRequestFilter(authenticationManager(), converter))
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
     @Override
@@ -59,5 +62,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .allowedMethods("*");
             }
         };
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler successHandler() {
+        return new SimpleUrlAuthenticationSuccessHandler("/");
     }
 }
