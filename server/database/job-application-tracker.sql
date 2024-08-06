@@ -11,22 +11,19 @@ CREATE TABLE `User` (
     role ENUM('ADMIN', 'USER') NOT NULL
 );
 
-
 CREATE TABLE Company (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     address VARCHAR(255)
 );
 
-
 CREATE TABLE Job (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
     description TEXT,
     company_id INT,
-    FOREIGN KEY (company_id) REFERENCES Company(id)
+    CONSTRAINT fk_job_company FOREIGN KEY (company_id) REFERENCES Company(id)
 );
-
 
 CREATE TABLE Application (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -35,10 +32,9 @@ CREATE TABLE Application (
     application_date DATE,
     applied_on VARCHAR(250),
     status ENUM('APPLIED', 'INTERVIEW', 'OFFER', 'REJECTED'),
-    FOREIGN KEY (user_id) REFERENCES User(id),
-    FOREIGN KEY (job_id) REFERENCES Job(id)
+    CONSTRAINT fk_application_user FOREIGN KEY (user_id) REFERENCES `User`(id),
+    CONSTRAINT fk_application_job FOREIGN KEY (job_id) REFERENCES Job(id)
 );
-
 
 CREATE TABLE Task (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -47,9 +43,8 @@ CREATE TABLE Task (
     due_date DATE,
     reminder_date DATE,
     status ENUM('PENDING', 'COMPLETED'),
-    FOREIGN KEY (application_id) REFERENCES Application(id)
+    CONSTRAINT fk_task_application FOREIGN KEY (application_id) REFERENCES Application(id)
 );
-
 
 CREATE TABLE Post (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -57,7 +52,7 @@ CREATE TABLE Post (
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
     post_date DATE,
-    FOREIGN KEY (user_id) REFERENCES User(id)
+    CONSTRAINT fk_post_user FOREIGN KEY (user_id) REFERENCES `User`(id)
 );
 
 CREATE TABLE `Comment` (
@@ -66,6 +61,6 @@ CREATE TABLE `Comment` (
     user_id INT,
     content TEXT NOT NULL,
     comment_date DATE,
-    FOREIGN KEY (post_id) REFERENCES Post(id),
-    FOREIGN KEY (user_id) REFERENCES User(id)
+    CONSTRAINT fk_comment_post FOREIGN KEY (post_id) REFERENCES Post(id),
+    CONSTRAINT fk_comment_user FOREIGN KEY (user_id) REFERENCES `User`(id)
 );

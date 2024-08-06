@@ -1,14 +1,19 @@
 package job_tracker.data;
 
+import job_tracker.models.Comment;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class JdbcCommentRepositoryTest {
+    final static int NEXT_ID = 16;
 
     @Autowired
     JdbcCommentRepository repository;
@@ -22,22 +27,42 @@ class JdbcCommentRepositoryTest {
     }
 
     @Test
-    void findById() {
+    void shouldFindById() {
+        assertEquals(3, repository.findById(1).getUserId());
+        assertEquals(LocalDate.of(2023, 4, 11), repository.findById(4).getCommentDate());
+    }
+
+
+    @Test
+    void shouldFindAll() {
+        List<Comment> actual = repository.findAll();
+        // can't predict order
+        // if delete is first, we're down to 14
+        // if add is first, we may go as high as 16
+        assertTrue(actual.size() >= 14 && actual.size() <= 16);
+
     }
 
     @Test
-    void findAll() {
+    void shouldAdd() {
+        Comment comment = new Comment(3,2,"This application took WAY too long", LocalDate.of(2023,1,13) );
+        Comment actual = repository.add(comment);
+        assertNotNull(actual);
+        assertEquals(NEXT_ID, actual.getId());
     }
 
     @Test
-    void add() {
+    void shouldUpdate() {
+        Comment actual = repository.findById(3);
+        actual.setCommentDate(LocalDate.of(2023,11,13));
+        assertTrue(repository.update(actual));
+
     }
 
-    @Test
-    void update() {
-    }
 
     @Test
-    void delete() {
+    void shouldDeleteById() {
+        assertTrue(repository.deleteById(5));
+        assertFalse(repository.deleteById(5));
     }
 }
