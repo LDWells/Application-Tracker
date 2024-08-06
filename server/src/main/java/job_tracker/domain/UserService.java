@@ -37,6 +37,7 @@ public class UserService {
 
     public AppUser create(AppUser user) {
         validateUser(user);
+        validateEmail(user.getEmail());
         validatePassword(user.getPassword());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.create(user);
@@ -67,6 +68,20 @@ public class UserService {
         }
         if (user.getEmail().length() > 100) {
             throw new ValidationException("Email must be less than 100 characters");
+        }
+    }
+
+    private void validateEmail(String email) {
+        if (email == null || email.isBlank()) {
+            throw new ValidationException("Email is required");
+        }
+
+        if (email.length() > 100) {
+            throw new ValidationException("Email must be less than 100 characters");
+        }
+
+        if (!email.contains("@")) {
+            throw new ValidationException("Email must be valid");
         }
     }
 

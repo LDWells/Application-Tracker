@@ -67,8 +67,9 @@ public class AuthController {
         try {
             String username = credentials.get("username");
             String password = credentials.get("password");
+            String email = credentials.get("email");
 
-            appUser = appUserService.create(username, password);
+            appUser = appUserService.create(username, email, password);
         } catch (ValidationException ex) {
             return new ResponseEntity<>(List.of(ex.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (DuplicateKeyException ex) {
