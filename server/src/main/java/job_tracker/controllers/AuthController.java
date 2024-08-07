@@ -60,13 +60,16 @@ public class AuthController
 
     @PostMapping("/register")
     public ResponseEntity<?> createAccount(@RequestBody Map<String, String> credentials) {
-        AppUser appUser = null;
+        // AppUser appUser = null; This will cause NullPointerException
+
+        AppUser appUser;
 
         try {
             String username = credentials.get("username");
             String password = credentials.get("password");
-            appUser.setUsername(username);
-            appUser.setPassword(password);
+//            appUser.setUsername(username);
+//            appUser.setPassword(password);
+            appUser = new AppUser(0, username, password, false, List.of("USER"));  // Provide default role
             appUser = appUserService.add(appUser);
         } catch (ValidationException ex) {
             return new ResponseEntity<>(List.of(ex.getMessage()), HttpStatus.BAD_REQUEST);
