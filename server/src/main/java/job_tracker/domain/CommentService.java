@@ -1,24 +1,23 @@
 package job_tracker.domain;
 
+import job_tracker.models.Application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import job_tracker.data.CommentRepository;
 import job_tracker.models.Comment;
 
-import javax.validation.Valid;
-import javax.validation.Validator;
+import javax.validation.*;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class CommentService {
 
     private final CommentRepository commentRepository;
-    private final Validator validator;
 
     @Autowired
-    public CommentService(CommentRepository commentRepository, Validator validator) {
+    public CommentService(CommentRepository commentRepository) {
         this.commentRepository = commentRepository;
-        this.validator = validator;
     }
 
     public List<Comment> findAllComments() {
@@ -29,12 +28,41 @@ public class CommentService {
         return commentRepository.findById(id);
     }
 
-    public Comment addComment(@Valid Comment comment) {
-        return commentRepository.add(comment);
+    public Result<Comment> addComment(Comment comment) {
+        Result<Comment> result = new Result<>();
+
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+
+        Set<ConstraintViolation<Comment>> violations = validator.validate(comment);
+        if(!violations.isEmpty()){
+            for(ConstraintViolation<Comment> violation : violations) {
+                result.addMessage(violation.getMessage());
+            }
+            return result;
+        }
+
+        result.setPayload(commentRepository.add(comment));
+        return result;
     }
 
-    public boolean updateComment(@Valid Comment comment) {
-        return commentRepository.update(comment);
+    public Result<Comment> updateComment(Comment comment) {
+        Result<Comment> result = new Result<>();
+
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+
+        Set<ConstraintViolation<Comment>> violations = validator.validate(comment);
+        if(!violations.isEmpty()){
+            for(ConstraintViolation<Comment> violation : violations) {
+                result.addMessage(violation.getMessage());
+            }
+            return result;
+        }
+
+        commentRepository.update(comment);
+        result.setPayload(comment);
+        return result;
     }
 
     public boolean deleteComment(int id) {

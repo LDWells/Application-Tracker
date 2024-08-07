@@ -1,59 +1,29 @@
-/************************************************************************
- * Author: Shawn Gibbons
- * Filename: Task.java
- * Date Created: 8/5/2024
- * Modifications: 8/5/2024 - created and finished model - Shawn Gibbons
- ************************************************************************/
 package job_tracker.models;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 
-/************************************************************************
- * Class: Task
- *
- * Purpose:
- *      To handle and maintain task information.
- *
- * Manager functions:
- *      - TasK()
- *      - Task(int id, int applicationId, String description,
- *              LocalDate dueDate, LocalDate reminderDate, Status status)
- *
- * Methods:
- *      - int getId()
- *      - void setId(int id)
- *      - int getApplicationId()
- *      - void setApplicationId(int applicationId)
- *      - String getDescription()
- *      - void setDescription(String description)
- *      - LocalDate getDueDate()
- *      - void setDueDate(LocalDate dueDate)
- *      - LocalDate getReminderDate()
- *      - void setReminderDate(LocalDate reminderDate)
- *      - Status getStatus()
- *      - void setStatus(Status status)
- *************************************************************************/
 public class Task {
+    @NotNull(message = "Task ID cannot be null")
+    @Positive(message = "Task ID cannot be negative")
     private int id;
 
     @NotNull(message = "Application ID cannot be null")
+    @Positive(message = "Application ID cannot be negative")
     private int applicationId;
 
     @NotBlank(message = "Description cannot be blank")
     @Size(max = 255, message = "Description cannot be longer than 255 characters")
     private String description;
 
+    @NotNull(message = "Due date cannot be null")
     @FutureOrPresent(message = "Due date cannot be in the past")
     private LocalDate dueDate;
 
     @FutureOrPresent(message = "Reminder date cannot be in the past")
     private LocalDate reminderDate;
 
-    @NotBlank(message = "Status cannot be blank")
+    @NotNull(message = "Status cannot be blank")
     private Status status;
 
     public Task() {

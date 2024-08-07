@@ -1,43 +1,9 @@
-/************************************************************************
- * Author: Shawn Gibbons
- * Filename: User.java
- * Date Created: 8/5/2024
- * Modifications: 8/5/2024 - created and finished model - Shawn Gibbons
- ************************************************************************/
 package job_tracker.models;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import javax.persistence.*;
 import java.util.Objects;
-
-/************************************************************************
- * Class: User
- *
- * Purpose:
- *      To handle and maintain user information.
- *
- * Manager functions:
- *      - User()
- *      - User(int id, String username, String email, String password,
- *              Role role)
- *      - User(int id, String googleId, String username, String email,
- *              String password, Role role)
- *
- * Methods:
- *      - int getId()
- *      - void setId(int id)
- *      - String getGoogleId()
- *      - void setGoogleId(String googleId)
- *      - String getUsername()
- *      - void setUsername(String username)
- *      - String getEmail()
- *      - void setEmail(String email)
- *      - String getPassword()
- *      - void setPassword(String password)
- *      - Role getRole()
- *      - void setRole(Role role)
- *************************************************************************/
 
 @Entity
 @Table(name = "User")

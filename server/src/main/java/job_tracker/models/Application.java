@@ -1,55 +1,31 @@
-/************************************************************************
- * Author: Shawn Gibbons
- * Filename: Application.java
- * Date Created: 8/5/2024
- * Modifications: 8/5/2024 - created and finished model - Shawn Gibbons
- ************************************************************************/
 package job_tracker.models;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 
-/************************************************************************
- * Class: Application
- *
- * Purpose:
- *      To handle and maintain application statuses and dates of
- *      applications.
- *
- * Manager functions:
- *      - Application()
- *      - Application(int id, int userId, int jobId, LocalDate applicationDate, Status status)
- *
- * Methods:
- *      - int getId()
- *      - void setId(int id)
- *      - int getUserId()
- *      - void setUserId(int userId)
- *      - int getJobId()
- *      - void setJobId(int jobId)
- *      - LocalDate getApplicationDate()
- *      - void setApplicationDate(LocalDate applicationDate)
- *      - Status getStatus()
- *      - void setStatus(Status status)
- *************************************************************************/
 public class Application {
+    @NotNull(message = "Application ID cannot be null")
+    @Positive(message = "Application ID cannot be negative")
     private int id;
 
     @NotNull(message = "User ID cannot be null")
+    @Positive(message = "User ID cannot be negative")
     private int userId;
 
     @NotNull(message = "Job ID cannot be null")
+    @Positive(message = "Job ID cannot be negative")
     private int jobId;
 
     @PastOrPresent(message = "Application date cannot be in the future")
     private LocalDate applicationDate;
 
-
-    @NotBlank(message = "Status cannot be blank")
+    @NotBlank(message = "Applied on cannot be blank")
     private String appliedOn;
 
+    @NotNull(message = "Status cannot be null")
     private Status status;
 
     public Application() {
