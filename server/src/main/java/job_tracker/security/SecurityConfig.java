@@ -1,6 +1,7 @@
 package job_tracker.security;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -29,12 +30,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 //        This will require attention
         http.authorizeRequests()
                 // TODO add antMatchers here to configure access to specific API endpoints
-//                .antMatchers("/api/user/authenticate").permitAll()
-//                .antMatchers("/api/user/register").permitAll()
-                .antMatchers("/authenticate").permitAll()
-                .antMatchers("/register").permitAll()
-                // require authentication for any request...
-//                .anyRequest().authenticated()
+                .antMatchers("/api/user/authenticate", "/api/user/register").permitAll()
+                .antMatchers(HttpMethod.GET, "/applications").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.POST, "/community").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/community").hasAnyRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/community").permitAll()
                 .and()
                 .addFilter(new JwtRequestFilter(authenticationManager(), converter))
                 .sessionManagement()
