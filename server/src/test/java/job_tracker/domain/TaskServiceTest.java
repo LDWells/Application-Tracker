@@ -103,7 +103,7 @@ public class TaskServiceTest {
     @Test
     void shouldNotUpdateWhenInvalidReminderDate(){
         Task task = makeTask();
-        task.setReminderDate(null);
+        task.setReminderDate(LocalDate.of(2021, 1,1));
         Result<Task> result = service.updateTask(task);
         assertNull(result.getPayload());
     }
