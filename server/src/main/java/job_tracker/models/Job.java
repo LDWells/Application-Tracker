@@ -1,45 +1,23 @@
-/************************************************************************
- * Author: Shawn Gibbons
- * Filename: Job.java
- * Date Created: 8/5/2024
- * Modifications: 8/5/2024 - created and finished model - Shawn Gibbons
- ************************************************************************/
 package job_tracker.models;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
 
-/************************************************************************
- * Class: Job
- *
- * Purpose:
- *      To handle and maintain Job information such as title and
- *      description.
- *
- * Manager functions:
- *      - Job()
- *      - Job(int id, int companyId, String title, String description)
- *
- * Methods:
- *     - int getId()
- *     - void setId(int id)
- *     - int getCompanyId()
- *     - void setCompanyId(int companyId)
- *     - String getTitle()
- *     - void setTitle(String title)
- *     - String getDescription()
- *     - void setDescription(String description)
- *************************************************************************/
 public class Job {
+    @NotNull(message = "Job ID cannot be null")
+    @Positive(message = "Job ID cannot be negative")
     private int id;
 
     @NotNull(message = "Company ID cannot be null")
+    @Positive(message = "Company ID cannot be negative")
     private int companyId;
 
     @NotBlank(message = "Title cannot be blank")
     @Size(max = 100, message = "Title cannot be longer than 100 characters")
     private String title;
+
     private String description;
 
     public Job() {

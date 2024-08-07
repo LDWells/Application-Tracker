@@ -1,23 +1,23 @@
 package job_tracker.domain;
 
+import job_tracker.models.Company;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import job_tracker.data.JobRepository;
 import job_tracker.models.Job;
 
-import javax.validation.Valid;
-import javax.validation.Validator;
+import javax.validation.*;
 import java.util.List;
+import java.util.Set;
+
 @Service
 public class JobService {
 
     private final JobRepository jobRepository;
-    private final Validator validator;
 
     @Autowired
-    public JobService(JobRepository jobRepository, Validator validator) {
+    public JobService(JobRepository jobRepository) {
         this.jobRepository = jobRepository;
-        this.validator = validator;
     }
 
     public List<Job> findAllJobs() {
@@ -28,12 +28,40 @@ public class JobService {
         return jobRepository.findById(id);
     }
 
-    public Job addJob(@Valid Job job) {
-        return jobRepository.add(job);
+    public Result<Job> addJob(Job job) {
+        Result<Job> result = new Result<>();
+
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+
+        Set<ConstraintViolation<Job>> violations = validator.validate(job);
+        if(!violations.isEmpty()){
+            for(ConstraintViolation<Job> violation : violations) {
+                result.addMessage(violation.getMessage());
+            }
+            return result;
+        }
+
+        result.setPayload(jobRepository.add(job));
+        return result;
     }
 
-    public boolean updateJob(@Valid Job job) {
-        return jobRepository.update(job);
+    public Result<Job> updateJob(Job job) {
+        Result<Job> result = new Result<>();
+
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+
+        Set<ConstraintViolation<Job>> violations = validator.validate(job);
+        if(!violations.isEmpty()){
+            for(ConstraintViolation<Job> violation : violations) {
+                result.addMessage(violation.getMessage());
+            }
+            return result;
+        }
+        jobRepository.update(job);
+        result.setPayload(job);
+        return result;
     }
 
     public boolean deleteJobById(int id) {

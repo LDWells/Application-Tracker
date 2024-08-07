@@ -1,42 +1,15 @@
-/************************************************************************
- * Author: Shawn Gibbons
- * Filename: Post.java
- * Date Created: 8/5/2024
- * Modifications: 8/5/2024 - created and finished model - Shawn Gibbons
- ************************************************************************/
 package job_tracker.models;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 
-/************************************************************************
- * Class: Post
- *
- * Purpose:
- *      To handle and maintain post information.
- *
- * Manager functions:
- *      - Post()
- *      - Post(int id, int userId, String title, String content, LocalDate postDate)
- *
- * Methods:
- *      - int getId()
- *      - void setId(int id)
- *      - int getUserId()
- *      - void setUserId(int userId)
- *      - String getTitle()
- *      - void setTitle(String title)
- *      - String getContent()
- *      - void setContent(String content)
- *      - LocalDate getPostDate()
- *      - void setPostDate(LocalDate postDate)
- *************************************************************************/
 public class Post {
+    @NotNull(message = "Post ID cannot be null")
+    @Positive(message = "Post ID cannot be negative")
     private int id;
 
     @NotNull(message = "User ID cannot be null")
+    @Positive(message = "User ID cannot be negative")
     private int userId;
 
     @NotBlank(message = "Title cannot be blank")
@@ -46,6 +19,8 @@ public class Post {
     @NotBlank(message = "Content cannot be blank")
     private String content;
 
+    @NotNull(message = "Post date cannot be Null")
+    @PastOrPresent(message = "Post date cannot be in future")
     private LocalDate postDate;
 
     public Post() {

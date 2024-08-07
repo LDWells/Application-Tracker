@@ -1,34 +1,14 @@
-/************************************************************************
- * Author: Shawn Gibbons
- * Filename: Company.java
- * Date Created: 8/5/2024
- * Modifications: 8/5/2024 - created and finished model - Shawn Gibbons
- ************************************************************************/
 package job_tracker.models;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
-/************************************************************************
- * Class: Company
- *
- * Purpose:
- *      To handle and maintain company name and address information.
- *
- * Manager functions:
- *      - Company()
- *      - Company(int id, String name)
- *      - Company(int id, String name, String address)
- *
- * Methods:
- *      - int getId()
- *      - void setId(int id)
- *      - String getName()
- *      - void setName(String name)
- *      - String getAddress()
- *      - void setAddress(String address)
- *************************************************************************/
+
 public class Company {
+    @NotNull(message = "Company ID cannot be null")
+    @Positive(message = "Company ID cannot be negative")
     private int id;
 
     @NotBlank(message = "Name cannot be blank")

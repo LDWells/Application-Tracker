@@ -5,6 +5,7 @@
  * Modifications: 8/5/2024 - created and finished model - Shawn Gibbons
  * 8/6/2024 - Modified the model to work with AppUser - Ahmad Mashal
  ************************************************************************/
+
 package job_tracker.models;
 
 //import javax.persistence.*;

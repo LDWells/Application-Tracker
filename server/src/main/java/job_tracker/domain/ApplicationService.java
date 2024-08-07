@@ -1,23 +1,24 @@
 package job_tracker.domain;
 
 import job_tracker.models.ApplicationDTO;
+import org.hibernate.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import job_tracker.data.ApplicationRepository;
 import job_tracker.models.Application;
+import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
-import javax.validation.Validator;
+import javax.validation.*;
 import java.util.List;
+import java.util.Set;
 
+@Service
 public class ApplicationService {
 
     private final ApplicationRepository applicationRepository;
-    private final Validator validator;
 
     @Autowired
-    public ApplicationService(ApplicationRepository applicationRepository, Validator validator) {
+    public ApplicationService(ApplicationRepository applicationRepository) {
         this.applicationRepository = applicationRepository;
-        this.validator = validator;
     }
 
     public List<Application> findAllApplications() {
@@ -28,12 +29,42 @@ public class ApplicationService {
         return applicationRepository.findById(id);
     }
 
-    public Application addApplication(@Valid Application application) {
-        return applicationRepository.add(application);
+    public Result<Application> addApplication(Application application) throws DataException {
+        Result<Application> result = new Result<>();
+
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+
+        Set<ConstraintViolation<Application>> violations = validator.validate(application);
+        if(!violations.isEmpty()){
+            for(ConstraintViolation<Application> violation : violations) {
+                result.addMessage(violation.getMessage());
+            }
+            return result;
+        }
+
+        result.setPayload(applicationRepository.add(application));
+        return result;
     }
 
-    public boolean updateApplication(@Valid Application application) {
-        return applicationRepository.update(application);
+    public Result<Application> updateApplication(Application application) {
+        Result<Application> result = new Result<>();
+
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+
+        Set<ConstraintViolation<Application>> violations = validator.validate(application);
+        if(!violations.isEmpty()){
+            for(ConstraintViolation<Application> violation : violations) {
+                result.addMessage(violation.getMessage());
+            }
+            return result;
+        }
+
+        applicationRepository.update(application);
+        result.setPayload(application);
+
+        return result;
     }
 
     public boolean deleteApplicationById(int id) {
