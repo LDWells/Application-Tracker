@@ -1,50 +1,30 @@
-/************************************************************************
- * Author: Shawn Gibbons
- * Filename: Comment.java
- * Date Created: 8/5/2024
- * Modifications: 8/5/2024 - created and finished model - Shawn Gibbons
- ************************************************************************/
 package job_tracker.models;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 
-/************************************************************************
- * Class: Comment
- *
- * Purpose:
- *      To handle and maintain comment content and dates of comments
- *
- * Manager functions:
- *      - Comment()
- *      - Comment(int id, int postId, int userId, String content,
- *                  LocalDate commentDate)
- *
- * Methods:
- *      - int getId()
- *      - void setId(int id)
- *      - int getPostId()
- *      - void setPostId(int postId)
- *      - int getUserId()
- *      - void setUserId(int userId)
- *      - String getContent()
- *      - void setContent(String content)
- *      - LocalDate getCommentDate()
- *      - void setCommentDate(LocalDate commentDate)
- *
- *************************************************************************/
 public class Comment {
+    @NotNull(message = "Comment ID cannot be null")
+    @Positive(message = "Comment ID cannot be negative")
+
     private int id;
 
     @NotNull(message = "Post ID cannot be null")
+    @Positive(message = "Post ID cannot be negative")
     private int postId;
 
     @NotNull(message = "User ID cannot be null")
+    @Positive(message = "User ID cannot be negative")
     private int userId;
 
     @NotBlank(message = "Content cannot be blank")
     private String content;
+
+    @NotNull(message = "Comment date cannot be null")
+    @PastOrPresent(message = "Comment date cannot be in future")
     private LocalDate commentDate;
 
     public Comment() {
