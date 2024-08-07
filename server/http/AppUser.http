@@ -1,0 +1,51 @@
+
+//Log In as admin
+POST http://localhost:8080/api/user/authenticate
+Content-Type: application/json 
+
+{
+    "username": "admin",
+    "password": "1445007d-c24e-4080-89e2-e305c00f5cb9"
+}
+
+###
+@url = http://localhost:8080/api/user
+//Log IN as john
+POST {{url}}/authenticate HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "john@smith.com",
+    "password": "P@ssw0rd!"
+}
+
+###
+//Log IN as bob
+POST {{url}}/authenticate HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "bob@jones.com",
+    "password": "P@ssw0rd!"
+}
+
+
+###
+//Register, not working yet
+POST {{url}}/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "joe",
+    "password": "P@ssw0rd!"
+}
+
+###
+//Log in as joe, not in yet
+POST {{url}}/authenticate HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "joe",
+    "password": "P@ssw0rd!"
+}

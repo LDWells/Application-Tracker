@@ -7,7 +7,7 @@
  ************************************************************************/
 package job_tracker.models;
 
-import javax.persistence.*;
+//import javax.persistence.*;
 import java.util.Objects;
 
 /************************************************************************
@@ -38,29 +38,29 @@ import java.util.Objects;
  *      - void setRole(Role role)
  *************************************************************************/
 
-@Entity
-@Table(name = "User")
+//@Entity
+//@Table(name = "User")
 public class OldUser
 {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(unique = true)
+    //@Column(unique = true)
     private String googleId;
 
-    @Column(nullable = false, unique = true)
+    //@Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false, unique = true)
+    //@Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    //@Column(nullable = false)
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    //@Enumerated(EnumType.STRING)
+    //@Column(nullable = false)
     private Role role;
 
     public OldUser() {

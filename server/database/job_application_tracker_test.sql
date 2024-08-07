@@ -65,27 +65,34 @@ CREATE TABLE `Comment` (
     CONSTRAINT fk_comment_user FOREIGN KEY (user_id) REFERENCES `User`(id)
 );
 
-CREATE TABLE app_role (
-    app_role_id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL UNIQUE
+create table app_user (
+    app_user_id int primary key auto_increment,
+    username varchar(50) not null unique,
+    password_hash varchar(2048) not null,
+    disabled boolean not null default(0)
 );
 
-CREATE TABLE app_user (
-    app_user_id INT AUTO_INCREMENT PRIMARY KEY,
-    google_id VARCHAR(255) UNIQUE,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password_hash VARCHAR(255) NOT NULL,
-    disabled BOOLEAN NOT NULL DEFAULT FALSE
+create table app_role (
+    app_role_id int primary key auto_increment,
+    `name` varchar(50) not null unique
 );
 
-CREATE TABLE app_user_role (
-    app_user_id INT,
-    app_role_id INT,
-    PRIMARY KEY (app_user_id, app_role_id),
-    FOREIGN KEY (app_user_id) REFERENCES app_user(app_user_id),
-    FOREIGN KEY (app_role_id) REFERENCES app_role(app_role_id)
+create table app_user_role (
+    app_user_id int not null,
+    app_role_id int not null,
+    constraint pk_app_user_role
+        primary key (app_user_id, app_role_id),
+    constraint fk_app_user_role_user_id
+        foreign key (app_user_id)
+        references app_user(app_user_id),
+    constraint fk_app_user_role_role_id
+        foreign key (app_role_id)
+        references app_role(app_role_id)
 );
+
+INSERT INTO app_role (name) VALUES
+('USER'),
+('ADMIN');
 
 DELIMITER //
 
@@ -245,24 +252,21 @@ BEGIN
     (15, 2, 'This post was very informative.', '2024-02-07');
 
 
-    -- Step 1: Populate the app_role table
-    INSERT INTO app_role (name) VALUES
+-- Testing Security
+insert into app_role (`name`) values
     ('USER'),
     ('ADMIN');
 
-    -- Step 2: Populate the app_user table
-    INSERT INTO app_user (google_id, username, email, password_hash, disabled) VALUES
-    ('google-12345', 'john_doe', 'john@example.com', '$2a$10$1234567890123456789012', FALSE), -- bcrypt hashed password
-    ('google-67890', 'jane_doe', 'jane@example.com', '$2a$10$9876543210987654321098', FALSE), -- bcrypt hashed password
-    (NULL, 'admin_user', 'admin@example.com', '$2a$10$1122334455667788990011', FALSE);
+-- passwords are set to "P@ssw0rd!"
+insert into app_user (username, password_hash, disabled)
+    values
+    ('john@smith.com', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 0),
+    ('sally@jones.com', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 0);
 
-    -- Step 3: Populate the app_user_role table
-    -- Assuming app_user_id 1 -> john_doe, 2 -> jane_doe, 3 -> admin_user
-    INSERT INTO app_user_role (app_user_id, app_role_id) VALUES
-    (1, 1), -- john_doe as USER
-    (2, 1), -- jane_doe as USER
-    (3, 1), -- admin_user as USER
-    (3, 2); -- admin_user as ADMIN
+insert into app_user_role
+    values
+    (1, 2),
+    (2, 1);
 
 	-- Re-enable foreign key checks
     SET FOREIGN_KEY_CHECKS = 1;
