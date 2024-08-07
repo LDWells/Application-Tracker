@@ -37,7 +37,7 @@ public class CommentService {
         Set<ConstraintViolation<Comment>> violations = validator.validate(comment);
         if(!violations.isEmpty()){
             for(ConstraintViolation<Comment> violation : violations) {
-                result.addMessage(violation.getMessage());
+                result.addMessage(violation.getMessage(), ResultType.INVALID);
             }
             return result;
         }
@@ -55,7 +55,7 @@ public class CommentService {
         Set<ConstraintViolation<Comment>> violations = validator.validate(comment);
         if(!violations.isEmpty()){
             for(ConstraintViolation<Comment> violation : violations) {
-                result.addMessage(violation.getMessage());
+                result.addMessage(violation.getMessage(), ResultType.INVALID);
             }
             return result;
         }

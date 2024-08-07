@@ -23,7 +23,7 @@ public class JobServiceTest {
     void shouldFindById(){
         Job expected = makeJob();
         when(repository.findById(1)).thenReturn(expected);
-        Job actual = service.findJobById(1);
+        Job actual = service.findById(1);
         assertEquals(expected, actual);
     }
 
@@ -33,7 +33,7 @@ public class JobServiceTest {
         Job arg = makeJob();
 
         when(repository.add(arg)).thenReturn(expected);
-        Result<Job> result = service.addJob(arg);
+        Result<Job> result = service.add(arg);
         assertNotNull(result.getPayload());
         assertEquals(expected, result.getPayload());
     }
@@ -42,7 +42,7 @@ public class JobServiceTest {
     void shouldNotAddWhenInvalidTitle(){
         Job job = makeJob();
         job.setTitle(null);
-        Result<Job> result = service.addJob(job);
+        Result<Job> result = service.add(job);
         assertNull(result.getPayload());
     }
 
@@ -52,7 +52,7 @@ public class JobServiceTest {
 
         job.setDescription("Testing Job");
         when(repository.update(job)).thenReturn(true);
-        Result<Job> result = service.updateJob(job);
+        Result<Job> result = service.update(job);
         assertNotNull(result.getPayload());
         assertEquals(0, result.getMessages().size());
     }
@@ -61,7 +61,7 @@ public class JobServiceTest {
     void shouldNotUpdateWhenInvalidTitle(){
         Job job = makeJob();
         job.setTitle(null);
-        Result<Job> result = service.updateJob(job);
+        Result<Job> result = service.update(job);
         assertNull(result.getPayload());
     }
 
@@ -70,13 +70,13 @@ public class JobServiceTest {
         Job job = makeJob();
         Job expected = makeJob();
         when(repository.add(job)).thenReturn(expected);
-        Result<Job> result = service.addJob(job);
+        Result<Job> result = service.add(job);
 
         assertNotNull(result.getPayload());
         assertEquals(0, result.getMessages().size());
 
         when(repository.deleteById(job.getId())).thenReturn(true);
-        boolean deletedResult = service.deleteJobById(job.getId());
+        boolean deletedResult = service.deleteById(job.getId());
         assertTrue(deletedResult);
     }
 

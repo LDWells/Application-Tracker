@@ -1,6 +1,5 @@
 package job_tracker.domain;
 
-import job_tracker.models.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import job_tracker.data.TaskRepository;
@@ -22,15 +21,15 @@ public class TaskService {
         this.validator = validator;
     }
 
-    public List<Task> findAllTasks() {
+    public List<Task> findAll() {
         return taskRepository.findAll();
     }
 
-    public Task findTaskById(int id) {
+    public Task findById(int id) {
         return taskRepository.findById(id);
     }
 
-    public Result<Task> addTask(Task task) {
+    public Result<Task> add(Task task) {
         Result<Task> result = new Result<>();
 
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -39,7 +38,7 @@ public class TaskService {
         Set<ConstraintViolation<Task>> violations = validator.validate(task);
         if(!violations.isEmpty()){
             for(ConstraintViolation<Task> violation : violations) {
-                result.addMessage(violation.getMessage());
+                result.addMessage(violation.getMessage(), ResultType.INVALID);
             }
             return result;
         }
@@ -48,7 +47,7 @@ public class TaskService {
         return result;
     }
 
-    public Result<Task> updateTask(Task task) {
+    public Result<Task> update(Task task) {
         Result<Task> result = new Result<>();
 
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -57,7 +56,7 @@ public class TaskService {
         Set<ConstraintViolation<Task>> violations = validator.validate(task);
         if(!violations.isEmpty()){
             for(ConstraintViolation<Task> violation : violations) {
-                result.addMessage(violation.getMessage());
+                result.addMessage(violation.getMessage(), ResultType.INVALID);
             }
             return result;
         }
@@ -66,7 +65,7 @@ public class TaskService {
         return result;
     }
 
-    public boolean deleteTask(int id) {
+    public boolean delete(int id) {
         return taskRepository.deleteById(id);
     }
 }

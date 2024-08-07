@@ -5,8 +5,17 @@ import java.util.List;
 
 public class Result<T> {
 
-    private final ArrayList<String> messages = new ArrayList<>();
+    private final List<String> messages = new ArrayList<>();
+    private ResultType type = ResultType.SUCCESS;
     private T payload;
+
+    public ResultType getType() {
+        return type;
+    }
+
+    public boolean isSuccess() {
+        return type == ResultType.SUCCESS;
+    }
 
     public T getPayload() {
         return payload;
@@ -20,8 +29,8 @@ public class Result<T> {
         return new ArrayList<>(messages);
     }
 
-    public void addMessage(String message) {
+    public void addMessage(String message, ResultType type) {
         messages.add(message);
+        this.type = type;
     }
-
 }

@@ -1,6 +1,5 @@
 package job_tracker.domain;
 
-import job_tracker.App;
 import job_tracker.data.ApplicationRepository;
 import job_tracker.models.Application;
 import job_tracker.models.Status;
@@ -29,7 +28,7 @@ public class ApplicationServiceTest {
         Application arg = makeApplication();
 
         when(repository.add(arg)).thenReturn(expected);
-        Result<Application> result = service.addApplication(arg);
+        Result<Application> result = service.add(arg);
         assertNotNull(result.getPayload());
         assertEquals(expected, result.getPayload());
     }
@@ -38,7 +37,7 @@ public class ApplicationServiceTest {
     void shouldNotAddWhenInvalidDate(){
         Application application = makeApplication();
         application.setApplicationDate(LocalDate.of(2025, 1, 1));
-        Result<Application> result = service.addApplication(application);
+        Result<Application> result = service.add(application);
         assertNull(result.getPayload());
         assertEquals(1, result.getMessages().size());
     }
@@ -47,7 +46,7 @@ public class ApplicationServiceTest {
     void shouldNotAddWhenInvalidUserID(){
         Application application = makeApplication();
         application.setUserId(-5);
-        Result<Application> result = service.addApplication(application);
+        Result<Application> result = service.add(application);
         assertNull(result.getPayload());
         assertEquals(1, result.getMessages().size());
     }
@@ -56,7 +55,7 @@ public class ApplicationServiceTest {
     void shouldNotAddWhenInvalidApplicationID(){
         Application application = makeApplication();
         application.setId(-5);
-        Result<Application> result = service.addApplication(application);
+        Result<Application> result = service.add(application);
         assertNull(result.getPayload());
         assertEquals(1, result.getMessages().size());
     }
@@ -65,7 +64,7 @@ public class ApplicationServiceTest {
     void shouldNotAddWhenInvalidJobID(){
         Application application = makeApplication();
         application.setJobId(-5);
-        Result<Application> result = service.addApplication(application);
+        Result<Application> result = service.add(application);
         assertNull(result.getPayload());
         assertEquals(1, result.getMessages().size());
     }
@@ -74,7 +73,7 @@ public class ApplicationServiceTest {
     void shouldNotAddWhenBlankAppliedOn(){
         Application application = makeApplication();
         application.setAppliedOn(null);
-        Result<Application> result = service.addApplication(application);
+        Result<Application> result = service.add(application);
         assertNull(result.getPayload());
         assertEquals(1, result.getMessages().size());
     }
@@ -83,7 +82,7 @@ public class ApplicationServiceTest {
     void shouldNotAddWhenInvalidStatus(){
         Application application = makeApplication();
         application.setStatus(null);
-        Result<Application> result = service.addApplication(application);
+        Result<Application> result = service.add(application);
         assertNull(result.getPayload());
         assertEquals(1, result.getMessages().size());
     }
@@ -92,7 +91,7 @@ public class ApplicationServiceTest {
     void shouldFindById(){
         Application expected = makeApplication();
         when(repository.findById(1)).thenReturn(expected);
-        Application actual = service.findApplicationById(1);
+        Application actual = service.findById(1);
         assertEquals(expected, actual);
     }
 
@@ -100,7 +99,7 @@ public class ApplicationServiceTest {
     void shouldNotFindByInvalidId(){
         Application expected = makeApplication();
         when(repository.findById(1)).thenReturn(expected);
-        Application actual = service.findApplicationById(10);
+        Application actual = service.findById(10);
         assertNotEquals(expected, actual);
     }
 
@@ -110,7 +109,7 @@ public class ApplicationServiceTest {
 
         application.setStatus(Status.PENDING);
         when(repository.update(application)).thenReturn(true);
-        Result<Application> result = service.updateApplication(application);
+        Result<Application> result = service.update(application);
 
         assertNotNull(result.getPayload());
         assertEquals(0, result.getMessages().size());
@@ -121,7 +120,7 @@ public class ApplicationServiceTest {
         Application application = makeApplication();
 
         application.setId(-5);
-        Result<Application> result = service.updateApplication(application);
+        Result<Application> result = service.update(application);
 
         assertNull(result.getPayload());
         assertEquals(1, result.getMessages().size());
@@ -132,7 +131,7 @@ public class ApplicationServiceTest {
         Application application = makeApplication();
 
         application.setUserId(-5);
-        Result<Application> result = service.updateApplication(application);
+        Result<Application> result = service.update(application);
 
         assertNull(result.getPayload());
         assertEquals(1, result.getMessages().size());
@@ -143,7 +142,7 @@ public class ApplicationServiceTest {
         Application application = makeApplication();
 
         application.setJobId(-5);
-        Result<Application> result = service.updateApplication(application);
+        Result<Application> result = service.update(application);
 
         assertNull(result.getPayload());
         assertEquals(1, result.getMessages().size());
@@ -154,7 +153,7 @@ public class ApplicationServiceTest {
         Application application = makeApplication();
 
         application.setAppliedOn(null);
-        Result<Application> result = service.updateApplication(application);
+        Result<Application> result = service.update(application);
 
         assertNull(result.getPayload());
         assertEquals(1, result.getMessages().size());
@@ -165,7 +164,7 @@ public class ApplicationServiceTest {
         Application application = makeApplication();
 
         application.setStatus(null);
-        Result<Application> result = service.updateApplication(application);
+        Result<Application> result = service.update(application);
 
         assertNull(result.getPayload());
         assertEquals(1, result.getMessages().size());
@@ -176,13 +175,13 @@ public class ApplicationServiceTest {
         Application application = makeApplication();
         Application expected = makeApplication();
         when(repository.add(application)).thenReturn(expected);
-        Result<Application> result = service.addApplication(application);
+        Result<Application> result = service.add(application);
 
         assertNotNull(result.getPayload());
         assertEquals(0, result.getMessages().size());
 
         when(repository.deleteById(application.getId())).thenReturn(true);
-        boolean deletedResult = service.deleteApplicationById(application.getId());
+        boolean deletedResult = service.deleteById(application.getId());
         assertTrue(deletedResult);
     }
 
@@ -191,13 +190,13 @@ public class ApplicationServiceTest {
         Application application = makeApplication();
         Application expected = makeApplication();
         when(repository.add(application)).thenReturn(expected);
-        Result<Application> result = service.addApplication(application);
+        Result<Application> result = service.add(application);
 
         assertNotNull(result.getPayload());
         assertEquals(0, result.getMessages().size());
 
         application.setId(-5);
-        boolean deletedResult = service.deleteApplicationById(application.getId());
+        boolean deletedResult = service.deleteById(application.getId());
         assertFalse(deletedResult);
     }
 

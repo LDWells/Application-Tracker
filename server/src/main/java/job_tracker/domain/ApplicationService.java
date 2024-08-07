@@ -20,15 +20,15 @@ public class ApplicationService {
         this.applicationRepository = applicationRepository;
     }
 
-    public List<Application> findAllApplications() {
+    public List<Application> findAll() {
         return applicationRepository.findAll();
     }
 
-    public Application findApplicationById(int id) {
+    public Application findById(int id) {
         return applicationRepository.findById(id);
     }
 
-    public Result<Application> addApplication(Application application) {
+    public Result<Application> add(Application application) {
         Result<Application> result = new Result<>();
 
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -37,7 +37,7 @@ public class ApplicationService {
         Set<ConstraintViolation<Application>> violations = validator.validate(application);
         if(!violations.isEmpty()){
             for(ConstraintViolation<Application> violation : violations) {
-                result.addMessage(violation.getMessage());
+                result.addMessage(violation.getMessage(), ResultType.INVALID);
             }
             return result;
         }
@@ -46,7 +46,7 @@ public class ApplicationService {
         return result;
     }
 
-    public Result<Application> updateApplication(Application application) {
+    public Result<Application> update(Application application) {
         Result<Application> result = new Result<>();
 
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -55,7 +55,7 @@ public class ApplicationService {
         Set<ConstraintViolation<Application>> violations = validator.validate(application);
         if(!violations.isEmpty()){
             for(ConstraintViolation<Application> violation : violations) {
-                result.addMessage(violation.getMessage());
+                result.addMessage(violation.getMessage(), ResultType.INVALID);
             }
             return result;
         }
@@ -66,7 +66,7 @@ public class ApplicationService {
         return result;
     }
 
-    public boolean deleteApplicationById(int id) {
+    public boolean deleteById(int id) {
         return applicationRepository.deleteById(id);
     }
 
