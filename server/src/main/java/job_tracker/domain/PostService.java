@@ -22,15 +22,15 @@ public class PostService {
         this.validator = validator;
     }
 
-    public List<Post> findAllPosts() {
+    public List<Post> findAll() {
         return postRepository.findAll();
     }
 
-    public Post findPostById(int id) {
+    public Post findById(int id) {
         return postRepository.findById(id);
     }
 
-    public Result<Post> addPost(Post post) {
+    public Result<Post> add(Post post) {
         Result<Post> result = new Result<>();
 
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -39,7 +39,7 @@ public class PostService {
         Set<ConstraintViolation<Post>> violations = validator.validate(post);
         if(!violations.isEmpty()){
             for(ConstraintViolation<Post> violation : violations) {
-                result.addMessage(violation.getMessage());
+                result.addMessage(violation.getMessage(), ResultType.INVALID);
             }
             return result;
         }
@@ -48,7 +48,7 @@ public class PostService {
         return result;
     }
 
-    public Result<Post> updatePost(Post post) {
+    public Result<Post> update(Post post) {
         Result<Post> result = new Result<>();
 
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -57,7 +57,7 @@ public class PostService {
         Set<ConstraintViolation<Post>> violations = validator.validate(post);
         if(!violations.isEmpty()){
             for(ConstraintViolation<Post> violation : violations) {
-                result.addMessage(violation.getMessage());
+                result.addMessage(violation.getMessage(), ResultType.INVALID);
             }
             return result;
         }
@@ -66,7 +66,7 @@ public class PostService {
         return result;
     }
 
-    public boolean deletePost(int id) {
+    public boolean delete(int id) {
         return postRepository.deleteById(id);
     }
 }
