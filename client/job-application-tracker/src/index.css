@@ -86,6 +86,7 @@ hr{
 .applicationListBox{
   border-style: solid;
   border-color: white;
+  height: 16rem;
 }
 .applicationListBoxText{
   margin: 1rem 2rem;
@@ -112,3 +113,14 @@ hr{
   margin: 2% 10%;
 }
 /* Task List */
+.taskListBox{
+  border-style: solid;
+  border-color: rgb(44, 44, 44);
+}
+.taskListBoxText{
+  margin: 1rem 2rem;
+}
+.taskContainer{
+  width: 80%;
+  margin: 2% 10%;
+}

@@ -44,7 +44,7 @@ public class GlobalExceptionHandlerTest {
         ErrorResponse errorResponse = new ErrorResponse("Something went wrong on our end. Your request failed. :(");
         String expectedJson = objectMapper.writeValueAsString(errorResponse);
 
-        var request = post("/api/comments")
+        var request = post("/api/comment")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(commentJson);
 
@@ -65,7 +65,7 @@ public class GlobalExceptionHandlerTest {
                 "Please ensure that any referenced records exist. Your request failed. :(");
         String expectedJson = objectMapper.writeValueAsString(errorResponse);
 
-        var request = post("/api/comments")
+        var request = post("/api/comment")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(commentJson);
 

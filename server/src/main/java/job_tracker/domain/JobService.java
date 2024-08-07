@@ -51,6 +51,8 @@ public class JobService {
         if (!success) {
             result.addMessage("Job not found.", ResultType.NOT_FOUND);
         }
+
+        result.setPayload(job);
         return result;
     }
     public Result<Job> create(Job job) {

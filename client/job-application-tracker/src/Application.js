@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react';
+import StatusColor from './StatusColor';
 
 const APPLICATION_DTO_DEFAULT = {
 	companyId: 1,
@@ -52,7 +53,7 @@ function Application()
 					<hr></hr>	
 					<h1 className='applicationBoxText center'>Application</h1>
 					<h6 className='applicationBoxText center text-dark-50 text-dark'>Date: {application.applicationDate}</h6>
-					<h5 className='applicationBoxText center text-dark-50 text-dark'>Status: {statusColor(application.status)}</h5>
+					<h5 className='applicationBoxText center text-dark-50 text-dark'>Status: {<StatusColor status={application.status}/>}</h5>
 				</div>
 			</section>
 		</>
