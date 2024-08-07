@@ -1,5 +1,6 @@
 
 import {useState, useEffect} from 'react';
+import StatusColor from './StatusColor';
 
 const DEFAULT_TASK = {
 	id: 1,
@@ -30,18 +31,38 @@ function TaskList()
 
 	const [tasks, setTasks] = useState(DEFAULT_TASKS);
 
+	const statusColor = (status) => {
+		if (status === "PENDING")
+		{
+			return <span className='text-warning'>{status}</span>;
+		}
+		else if (status === "REJECTED")
+		{
+			return <span className='text-danger'>{status}</span>;
+		}
+		else if (status === "INTERVIEW")
+		{
+			return <span className='text-info'>{status}</span>;
+		}
+		else if (status === "COMPLETED")
+		{
+			return <span className='text-success'>{status}</span>;
+		}
+	}
+
 	return (
 		<>
 			{/* <h1>Task List</h1>
 			<p>This will display a list of tasks</p> */}
-			<section>
+			<section className='taskContainer'>
 				<ul>
 					{tasks.map(t => 
-						<div key={t.id}>
-							<h6>{t.description}</h6>
-							<h6>{t.status}</h6>
-							<h6>{t.dueDate}</h6>
-							<h6>{t.reminderDate}</h6>
+						<div key={t.id} className='taskListBox center mb-5'>
+							<h2>Task</h2>
+							<h4 className='taskListBoxText text-dark-50 text-dark'>{t.description}</h4>
+							<h6 className='taskListBoxText text-dark-50 text-dark'>Status: <StatusColor status={t.status}/></h6>
+							<h6 className='taskListBoxText text-dark-50 text-dark'>Due Date: {t.dueDate}</h6>
+							<h6 className='taskListBoxText text-dark-50 text-dark'>Reminder Date: {t.reminderDate}</h6>
 						</div>
 					)}
 				</ul>

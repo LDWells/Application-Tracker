@@ -16,6 +16,7 @@ function ApplicationDetailsPage()
 			<section>
 				<Application/>
 			</section>
+			<hr></hr>
 			<section>
 				<TaskList/>
 			</section>
