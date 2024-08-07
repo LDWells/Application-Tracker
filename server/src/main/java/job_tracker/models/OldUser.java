@@ -40,7 +40,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "User")
-public class User {
+public class OldUser
+{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,10 +63,10 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
-    public User() {
+    public OldUser() {
     }
 
-    public User(int id, String username, String email, String password, Role role) {
+    public OldUser(int id, String username, String email, String password, Role role) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -73,7 +74,7 @@ public class User {
         this.role = role;
     }
 
-    public User(int id, String googleId, String username, String email, String password, Role role) {
+    public OldUser(int id, String googleId, String username, String email, String password, Role role) {
         this.id = id;
         this.googleId = googleId;
         this.username = username;
@@ -82,7 +83,7 @@ public class User {
         this.role = role;
     }
 
-    public User(String googleId, String username, String email, String password, Role role) {
+    public OldUser(String googleId, String username, String email, String password, Role role) {
         this.googleId = googleId;
         this.username = username;
         this.email = email;
@@ -142,8 +143,8 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id;
+        OldUser oldUser = (OldUser) o;
+        return id == oldUser.id;
     }
 
     @Override

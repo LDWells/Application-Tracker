@@ -1,54 +1,54 @@
 package job_tracker.data;
 
-import job_tracker.data.mappers.UserMapper;
-import job_tracker.models.User;
+import job_tracker.data.mappers.OldUserMapper;
+import job_tracker.models.OldUser;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
 
 @Repository
-public class JdbcUserRepository implements UserRepository{
+public class JdbcOldUserRepository implements OldUserRepository
+{
 
     private final JdbcTemplate jdbcTemplate;
 
-    public JdbcUserRepository(JdbcTemplate jdbcTemplate) {
+    public JdbcOldUserRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
-    public User findById(int id) {
-        return jdbcTemplate.queryForObject("SELECT * FROM `User` WHERE id = ?", new UserMapper(), id);
+    public OldUser findById(int id) {
+        return jdbcTemplate.queryForObject("SELECT * FROM `User` WHERE id = ?", new OldUserMapper(), id);
     }
 
     @Override
-    public User findByEmail(String email) {
-        return jdbcTemplate.queryForObject("SELECT * FROM `User` WHERE email = ?", new UserMapper(), email);
+    public OldUser findByEmail(String email) {
+        return jdbcTemplate.queryForObject("SELECT * FROM `User` WHERE email = ?", new OldUserMapper(), email);
     }
 
     @Override
-    public List<User> findAll() {
-        return jdbcTemplate.query("SELECT * FROM `User`", new UserMapper());
+    public List<OldUser> findAll() {
+        return jdbcTemplate.query("SELECT * FROM `User`", new OldUserMapper());
     }
 
     @Override
-    public User add(User user) {
+    public OldUser add(OldUser oldUser) {
         final String sql = "INSERT INTO `User` (google_id, username, email, password, role) "
                 + " VALUES (?, ?, ?, ?, ?);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, user.getGoogleId());
-            ps.setString(2, user.getUsername());
-            ps.setString(3, user.getEmail());
-            ps.setString(4, user.getPassword());
-            ps.setString(5, user.getRole().toString());
+            ps.setString(1, oldUser.getGoogleId());
+            ps.setString(2, oldUser.getUsername());
+            ps.setString(3, oldUser.getEmail());
+            ps.setString(4, oldUser.getPassword());
+            ps.setString(5, oldUser.getRole().toString());
 
 
             return ps;
@@ -58,34 +58,34 @@ public class JdbcUserRepository implements UserRepository{
             return null;
         }
 
-        user.setId(keyHolder.getKey().intValue());
+        oldUser.setId(keyHolder.getKey().intValue());
 
-        return user;
+        return oldUser;
     }
 
     @Override
-    public User save(User user) {
+    public OldUser save(OldUser oldUser) {
         final String sql = "INSERT INTO `User` (google_id, username, email, password, role) VALUES (?, ?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, user.getGoogleId());
-            ps.setString(2, user.getUsername());
-            ps.setString(3, user.getEmail());
-            ps.setString(4, user.getPassword());
-            ps.setString(5, user.getRole().name());
+            ps.setString(1, oldUser.getGoogleId());
+            ps.setString(2, oldUser.getUsername());
+            ps.setString(3, oldUser.getEmail());
+            ps.setString(4, oldUser.getPassword());
+            ps.setString(5, oldUser.getRole().name());
             return ps;
         }, keyHolder);
 
-        user.setId(keyHolder.getKey().intValue());
-        return user;
+        oldUser.setId(keyHolder.getKey().intValue());
+        return oldUser;
     }
 
     @Override
-    public boolean update(User user) {
+    public boolean update(OldUser oldUser) {
         return jdbcTemplate.update("UPDATE `User` SET google_id = ?, username = ?, email = ?, password = ?, role = ? WHERE id = ?",
-                user.getGoogleId(), user.getUsername(), user.getEmail(), user.getPassword(), user.getRole().toString(), user.getId()) > 0;
+                oldUser.getGoogleId(), oldUser.getUsername(), oldUser.getEmail(), oldUser.getPassword(), oldUser.getRole().toString(), oldUser.getId()) > 0;
     }
 
     @Override

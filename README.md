@@ -16,11 +16,11 @@ John has an upcoming interview but can’t remember the specific requirements of
 Jane wants to share her successful job application strategy with others. She writes a detailed post in the community section about her experiences and tips, helping other job seekers improve their own applications. Other users can comment on her post to ask questions or add their own insights.
 
 #### 3. Glossary
-- **Application:** An instance of a job application already submitted on another job portal, where the user will manage their job search journey.
-- **Job Seeker:** A user who is actively looking for a job and uses the application to track their job applications.
+- **Application:** An instance of a job application already submitted on another job portal, where the oldUser will manage their job search journey.
+- **Job Seeker:** A oldUser who is actively looking for a job and uses the application to track their job applications.
 - **Task:** A specific action related to a job application, such as preparing for an interview or sending a follow-up email.
-- **Reminder:** A notification set by the user to remember important dates and actions.
-- **Post:** An article written by a user in the community section about their hiring experiences, tips, or other relevant topics.
+- **Reminder:** A notification set by the oldUser to remember important dates and actions.
+- **Post:** An article written by a oldUser in the community section about their hiring experiences, tips, or other relevant topics.
 - **Comment:** A remark or query added by users to a post in the community section.
 
 #### 4. High-Level Requirement
@@ -35,7 +35,7 @@ Jane wants to share her successful job application strategy with others. She wri
   - Write and read posts in the community section.
   - Add and read comments on posts in the community section.
 - **Admin Role:**
-  - Manage user accounts.
+  - Manage oldUser accounts.
   - Perform CRUD operations on all community related stuff.
   - Moderate posts and comments in the community section.
 
@@ -53,7 +53,7 @@ Create an application that job seekers can use to track their job applications.
 - Notes
 
 **Precondition:** User must be logged in.  
-**Post-condition:** Application is saved and visible in the user’s application list.
+**Post-condition:** Application is saved and visible in the oldUser’s application list.
 
 **Edit a Job Application**  
 Can only edit existing applications.
@@ -113,11 +113,11 @@ Create a comment on a community post to engage in discussions or ask questions.
 **Post-condition:** Comment is saved and visible under the post.
 
 ### Stretch Goals
-**Google Sign-In Integration:** Implement Google OAuth2 for user authentication to allow users to log in and sign up using their Google accounts.
+**Google Sign-In Integration:** Implement Google OAuth2 for oldUser authentication to allow users to log in and sign up using their Google accounts.
 
 **Google Calendar API Integration:** Use the Google Calendar API to sync application-related events (e.g., interviews, deadlines) with users' Google Calendars for better event management and reminders.
 
-**TinyMCE Integration**: Use TinyMCE as a rich text editor for writing posts and comments in the community section to enhance the user experience.
+**TinyMCE Integration**: Use TinyMCE as a rich text editor for writing posts and comments in the community section to enhance the oldUser experience.
 
 **Additional Stretch Goals (Optional):**
 - **WebSocket Communication:** Implement real-time notifications using WebSocket to notify users about upcoming deadlines, new tasks, or status updates.
