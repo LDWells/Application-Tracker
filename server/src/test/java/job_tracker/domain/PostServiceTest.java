@@ -25,7 +25,7 @@ public class PostServiceTest {
     void shouldFindById(){
         Post expected = makePost();
         when(repository.findById(1)).thenReturn(expected);
-        Post actual = service.findPostById(1);
+        Post actual = service.findById(1);
         assertEquals(expected, actual);
     }
 
@@ -35,7 +35,7 @@ public class PostServiceTest {
         Post arg = makePost();
 
         when(repository.add(arg)).thenReturn(expected);
-        Result<Post> result = service.addPost(arg);
+        Result<Post> result = service.add(arg);
         assertNotNull(result.getPayload());
         assertEquals(expected, result.getPayload());
     }
@@ -44,7 +44,7 @@ public class PostServiceTest {
     void shouldNotAddWhenInvalidTitle(){
         Post post = makePost();
         post.setTitle(null);
-        Result<Post> result = service.addPost(post);
+        Result<Post> result = service.add(post);
         assertNull(result.getPayload());
     }
 
@@ -52,7 +52,7 @@ public class PostServiceTest {
     void shouldNotAddWhenInvalidContent(){
         Post post = makePost();
         post.setContent(null);
-        Result<Post> result = service.addPost(post);
+        Result<Post> result = service.add(post);
         assertNull(result.getPayload());
     }
 
@@ -60,7 +60,7 @@ public class PostServiceTest {
     void shouldNotAddWhenInvalidPostDate(){
         Post post = makePost();
         post.setPostDate(null);
-        Result<Post> result = service.addPost(post);
+        Result<Post> result = service.add(post);
         assertNull(result.getPayload());
     }
 
@@ -70,7 +70,7 @@ public class PostServiceTest {
 
         post.setContent("Testing Post");
         when(repository.update(post)).thenReturn(true);
-        Result<Post> result = service.updatePost(post);
+        Result<Post> result = service.update(post);
 
         assertNotNull(result.getPayload());
         assertEquals(0, result.getMessages().size());
@@ -80,7 +80,7 @@ public class PostServiceTest {
     void shouldNotUpdateWhenInvalidTitle(){
         Post post = makePost();
         post.setTitle(null);
-        Result<Post> result = service.updatePost(post);
+        Result<Post> result = service.update(post);
         assertNull(result.getPayload());
     }
 
@@ -88,7 +88,7 @@ public class PostServiceTest {
     void shouldNotUpdateWhenInvalidContent(){
         Post post = makePost();
         post.setContent(null);
-        Result<Post> result = service.updatePost(post);
+        Result<Post> result = service.update(post);
         assertNull(result.getPayload());
     }
 
@@ -96,7 +96,7 @@ public class PostServiceTest {
     void shouldNotUpdateWhenInvalidPostDate(){
         Post post = makePost();
         post.setPostDate(null);
-        Result<Post> result = service.updatePost(post);
+        Result<Post> result = service.update(post);
         assertNull(result.getPayload());
     }
 
@@ -104,7 +104,7 @@ public class PostServiceTest {
     void shouldNotUpdateWhenInvalidId(){
         Post post = makePost();
         post.setId(-5);
-        Result<Post> result = service.updatePost(post);
+        Result<Post> result = service.update(post);
         assertNull(result.getPayload());
     }
 
@@ -112,7 +112,7 @@ public class PostServiceTest {
     void shouldNotUpdateWhenInvalidUser(){
         Post post = makePost();
         post.setUserId(-5);
-        Result<Post> result = service.updatePost(post);
+        Result<Post> result = service.update(post);
         assertNull(result.getPayload());
     }
 
@@ -121,13 +121,13 @@ public class PostServiceTest {
         Post post = makePost();
         Post expected = makePost();
         when(repository.add(post)).thenReturn(expected);
-        Result<Post> result = service.addPost(post);
+        Result<Post> result = service.add(post);
 
         assertNotNull(result.getPayload());
         assertEquals(0, result.getMessages().size());
 
         when(repository.deleteById(post.getId())).thenReturn(true);
-        boolean deletedResult = service.deletePost(post.getId());
+        boolean deletedResult = service.delete(post.getId());
         assertTrue(deletedResult);
     }
 

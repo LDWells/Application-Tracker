@@ -1,8 +1,6 @@
 package job_tracker.domain;
 
 import job_tracker.data.CompanyRepository;
-import job_tracker.models.Application;
-import job_tracker.models.Comment;
 import job_tracker.models.Company;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +23,7 @@ public class CompanyServiceTest {
     void shouldFindById(){
         Company expected = makeCompany();
         when(repository.findById(1)).thenReturn(expected);
-        Company actual = service.findCompanyById(1);
+        Company actual = service.findById(1);
         assertEquals(expected, actual);
     }
 
@@ -33,7 +31,7 @@ public class CompanyServiceTest {
     void shouldNotFindByInvalidId(){
         Company expected = makeCompany();
         when(repository.findById(1)).thenReturn(expected);
-        Company actual = service.findCompanyById(-1);
+        Company actual = service.findById(-1);
         assertNotEquals(expected, actual);
     }
 
@@ -43,7 +41,7 @@ public class CompanyServiceTest {
         Company arg = makeCompany();
 
         when(repository.add(arg)).thenReturn(expected);
-        Result<Company> result = service.addCompany(arg);
+        Result<Company> result = service.add(arg);
         assertNotNull(result.getPayload());
         assertEquals(expected, result.getPayload());
     }
@@ -53,11 +51,11 @@ public class CompanyServiceTest {
         Company company = makeCompany();
         company.setName("This name is longer than one hundred characters long This name is longer than one hundred characters long");
 
-        Result<Company> result = service.addCompany(company);
+        Result<Company> result = service.add(company);
         assertNull(result.getPayload());
 
         company.setName(null);
-        result = service.addCompany(company);
+        result = service.add(company);
         assertNull(result.getPayload());
     }
 
@@ -69,11 +67,11 @@ public class CompanyServiceTest {
                 "This name is longer than two hundred characters long This name is longer than two hundred characters long" +
                 "This name is longer than two hundred characters long This name is longer than two hundred characters long");
 
-        Result<Company> result = service.addCompany(company);
+        Result<Company> result = service.add(company);
         assertNull(result.getPayload());
 
         company.setName(null);
-        result = service.addCompany(company);
+        result = service.add(company);
         assertNull(result.getPayload());
     }
 
@@ -83,7 +81,7 @@ public class CompanyServiceTest {
 
         company.setName("Testing Company");
         when(repository.update(company)).thenReturn(true);
-        Result<Company> result = service.updateCompany(company);
+        Result<Company> result = service.update(company);
         assertNotNull(result.getPayload());
         assertEquals(0, result.getMessages().size());
     }
@@ -93,7 +91,7 @@ public class CompanyServiceTest {
         Company company = makeCompany();
 
         company.setName(null);
-        Result<Company> result = service.updateCompany(company);
+        Result<Company> result = service.update(company);
         assertNull(result.getPayload());
     }
 
@@ -105,7 +103,7 @@ public class CompanyServiceTest {
                 "This name is longer than two hundred characters long This name is longer than two hundred characters long" +
                 "This name is longer than two hundred characters long This name is longer than two hundred characters long" +
                 "This name is longer than two hundred characters long This name is longer than two hundred characters long");
-        Result<Company> result = service.updateCompany(company);
+        Result<Company> result = service.update(company);
         assertNull(result.getPayload());
     }
 
@@ -114,13 +112,13 @@ public class CompanyServiceTest {
         Company company = makeCompany();
         Company expected = makeCompany();
         when(repository.add(company)).thenReturn(expected);
-        Result<Company> result = service.addCompany(company);
+        Result<Company> result = service.add(company);
 
         assertNotNull(result.getPayload());
         assertEquals(0, result.getMessages().size());
 
         when(repository.deleteById(company.getId())).thenReturn(true);
-        boolean deletedResult = service.deleteCompanyById(company.getId());
+        boolean deletedResult = service.deleteById(company.getId());
         assertTrue(deletedResult);
     }
 
