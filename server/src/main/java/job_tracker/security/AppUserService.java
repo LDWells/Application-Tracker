@@ -45,6 +45,9 @@ public class AppUserService implements UserDetailsService
 
     public AppUser add(@Valid AppUser user) {
         user.setPassword(encoder.encode(user.getPassword()));
+        if (user.getRoles() == null || user.getRoles().isEmpty()){ // for validation
+            user.setRoles(List.of("USER")); //Default role
+        }
         return repository.add(user);
     }
 
