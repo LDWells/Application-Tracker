@@ -30,7 +30,6 @@ public class JwtRequestFilter extends BasicAuthenticationFilter
 
         // 2. Read the Authorization value from the request.
         String authorization = request.getHeader("Authorization");
-        System.out.println("HERE .5");
         if (authorization != null && authorization.startsWith("Bearer ")) {
 
             // 3. The value looks okay, confirm it with JwtConverter.
@@ -39,10 +38,6 @@ public class JwtRequestFilter extends BasicAuthenticationFilter
                 response.setStatus(403); // Forbidden
             }
             else {
-                System.out.println("HERE");
-                System.out.println(user);
-                System.out.println(user.getUsername());
-                System.out.println(user.getAuthorities());
                 // 4. Confirmed. Set auth for this single request.
                 UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                         user.getUsername(), null, user.getAuthorities());
@@ -50,17 +45,8 @@ public class JwtRequestFilter extends BasicAuthenticationFilter
                 SecurityContextHolder.getContext().setAuthentication(token);
             }
         }
-        System.out.println("HERE 2");
         // 5. Keep the chain going.
-        try
-        {
-            chain.doFilter(request, response);
-        }
-        catch (Exception ex)
-        {
-            System.out.println("ERROR IN CHAIN FILTER");
-        }
-
+        chain.doFilter(request, response);
     }
 
 }

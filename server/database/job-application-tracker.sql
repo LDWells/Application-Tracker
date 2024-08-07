@@ -89,6 +89,7 @@ create table app_user_role (
         foreign key (app_role_id)
         references app_role(app_role_id)
 );
+
 -- Testing Security
 insert into app_role (`name`) values
     ('USER'),

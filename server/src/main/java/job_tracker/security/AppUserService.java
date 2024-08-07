@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -50,11 +51,8 @@ public class AppUserService implements UserDetailsService
     private void ensureAdmin() {
         AppUser user = repository.findByUsername("admin");
         if (user == null) {
-            String randomPassword = UUID.randomUUID().toString();
-            user = new AppUser();
-            user.setUsername("admin");
-            user.setPassword(randomPassword);
-            user.getRoles().add("ADMIN");
+            String randomPassword = "top-secret-password";//UUID.randomUUID().toString();
+            user = new AppUser(3, "admin", randomPassword, false, new ArrayList<>());
             try {
                 add(user);
                 System.out.printf("%n%nRandom admin password: %s%n%n", randomPassword);

@@ -24,11 +24,13 @@ public class JdbcAppUserRepository implements AppUserRepository
     @Transactional
     public AppUser findByUsername(String username) {
 
+        List<String> roles = getRolesByUsername(username);
+
         final String sql = "select app_user_id, username, password_hash, disabled "
                 + "from app_user "
                 + "where username = ?;";
 
-        AppUser user =  jdbcTemplate.query(sql, new AppUserMapper(), username)
+        AppUser user =  jdbcTemplate.query(sql, new AppUserMapper(roles), username)
                 .stream()
                 .findFirst().orElse(null);
         if (user != null)
@@ -98,6 +100,15 @@ public class JdbcAppUserRepository implements AppUserRepository
                 + "inner join app_role r on ur.app_role_id = r.app_role_id "
                 + "where ur.app_user_id = ?";
         return jdbcTemplate.query(sql, (rs, rowId) -> rs.getString("name"), appUserId);
+    }
+
+    private List<String> getRolesByUsername(String username) {
+        final String sql = "select r.name "
+                + "from app_user_role ur "
+                + "inner join app_role r on ur.app_role_id = r.app_role_id "
+                + "inner join app_user au on ur.app_user_id = au.app_user_id "
+                + "where au.username = ?";
+        return jdbcTemplate.query(sql, (rs, rowId) -> rs.getString("name"), username);
     }
 
 }
