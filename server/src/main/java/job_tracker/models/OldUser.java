@@ -8,37 +8,66 @@
 
 package job_tracker.models;
 
-import javax.persistence.*;
+//import javax.persistence.*;
 import java.util.Objects;
 
-@Entity
-@Table(name = "User")
-public class User {
+/************************************************************************
+ * Class: User
+ *
+ * Purpose:
+ *      To handle and maintain user information.
+ *
+ * Manager functions:
+ *      - User()
+ *      - User(int id, String username, String email, String password,
+ *              Role role)
+ *      - User(int id, String googleId, String username, String email,
+ *              String password, Role role)
+ *
+ * Methods:
+ *      - int getId()
+ *      - void setId(int id)
+ *      - String getGoogleId()
+ *      - void setGoogleId(String googleId)
+ *      - String getUsername()
+ *      - void setUsername(String username)
+ *      - String getEmail()
+ *      - void setEmail(String email)
+ *      - String getPassword()
+ *      - void setPassword(String password)
+ *      - Role getRole()
+ *      - void setRole(Role role)
+ *************************************************************************/
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//@Entity
+//@Table(name = "User")
+public class OldUser
+{
+
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(unique = true)
+    //@Column(unique = true)
     private String googleId;
 
-    @Column(nullable = false, unique = true)
+    //@Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false, unique = true)
+    //@Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    //@Column(nullable = false)
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    //@Enumerated(EnumType.STRING)
+    //@Column(nullable = false)
     private Role role;
 
-    public User() {
+    public OldUser() {
     }
 
-    public User(int id, String username, String email, String password, Role role) {
+    public OldUser(int id, String username, String email, String password, Role role) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -46,7 +75,7 @@ public class User {
         this.role = role;
     }
 
-    public User(int id, String googleId, String username, String email, String password, Role role) {
+    public OldUser(int id, String googleId, String username, String email, String password, Role role) {
         this.id = id;
         this.googleId = googleId;
         this.username = username;
@@ -55,7 +84,7 @@ public class User {
         this.role = role;
     }
 
-    public User(String googleId, String username, String email, String password, Role role) {
+    public OldUser(String googleId, String username, String email, String password, Role role) {
         this.googleId = googleId;
         this.username = username;
         this.email = email;
@@ -115,8 +144,8 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id;
+        OldUser oldUser = (OldUser) o;
+        return id == oldUser.id;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package job_tracker.domain;
 
 import job_tracker.models.ApplicationDTO;
-import org.hibernate.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import job_tracker.data.ApplicationRepository;
 import job_tracker.models.Application;
@@ -29,7 +28,7 @@ public class ApplicationService {
         return applicationRepository.findById(id);
     }
 
-    public Result<Application> addApplication(Application application) throws DataException {
+    public Result<Application> addApplication(Application application) {
         Result<Application> result = new Result<>();
 
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();

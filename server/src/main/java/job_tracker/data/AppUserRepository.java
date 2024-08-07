@@ -3,27 +3,14 @@ package job_tracker.data;
 import job_tracker.models.AppUser;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
-public interface AppUserRepository {
+public interface AppUserRepository
+{
     @Transactional
-    AppUser findByUsername(String username);
-
-    @Transactional
-    AppUser findByEmail(String email);
+    public AppUser findByUsername(String username);
 
     @Transactional
-    AppUser findByGoogleId(String googleId);
+    public AppUser add(AppUser appUser);
 
     @Transactional
-    List<AppUser> findAll();
-
-    @Transactional
-    AppUser create(AppUser user);
-
-    @Transactional
-    void update(AppUser user);
-
-    @Transactional
-    boolean deleteById(AppUser user);
+    public void update(AppUser appUser);
 }

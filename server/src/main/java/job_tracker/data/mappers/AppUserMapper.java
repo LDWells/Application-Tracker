@@ -7,7 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class AppUserMapper implements RowMapper<AppUser> {
+public class AppUserMapper implements RowMapper<AppUser>
+{
+
     private final List<String> roles;
 
     public AppUserMapper(List<String> roles) {
@@ -15,14 +17,12 @@ public class AppUserMapper implements RowMapper<AppUser> {
     }
 
     @Override
-    public AppUser mapRow(ResultSet rs, int i) throws SQLException {
-        return new AppUser(
-                rs.getInt("id"),
-                rs.getString("google_id"),
-                rs.getString("username"),
-                rs.getString("password"),
-                rs.getBoolean("disabled"),
-                roles
-        );
+    public AppUser mapRow(ResultSet resultSet, int i) throws SQLException
+    {
+        return new AppUser(resultSet.getInt("app_user_id"),
+                resultSet.getString("username"),
+                resultSet.getString("password_hash"),
+                resultSet.getBoolean("disabled"),
+                roles);
     }
 }
