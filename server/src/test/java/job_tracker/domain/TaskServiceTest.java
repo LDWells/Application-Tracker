@@ -3,7 +3,6 @@ package job_tracker.domain;
 import job_tracker.data.TaskRepository;
 import job_tracker.models.Status;
 import job_tracker.models.Task;
-import org.apache.tomcat.jni.Local;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,7 +24,7 @@ public class TaskServiceTest {
     void shouldFindById(){
         Task expected = makeTask();
         when(repository.findById(1)).thenReturn(expected);
-        Task actual = service.findTaskById(1);
+        Task actual = service.findById(1);
         assertEquals(expected, actual);
     }
 
@@ -35,7 +34,7 @@ public class TaskServiceTest {
         Task arg = makeTask();
 
         when(repository.add(arg)).thenReturn(expected);
-        Result<Task> result = service.addTask(arg);
+        Result<Task> result = service.add(arg);
         assertNotNull(result.getPayload());
         assertEquals(expected, result.getPayload());
     }
@@ -44,7 +43,7 @@ public class TaskServiceTest {
     void shouldNotAddWhenInvalidDescription(){
         Task task = makeTask();
         task.setDescription(null);
-        Result<Task> result = service.addTask(task);
+        Result<Task> result = service.add(task);
         assertNull(result.getPayload());
     }
 
@@ -52,7 +51,7 @@ public class TaskServiceTest {
     void shouldNotAddWhenInvalidDueDate(){
         Task task = makeTask();
         task.setDueDate(null);
-        Result<Task> result = service.addTask(task);
+        Result<Task> result = service.add(task);
         assertNull(result.getPayload());
     }
 
@@ -60,7 +59,7 @@ public class TaskServiceTest {
     void shouldNotAddWhenInvalidReminderDate(){
         Task task = makeTask();
         task.setReminderDate(null);
-        Result<Task> result = service.addTask(task);
+        Result<Task> result = service.add(task);
         assertNull(result.getPayload());
     }
 
@@ -68,7 +67,7 @@ public class TaskServiceTest {
     void shouldNotAddWhenInvalidStatus(){
         Task task = makeTask();
         task.setStatus(null);
-        Result<Task> result = service.addTask(task);
+        Result<Task> result = service.add(task);
         assertNull(result.getPayload());
     }
 
@@ -78,7 +77,7 @@ public class TaskServiceTest {
 
         task.setStatus(Status.APPLIED);
         when(repository.update(task)).thenReturn(true);
-        Result<Task> result = service.updateTask(task);
+        Result<Task> result = service.update(task);
 
         assertNotNull(result.getPayload());
         assertEquals(0, result.getMessages().size());
@@ -88,7 +87,7 @@ public class TaskServiceTest {
     void shouldNotUpdateWhenInvalidDescription(){
         Task task = makeTask();
         task.setDescription(null);
-        Result<Task> result = service.updateTask(task);
+        Result<Task> result = service.update(task);
         assertNull(result.getPayload());
     }
 
@@ -96,7 +95,7 @@ public class TaskServiceTest {
     void shouldNotUpdateWhenInvalidDueDate(){
         Task task = makeTask();
         task.setDueDate(null);
-        Result<Task> result = service.updateTask(task);
+        Result<Task> result = service.update(task);
         assertNull(result.getPayload());
     }
 
@@ -104,7 +103,7 @@ public class TaskServiceTest {
     void shouldNotUpdateWhenInvalidReminderDate(){
         Task task = makeTask();
         task.setReminderDate(LocalDate.of(2021, 1,1));
-        Result<Task> result = service.updateTask(task);
+        Result<Task> result = service.update(task);
         assertNull(result.getPayload());
     }
 
@@ -112,7 +111,7 @@ public class TaskServiceTest {
     void shouldNotUpdateWhenInvalidStatus(){
         Task task = makeTask();
         task.setStatus(null);
-        Result<Task> result = service.updateTask(task);
+        Result<Task> result = service.update(task);
         assertNull(result.getPayload());
     }
 
@@ -120,7 +119,7 @@ public class TaskServiceTest {
     void shouldNotUpdateWhenInvalidId(){
         Task task = makeTask();
         task.setId(-5);
-        Result<Task> result = service.updateTask(task);
+        Result<Task> result = service.update(task);
         assertNull(result.getPayload());
     }
 
@@ -128,7 +127,7 @@ public class TaskServiceTest {
     void shouldNotUpdateWhenInvalidApplicationId(){
         Task task = makeTask();
         task.setApplicationId(-5);
-        Result<Task> result = service.updateTask(task);
+        Result<Task> result = service.update(task);
         assertNull(result.getPayload());
     }
 
@@ -137,13 +136,13 @@ public class TaskServiceTest {
         Task task = makeTask();
         Task expected = makeTask();
         when(repository.add(task)).thenReturn(expected);
-        Result<Task> result = service.addTask(task);
+        Result<Task> result = service.add(task);
 
         assertNotNull(result.getPayload());
         assertEquals(0, result.getMessages().size());
 
         when(repository.deleteById(task.getId())).thenReturn(true);
-        boolean deletedResult = service.deleteTask(task.getId());
+        boolean deletedResult = service.delete(task.getId());
         assertTrue(deletedResult);
     }
 

@@ -1,6 +1,5 @@
 package job_tracker.domain;
 
-import job_tracker.models.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import job_tracker.data.CompanyRepository;
@@ -20,15 +19,15 @@ public class CompanyService {
         this.companyRepository = companyRepository;
     }
 
-    public List<Company> findAllCompanies() {
+    public List<Company> findAll() {
         return companyRepository.findAll();
     }
 
-    public Company findCompanyById(int id) {
+    public Company findById(int id) {
         return companyRepository.findById(id);
     }
 
-    public Result<Company> addCompany(Company company) {
+    public Result<Company> add(Company company) {
         Result<Company> result = new Result<>();
 
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -37,7 +36,7 @@ public class CompanyService {
         Set<ConstraintViolation<Company>> violations = validator.validate(company);
         if(!violations.isEmpty()){
             for(ConstraintViolation<Company> violation : violations) {
-                result.addMessage(violation.getMessage());
+                result.addMessage(violation.getMessage(), ResultType.INVALID);
             }
             return result;
         }
@@ -46,7 +45,7 @@ public class CompanyService {
         return result;
     }
 
-    public Result<Company> updateCompany(Company company) {
+    public Result<Company> update(Company company) {
         Result<Company> result = new Result<>();
 
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -55,7 +54,7 @@ public class CompanyService {
         Set<ConstraintViolation<Company>> violations = validator.validate(company);
         if(!violations.isEmpty()){
             for(ConstraintViolation<Company> violation : violations) {
-                result.addMessage(violation.getMessage());
+                result.addMessage(violation.getMessage(), ResultType.INVALID);
             }
             return result;
         }
@@ -65,7 +64,7 @@ public class CompanyService {
         return result;
     }
 
-    public boolean deleteCompanyById(int id) {
+    public boolean deleteById(int id) {
         return companyRepository.deleteById(id);
     }
 }
