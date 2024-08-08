@@ -13,6 +13,7 @@ import PostDetailsPage from "./PostDetailsPage"
 import PostFormPage from "./PostFormPage";
 import LogInPage from "./LogInPage";
 import RegisterPage from "./RegisterPage";
+import TaskListPage from "./TaskListPage";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/application/:applicationId" element={<ApplicationDetailsPage/>}/>
           <Route path="/application/add" element={<ApplicationFormPage/>}/>
           <Route path="/application/edit/:userId/applicationId" element={<ApplicationFormPage/>}/>
+          <Route path="/tasks" element={<TaskListPage/>}/>
           <Route path="/task/add" element={<TaskFormPage/>}/>
           <Route path="/task/edit/:id" element={<TaskFormPage/>}/>
           <Route path="/community" element={<CommunityPage/>}/>
