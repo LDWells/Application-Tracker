@@ -3,6 +3,7 @@ package job_tracker.data.mappers;
 import job_tracker.models.ApplicationDTO;
 import org.springframework.jdbc.core.RowMapper;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -19,7 +20,11 @@ public class ApplicationDtoMapper implements RowMapper<ApplicationDTO> {
         dto.setJobDescription(rs.getString("job_description"));
         dto.setApplicationId(rs.getInt("application_id"));
         dto.setUserId(rs.getInt("user_id"));
-        dto.setApplicationDate(rs.getDate("application_date").toLocalDate());
+
+        //Validate potential null value for application_date
+        Date sqlDate = rs.getDate("application_date");
+        dto.setApplicationDate(sqlDate != null ? sqlDate.toLocalDate() : null);
+
         dto.setAppliedOn(rs.getString("applied_on"));
         dto.setStatus(rs.getString("status"));
         return dto;

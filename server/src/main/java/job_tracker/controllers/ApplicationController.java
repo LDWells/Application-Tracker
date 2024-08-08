@@ -87,4 +87,18 @@ public class ApplicationController {
         }
         return ResponseEntity.ok(applicationDTO);
     }
+
+    @PutMapping("/dto/{applicationId}")
+    public ResponseEntity<Object> updateWithDetails(@PathVariable int applicationId, @RequestBody ApplicationDTO applicationDTO) {
+        if (applicationId != applicationDTO.getApplicationId()) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
+        Result<ApplicationDTO> result = applicationService.updateWithDetails(applicationDTO);
+        if (result.isSuccess()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return ErrorResponse.build(result);
+    }
+
 }

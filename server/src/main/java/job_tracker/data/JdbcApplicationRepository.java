@@ -127,4 +127,24 @@ public class JdbcApplicationRepository implements ApplicationRepository {
 
         return applicationDTO;
     }
+
+    public boolean updateWithDetails(ApplicationDTO applicationDTO) {
+        // Update company
+        Company company = new Company(applicationDTO.getCompanyId(), applicationDTO.getCompanyName(), applicationDTO.getCompanyAddress());
+        boolean companyUpdated = companyRepository.update(company);
+        if (!companyUpdated) {
+            return false;
+        }
+
+        // Update job
+        Job job = new Job(applicationDTO.getJobId(), applicationDTO.getCompanyId(), applicationDTO.getJobTitle(), applicationDTO.getJobDescription());
+        boolean jobUpdated = jobRepository.update(job);
+        if (!jobUpdated) {
+            return false;
+        }
+
+        // Update application
+        Application application = new Application(applicationDTO.getApplicationId(), applicationDTO.getUserId(), applicationDTO.getJobId(), applicationDTO.getApplicationDate(), applicationDTO.getAppliedOn(), Status.valueOf(applicationDTO.getStatus()));
+        return update(application);
+    }
 }

@@ -133,6 +133,40 @@ public class ApplicationService {
         return result;
     }
 
+    public Result<ApplicationDTO> updateWithDetails(ApplicationDTO applicationDTO) {
+        Result<ApplicationDTO> result = validate(applicationDTO);
+        if (!result.isSuccess()) {
+            return result;
+        }
+
+        // Update company
+        Company company = new Company(applicationDTO.getCompanyId(), applicationDTO.getCompanyName(), applicationDTO.getCompanyAddress());
+        boolean companyUpdated = companyRepository.update(company);
+        if (!companyUpdated) {
+            result.addMessage("Company could not be updated.", ResultType.INVALID);
+            return result;
+        }
+
+        // Update job
+        Job job = new Job(applicationDTO.getJobId(), applicationDTO.getCompanyId(), applicationDTO.getJobTitle(), applicationDTO.getJobDescription());
+        boolean jobUpdated = jobRepository.update(job);
+        if (!jobUpdated) {
+            result.addMessage("Job could not be updated.", ResultType.INVALID);
+            return result;
+        }
+
+        // Update application
+        Application application = new Application(applicationDTO.getApplicationId(), applicationDTO.getUserId(), applicationDTO.getJobId(), applicationDTO.getApplicationDate(), applicationDTO.getAppliedOn(), Status.valueOf(applicationDTO.getStatus()));
+        boolean applicationUpdated = applicationRepository.update(application);
+        if (!applicationUpdated) {
+            result.addMessage("Application could not be updated.", ResultType.INVALID);
+            return result;
+        }
+
+        result.setPayload(applicationDTO);
+        return result;
+    }
+
     private Result<ApplicationDTO> validate(ApplicationDTO applicationDTO) {
         Result<ApplicationDTO> result = new Result<>();
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
