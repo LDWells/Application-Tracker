@@ -65,7 +65,14 @@ function ApplicationFormPage()
 		event.preventDefault();
 		application.userId = userId;
 		// we want to either add or update here
-		addApplication();
+		if (applicationId)
+		{
+			updateApplication();
+		}
+		else
+		{
+			addApplication();
+		}
 	};
 
 	const addApplication = () =>
@@ -104,10 +111,46 @@ function ApplicationFormPage()
 		.catch(console.log)
   	};
 
+	  const updateApplication = () =>
+		{
+			const url = `http://localhost:8080/api/application/dto/${applicationId}`
+			const init = {
+				method: 'PUT',
+				headers: {
+					'Authorization': `Bearer ${token}`,
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(application)
+			};
+			fetch(url, init)
+			.then(response => {
+				if (response.status === 204 || response.status === 400)
+				{
+					console.log(response);
+					return;
+				}
+				else
+				{
+					return Promise.reject(`Unexcpected status code: ${response.status}`);
+				}
+			})
+			.then(data => {
+				if (data)
+				{
+					setErrors(data);
+				}
+				else
+				{
+					navigate(`/applications/${userId}`);
+				}
+			})
+			.catch(console.log)
+		  };
+
 	return (
 		<>
 			<section id="formContainer" className="container">
-				<h2 id="formHeading">{localStorage.getItem('updating') === true ? 'Update an Application' : 'Add an Application'}</h2>
+				<h2 id="formHeading" className="center">{localStorage.getItem('updating') === true ? 'Update an Application' : 'Add an Application'}</h2>
 				{errors.length > 0 && (
 				<div id="error" className='alert alert-danger'>
 					<p>The following errors occured: </p>
@@ -118,7 +161,7 @@ function ApplicationFormPage()
 					</ul>
 				</div>
 				)}
-				<form onSubmit={handleApplicationSubmit} id="form">
+				<form onSubmit={handleApplicationSubmit} id="form" className="formContainer">
 					<fieldset className="form-group">
 						<label htmlFor="companyName" className="bs-dark-text-emphasis">Company Name:</label>
 						<input type="text" id="companyName" className="form-control" name="companyName"
@@ -169,7 +212,7 @@ function ApplicationFormPage()
 						</select>
 					</fieldset>
 					<div className="mt-4 center">
-						<button className="btn btn-outline-light" type="submit" id="formSubmitButton">{localStorage.getItem('updating') === true ? 'Update Agent' : 'Add Agent'}</button>
+						<button className="btn btn-outline-primary" type="submit" id="formSubmitButton">{applicationId ? 'Update Application' : 'Add Application'}</button>
 						<Link className="btn btn-outline-danger linkButton ml-5" to={`/applications/${userId}`}>Cancel</Link>
 					</div>
 				</form>

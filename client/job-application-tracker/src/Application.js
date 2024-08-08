@@ -77,7 +77,10 @@ function Application({applicationId})
 				</div>
 			</section>
 			<hr></hr>
-			<section className='center'><Link className="btn btn-outline-light linkButton" to={`/task/add/${application.applicationId}`}>Add a Task</Link></section>
+			<section className='center'>
+				<Link className="btn btn-outline-primary linkButton" to={`/task/add/${application.applicationId}`}>Add a Task</Link>
+				<Link className="btn btn-outline-secondary linkButton ml-3" to={`/application/edit/${application.applicationId}`}>Edit Application</Link>
+			</section>
 			
 		</>
 	)

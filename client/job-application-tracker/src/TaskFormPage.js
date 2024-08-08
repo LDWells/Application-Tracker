@@ -116,7 +116,7 @@ function TaskFormPage()
 						</select>
 					</fieldset>
 					<div className="mt-4 center">
-						<button className="btn btn-outline-light" type="submit" id="formSubmitButton">{localStorage.getItem('updating') === true ? 'Update Task' : 'Add Task'}</button>
+						<button className="btn btn-outline-primary" type="submit" id="formSubmitButton">{localStorage.getItem('updating') === true ? 'Update Task' : 'Add Task'}</button>
 						<Link className="btn btn-outline-danger linkButton ml-5" to={`/applications/${userId}`}>Cancel</Link>
 					</div>
 				</form>
