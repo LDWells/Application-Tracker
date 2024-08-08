@@ -61,7 +61,7 @@ function TaskFormPage()
 		.then(data => {
 			if (data.id)
 			{
-				navigate(`/home`);
+				navigate(`/`);
 			}
 			else
 			{
