@@ -71,7 +71,6 @@ function Application({applicationId})
 			.then(response => {
 				if (response.status === 204)
 				{
-					//update lists somehow
 					const tempUserId = sessionStorage.getItem('appUserId');
 					navigate(`/applications/${tempUserId}`)
 				}
@@ -90,7 +89,7 @@ function Application({applicationId})
 				<div key={application.id} className='applicationBox mb-5'>	
 					<h1 className='applicationBoxText center'>Company</h1>
 					<h4 className='applicationBoxText center text-dark-50 text-dark'>{application.companyName}</h4>
-					<h6 className='applicationBoxText center text-dark-50 text-dark'>{application.campanyAddress}</h6>
+					<h6 className='applicationBoxText center text-dark-50 text-dark'>{application.companyAddress}</h6>
 					<hr></hr>
 					<h1 className='applicationBoxText center'>Job</h1>	
 					<h4 className='applicationBoxText center text-dark-50 text-dark'>{application.jobTitle}</h4>

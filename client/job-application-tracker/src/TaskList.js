@@ -1,11 +1,13 @@
 
 import {useState, useEffect} from 'react';
+import {useNavigate} from 'react-router-dom';
 import StatusColor from './StatusColor';
 
 
 function TaskList({applicationId})
 {
 	const [tasks, setTasks] = useState([]);
+	const navigate = useNavigate();
 	const token = sessionStorage.getItem('token');
 	const init = {
 		method: 'GET',
@@ -17,7 +19,7 @@ function TaskList({applicationId})
 	useEffect ( () => {
 		fetch(`http://localhost:8080/api/tasks/application/${applicationId}`, init)
 		.then(response => {
-			if (response.status === 200)
+			if (response.status === 200 || 404)
 			{
 				return response.json();
 			}
@@ -39,6 +41,32 @@ function TaskList({applicationId})
 		.catch(console.log)
 	},[]);
 
+	const handleDeleteTask = (taskId) => {
+		if (window.confirm(`Are you sure you want delete this task?`))
+		{
+			const init2 = {
+				method: 'DELETE',
+				headers: {
+					'Authorization': `Bearer ${token}`,
+					},
+			};
+			fetch(`http://localhost:8080/api/tasks/${taskId}`, init2)
+			.then(response => {
+				if (response.status === 204)
+				{
+					const newTasks = tasks.filter(t => t.id !== taskId);
+					setTasks(newTasks);
+					navigate(`/application/${applicationId}`)
+				}
+				else
+				{
+					return Promise.reject(`Unexpected status code: ${response.status}`);
+				}
+			})
+			.catch(console.log);
+		}
+	};
+
 	return (
 		<>
 			<section className='taskContainer'>
@@ -50,6 +78,7 @@ function TaskList({applicationId})
 							<h6 className='taskListBoxText text-dark-50 text-dark'>Status: <StatusColor status={t.status}/></h6>
 							<h6 className='taskListBoxText text-dark-50 text-dark'>Due Date: {t.dueDate}</h6>
 							<h6 className='taskListBoxText text-dark-50 text-dark'>Reminder Date: {t.reminderDate}</h6>
+							<button className='applicationBoxText center btn btn-outline-danger' onClick={() => handleDeleteTask(t.id)}>Delete Task</button>
 						</div>
 					)}
 				</ul>

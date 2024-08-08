@@ -126,7 +126,6 @@ function ApplicationFormPage()
 			.then(response => {
 				if (response.status === 204 || response.status === 400)
 				{
-					console.log(response);
 					return;
 				}
 				else

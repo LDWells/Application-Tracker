@@ -1,6 +1,5 @@
 
 import {useState, useEffect} from 'react';
-import {Link, useParams} from 'react-router-dom';
 import StatusColor from './StatusColor';
 
 function TaskListPage()
@@ -42,7 +41,7 @@ function TaskListPage()
 			}
 		})
 		.catch(console.log)
-	},[]); 
+	}); 
 
 	const getTasks = (tempApplications) => {
 		fetch('http://localhost:8080/api/tasks', init)
