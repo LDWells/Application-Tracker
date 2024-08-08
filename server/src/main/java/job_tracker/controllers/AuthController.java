@@ -82,4 +82,10 @@ public class AuthController
         return new ResponseEntity<>(map, HttpStatus.CREATED);
     }
 
+    @PostMapping
+    public AppUser loadAppUserByUsername(@RequestBody String username)
+    {
+        return appUserService.loadAppUserByUsername(username);
+    }
+
 }

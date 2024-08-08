@@ -25,8 +25,13 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
-    public Task findById(int id) {
-        return taskRepository.findById(id);
+    public Task findByTaskId(int id) {
+        return taskRepository.findByTaskId(id);
+    }
+
+    public List<Task> findByApplicationId(int id)
+    {
+        return taskRepository.findByApplicationId(id);
     }
 
     public Result<Task> add(Task task) {

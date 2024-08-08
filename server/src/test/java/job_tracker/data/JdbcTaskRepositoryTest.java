@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class JdbcTaskRepositoryTest {
 
-    final static int NEXT_ID = 16;
+    final static int NEXT_ID = 4;
 
     @Autowired
     JdbcTaskRepository repository;
@@ -29,9 +29,9 @@ class JdbcTaskRepositoryTest {
     }
 
     @Test
-    void shouldFindById() {
-        assertEquals("Follow up email", repository.findById(1).getDescription());
-        assertEquals("Prepare for interview", repository.findById(2).getDescription());
+    void shouldFindByTaskId() {
+        assertEquals("Follow up email", repository.findByTaskId(1).getDescription());
+        assertEquals("Prepare for interview", repository.findByTaskId(2).getDescription());
     }
 
 
@@ -42,13 +42,13 @@ class JdbcTaskRepositoryTest {
         // if delete is first, we're down to 14
         // if add is first, we may go as high as 16
         System.out.println(actual.size());
-        assertTrue(actual.size() >= 12 && actual.size() <= 16);
+        assertTrue(actual.size() >= 1 && actual.size() <= 5);
 
     }
 
     @Test
     void shouldAdd() {
-        Task task = new Task(11, "Schedule mock interview",
+        Task task = new Task(2, "Schedule mock interview",
                 LocalDate.of(2023, 11, 11),  LocalDate.of(2023, 11, 1),
                 Status.PENDING);
         Task actual = repository.add(task);
@@ -58,7 +58,7 @@ class JdbcTaskRepositoryTest {
 
     @Test
     void shouldUpdate() {
-        Task actual = repository.findById(3);
+        Task actual = repository.findByTaskId(3);
         actual.setDescription("Test");
         assertTrue(repository.update(actual));
 
@@ -67,7 +67,7 @@ class JdbcTaskRepositoryTest {
 
     @Test
     void shouldDeleteById() {
-        assertTrue(repository.deleteById(11));
-        assertFalse(repository.deleteById(11));
+        assertTrue(repository.deleteById(3));
+        assertFalse(repository.deleteById(3));
     }
 }

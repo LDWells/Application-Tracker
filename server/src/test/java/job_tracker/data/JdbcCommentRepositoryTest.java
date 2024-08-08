@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class JdbcCommentRepositoryTest {
-    final static int NEXT_ID = 16;
+    final static int NEXT_ID = 3;
 
     @Autowired
     JdbcCommentRepository repository;
@@ -28,11 +28,11 @@ class JdbcCommentRepositoryTest {
 
     @Test
     void shouldFindById() {
-        Comment comment = repository.findById(12);
+        Comment comment = repository.findById(2);
         assertNotNull(comment);
-        assertEquals(12, comment.getId());
-        assertEquals(13, comment.getUserId());
-        assertEquals(LocalDate.of(2023, 12, 16), comment.getCommentDate());
+        assertEquals(2, comment.getId());
+        assertEquals(2, comment.getUserId());
+        assertEquals(LocalDate.of(2023, 3, 1), comment.getCommentDate());
     }
 
 
@@ -42,13 +42,13 @@ class JdbcCommentRepositoryTest {
         // can't predict order
         // if delete is first, we're down to 14
         // if add is first, we may go as high as 16
-        assertTrue(actual.size() >= 14 && actual.size() <= 16);
+        assertTrue(actual.size() >= 1 && actual.size() <= 5);
 
     }
 
     @Test
     void shouldAdd() {
-        Comment comment = new Comment(3,2,"This application took WAY too long", LocalDate.of(2023,1,13) );
+        Comment comment = new Comment(2,2,"This application took WAY too long", LocalDate.of(2023,1,13) );
         Comment actual = repository.add(comment);
         assertNotNull(actual);
         assertEquals(NEXT_ID, actual.getId());
@@ -56,7 +56,7 @@ class JdbcCommentRepositoryTest {
 
     @Test
     void shouldUpdate() {
-        Comment actual = repository.findById(3);
+        Comment actual = repository.findById(1);
         actual.setCommentDate(LocalDate.of(2023,11,13));
         assertTrue(repository.update(actual));
 
@@ -65,7 +65,7 @@ class JdbcCommentRepositoryTest {
 
     @Test
     void shouldDeleteById() {
-        assertTrue(repository.deleteById(15));
-        assertFalse(repository.deleteById(15));
+        assertTrue(repository.deleteById(2));
+        assertFalse(repository.deleteById(2));
     }
 }

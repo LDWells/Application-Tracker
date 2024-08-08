@@ -29,12 +29,21 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> findById(@PathVariable int id) {
-        Task task = taskService.findById(id);
+    public ResponseEntity<Task> findByTaskId(@PathVariable int id) {
+        Task task = taskService.findByTaskId(id);
         if (task == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(task);
+    }
+
+    @GetMapping("/application/{id}")
+    public ResponseEntity<List<Task>> findByApplicationId(@PathVariable int id) {
+        List<Task> tasks = taskService.findByApplicationId(id);
+        if (tasks == null || tasks.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(tasks);
     }
 
     @PostMapping

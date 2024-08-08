@@ -31,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         http.authorizeRequests()
                 // TODO add antMatchers here to configure access to specific API endpoints
                 .antMatchers("/api/user/authenticate", "/api/user/register").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/user").hasAnyRole("USER", "ADMIN")
                 .antMatchers(HttpMethod.GET, "/applications").hasAnyRole("USER", "ADMIN")
                 .antMatchers(HttpMethod.POST, "/community").hasAnyRole("USER", "ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/community").hasAnyRole("ADMIN")

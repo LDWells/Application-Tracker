@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,6 +42,18 @@ public class AppUserService implements UserDetailsService
         return new User(appUser.getUsername(), appUser.getPassword(), authorities);
     }
 
+    public AppUser loadAppUserByUsername(String username) throws UsernameNotFoundException
+    {
+        AppUser appUser = repository.findByUsername(username);
+        if (appUser == null || appUser.isDisabled()) {
+            throw new UsernameNotFoundException(username + " not found.");
+        }
+//        List<GrantedAuthority> authorities = appUser.getRoles().stream()
+//                .map(roleName -> new SimpleGrantedAuthority("ROLE_" + roleName))
+//                .collect(Collectors.toList());
+        return appUser;
+    }
+
     public AppUser add(@Valid AppUser user) {
         user.setPassword(encoder.encode(user.getPassword()));
         return repository.add(user);
@@ -52,7 +63,7 @@ public class AppUserService implements UserDetailsService
         AppUser user = repository.findByUsername("admin");
         if (user == null) {
             String randomPassword = "top-secret-password";//UUID.randomUUID().toString();
-            user = new AppUser(3, "admin", randomPassword, false, new ArrayList<>());
+            user = new AppUser(1, "admin", randomPassword, false, List.of("ADMIN", "USER"));
             try {
                 add(user);
                 System.out.printf("%n%nRandom admin password: %s%n%n", randomPassword);
