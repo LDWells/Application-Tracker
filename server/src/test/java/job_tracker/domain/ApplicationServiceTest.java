@@ -1,34 +1,55 @@
 package job_tracker.domain;
 
 import job_tracker.data.ApplicationRepository;
-import job_tracker.models.Application;
-import job_tracker.models.Status;
+import job_tracker.data.CompanyRepository;
+import job_tracker.data.JobRepository;
+import job_tracker.models.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class ApplicationServiceTest {
 
-    @Autowired
-    ApplicationService service;
+    @Mock
+    private ApplicationRepository applicationRepository;
 
-    @MockBean
-    ApplicationRepository repository;
+    @Mock
+    private CompanyRepository companyRepository;
+
+    @Mock
+    private JobRepository jobRepository;
+
+    @InjectMocks
+    private ApplicationService applicationService;
+
+    private Validator validator;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.initMocks(this);
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
+    }
 
     @Test
     void shouldAddWhenValid(){
         Application expected = makeApplication();
         Application arg = makeApplication();
 
-        when(repository.add(arg)).thenReturn(expected);
-        Result<Application> result = service.add(arg);
+        when(applicationRepository.add(arg)).thenReturn(expected);
+        Result<Application> result = applicationService.add(arg);
         assertNotNull(result.getPayload());
         assertEquals(expected, result.getPayload());
     }
@@ -37,7 +58,7 @@ public class ApplicationServiceTest {
     void shouldNotAddWhenInvalidDate(){
         Application application = makeApplication();
         application.setApplicationDate(LocalDate.of(2025, 1, 1));
-        Result<Application> result = service.add(application);
+        Result<Application> result = applicationService.add(application);
         assertNull(result.getPayload());
         assertEquals(1, result.getMessages().size());
     }
@@ -46,7 +67,7 @@ public class ApplicationServiceTest {
     void shouldNotAddWhenInvalidUserID(){
         Application application = makeApplication();
         application.setUserId(-5);
-        Result<Application> result = service.add(application);
+        Result<Application> result = applicationService.add(application);
         assertNull(result.getPayload());
         assertEquals(1, result.getMessages().size());
     }
@@ -55,7 +76,7 @@ public class ApplicationServiceTest {
     void shouldNotAddWhenInvalidApplicationID(){
         Application application = makeApplication();
         application.setId(-5);
-        Result<Application> result = service.add(application);
+        Result<Application> result = applicationService.add(application);
         assertNull(result.getPayload());
         assertEquals(1, result.getMessages().size());
     }
@@ -64,7 +85,7 @@ public class ApplicationServiceTest {
     void shouldNotAddWhenInvalidJobID(){
         Application application = makeApplication();
         application.setJobId(-5);
-        Result<Application> result = service.add(application);
+        Result<Application> result = applicationService.add(application);
         assertNull(result.getPayload());
         assertEquals(1, result.getMessages().size());
     }
@@ -73,7 +94,7 @@ public class ApplicationServiceTest {
     void shouldNotAddWhenBlankAppliedOn(){
         Application application = makeApplication();
         application.setAppliedOn(null);
-        Result<Application> result = service.add(application);
+        Result<Application> result = applicationService.add(application);
         assertNull(result.getPayload());
         assertEquals(1, result.getMessages().size());
     }
@@ -82,7 +103,7 @@ public class ApplicationServiceTest {
     void shouldNotAddWhenInvalidStatus(){
         Application application = makeApplication();
         application.setStatus(null);
-        Result<Application> result = service.add(application);
+        Result<Application> result = applicationService.add(application);
         assertNull(result.getPayload());
         assertEquals(1, result.getMessages().size());
     }
@@ -90,16 +111,16 @@ public class ApplicationServiceTest {
     @Test
     void shouldFindById(){
         Application expected = makeApplication();
-        when(repository.findById(1)).thenReturn(expected);
-        Application actual = service.findById(1);
+        when(applicationRepository.findById(1)).thenReturn(expected);
+        Application actual = applicationService.findById(1);
         assertEquals(expected, actual);
     }
 
     @Test
     void shouldNotFindByInvalidId(){
         Application expected = makeApplication();
-        when(repository.findById(1)).thenReturn(expected);
-        Application actual = service.findById(10);
+        when(applicationRepository.findById(1)).thenReturn(expected);
+        Application actual = applicationService.findById(10);
         assertNotEquals(expected, actual);
     }
 
@@ -108,8 +129,8 @@ public class ApplicationServiceTest {
         Application application = makeApplication();
 
         application.setStatus(Status.PENDING);
-        when(repository.update(application)).thenReturn(true);
-        Result<Application> result = service.update(application);
+        when(applicationRepository.update(application)).thenReturn(true);
+        Result<Application> result = applicationService.update(application);
 
         assertNotNull(result.getPayload());
         assertEquals(0, result.getMessages().size());
@@ -120,7 +141,7 @@ public class ApplicationServiceTest {
         Application application = makeApplication();
 
         application.setId(-5);
-        Result<Application> result = service.update(application);
+        Result<Application> result = applicationService.update(application);
 
         assertNull(result.getPayload());
         assertEquals(1, result.getMessages().size());
@@ -131,7 +152,7 @@ public class ApplicationServiceTest {
         Application application = makeApplication();
 
         application.setUserId(-5);
-        Result<Application> result = service.update(application);
+        Result<Application> result = applicationService.update(application);
 
         assertNull(result.getPayload());
         assertEquals(1, result.getMessages().size());
@@ -142,7 +163,7 @@ public class ApplicationServiceTest {
         Application application = makeApplication();
 
         application.setJobId(-5);
-        Result<Application> result = service.update(application);
+        Result<Application> result = applicationService.update(application);
 
         assertNull(result.getPayload());
         assertEquals(1, result.getMessages().size());
@@ -153,7 +174,7 @@ public class ApplicationServiceTest {
         Application application = makeApplication();
 
         application.setAppliedOn(null);
-        Result<Application> result = service.update(application);
+        Result<Application> result = applicationService.update(application);
 
         assertNull(result.getPayload());
         assertEquals(1, result.getMessages().size());
@@ -164,7 +185,7 @@ public class ApplicationServiceTest {
         Application application = makeApplication();
 
         application.setStatus(null);
-        Result<Application> result = service.update(application);
+        Result<Application> result = applicationService.update(application);
 
         assertNull(result.getPayload());
         assertEquals(1, result.getMessages().size());
@@ -174,14 +195,14 @@ public class ApplicationServiceTest {
     void shouldDeleteById(){
         Application application = makeApplication();
         Application expected = makeApplication();
-        when(repository.add(application)).thenReturn(expected);
-        Result<Application> result = service.add(application);
+        when(applicationRepository.add(application)).thenReturn(expected);
+        Result<Application> result = applicationService.add(application);
 
         assertNotNull(result.getPayload());
         assertEquals(0, result.getMessages().size());
 
-        when(repository.deleteById(application.getId())).thenReturn(true);
-        boolean deletedResult = service.deleteById(application.getId());
+        when(applicationRepository.deleteById(application.getId())).thenReturn(true);
+        boolean deletedResult = applicationService.deleteById(application.getId());
         assertTrue(deletedResult);
     }
 
@@ -189,14 +210,14 @@ public class ApplicationServiceTest {
     void shouldNotDeleteByInvalidId(){
         Application application = makeApplication();
         Application expected = makeApplication();
-        when(repository.add(application)).thenReturn(expected);
-        Result<Application> result = service.add(application);
+        when(applicationRepository.add(application)).thenReturn(expected);
+        Result<Application> result = applicationService.add(application);
 
         assertNotNull(result.getPayload());
         assertEquals(0, result.getMessages().size());
 
         application.setId(-5);
-        boolean deletedResult = service.deleteById(application.getId());
+        boolean deletedResult = applicationService.deleteById(application.getId());
         assertFalse(deletedResult);
     }
 
@@ -211,4 +232,106 @@ public class ApplicationServiceTest {
 
         return app;
     }
+
+    @Test
+    void shouldUpdateWithDetails() {
+        ApplicationDTO dto = new ApplicationDTO();
+        dto.setCompanyId(1);
+        dto.setCompanyName("Updated Company");
+        dto.setCompanyAddress("Updated Address");
+        dto.setJobId(1);
+        dto.setJobTitle("Updated Job");
+        dto.setJobDescription("Updated Description");
+        dto.setApplicationId(1);
+        dto.setUserId(1);
+        dto.setApplicationDate(LocalDate.now());
+        dto.setAppliedOn("Updated Online");
+        dto.setStatus("INTERVIEW");
+
+        when(companyRepository.update(any(Company.class))).thenReturn(true);
+        when(jobRepository.update(any(Job.class))).thenReturn(true);
+        when(applicationRepository.update(any(Application.class))).thenReturn(true);
+
+        Result<ApplicationDTO> result = applicationService.updateWithDetails(dto);
+
+        assertTrue(result.isSuccess());
+        assertEquals(dto, result.getPayload());
+
+        verify(companyRepository).update(any(Company.class));
+        verify(jobRepository).update(any(Job.class));
+        verify(applicationRepository).update(any(Application.class));
+    }
+
+    @Test
+    void shouldFailToUpdateWithDetailsWhenCompanyUpdateFails() {
+        ApplicationDTO dto = new ApplicationDTO();
+        dto.setCompanyId(1);
+        dto.setCompanyName("Updated Company");
+        dto.setCompanyAddress("Updated Address");
+        dto.setJobId(1);
+        dto.setJobTitle("Updated Job");
+        dto.setJobDescription("Updated Description");
+        dto.setApplicationId(1);
+        dto.setUserId(1);
+        dto.setApplicationDate(LocalDate.now());
+        dto.setAppliedOn("Updated Online");
+        dto.setStatus("INTERVIEW");
+
+        when(companyRepository.update(any(Company.class))).thenReturn(false);
+
+        Result<ApplicationDTO> result = applicationService.updateWithDetails(dto);
+
+        assertFalse(result.isSuccess());
+        assertEquals("Company could not be updated.", result.getMessages().get(0));
+    }
+
+    @Test
+    void shouldFailToUpdateWithDetailsWhenJobUpdateFails() {
+        ApplicationDTO dto = new ApplicationDTO();
+        dto.setCompanyId(1);
+        dto.setCompanyName("Updated Company");
+        dto.setCompanyAddress("Updated Address");
+        dto.setJobId(1);
+        dto.setJobTitle("Updated Job");
+        dto.setJobDescription("Updated Description");
+        dto.setApplicationId(1);
+        dto.setUserId(1);
+        dto.setApplicationDate(LocalDate.now());
+        dto.setAppliedOn("Updated Online");
+        dto.setStatus("INTERVIEW");
+
+        when(companyRepository.update(any(Company.class))).thenReturn(true);
+        when(jobRepository.update(any(Job.class))).thenReturn(false);
+
+        Result<ApplicationDTO> result = applicationService.updateWithDetails(dto);
+
+        assertFalse(result.isSuccess());
+        assertEquals("Job could not be updated.", result.getMessages().get(0));
+    }
+
+    @Test
+    void shouldFailToUpdateWithDetailsWhenApplicationUpdateFails() {
+        ApplicationDTO dto = new ApplicationDTO();
+        dto.setCompanyId(1);
+        dto.setCompanyName("Updated Company");
+        dto.setCompanyAddress("Updated Address");
+        dto.setJobId(1);
+        dto.setJobTitle("Updated Job");
+        dto.setJobDescription("Updated Description");
+        dto.setApplicationId(1);
+        dto.setUserId(1);
+        dto.setApplicationDate(LocalDate.now());
+        dto.setAppliedOn("Updated Online");
+        dto.setStatus("INTERVIEW");
+
+        when(companyRepository.update(any(Company.class))).thenReturn(true);
+        when(jobRepository.update(any(Job.class))).thenReturn(true);
+        when(applicationRepository.update(any(Application.class))).thenReturn(false);
+
+        Result<ApplicationDTO> result = applicationService.updateWithDetails(dto);
+
+        assertFalse(result.isSuccess());
+        assertEquals("Application could not be updated.", result.getMessages().get(0));
+    }
+
 }

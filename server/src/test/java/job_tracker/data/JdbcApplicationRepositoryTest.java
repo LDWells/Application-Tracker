@@ -117,4 +117,39 @@ class JdbcApplicationRepositoryTest {
         assertNotNull(applications);
         assertTrue(applications.size() >= 0);
     }
+
+    @Test
+    void shouldUpdateApplicationWithDetails() {
+        ApplicationDTO dto = new ApplicationDTO();
+        dto.setCompanyName("Updated Company");
+        dto.setCompanyAddress("Updated Address");
+        dto.setJobTitle("Updated Job");
+        dto.setJobDescription("Updated Description");
+        dto.setUserId(1);
+        dto.setApplicationDate(LocalDate.now());
+        dto.setAppliedOn("Updated Online");
+        dto.setStatus("INTERVIEW");
+
+        // Adding new application to get an ID
+        ApplicationDTO added = repository.addWithDetails(dto);
+
+        // Updating the details
+        dto.setApplicationId(added.getApplicationId());
+        dto.setCompanyName("Updated Company Name");
+        dto.setJobTitle("Updated Job Title");
+        dto.setAppliedOn("Updated Applied On");
+        dto.setStatus("OFFER");
+
+        boolean updated = repository.updateWithDetails(dto);
+
+        assertTrue(updated);
+
+        ApplicationDTO updatedDTO = repository.findByIdWithDetails(dto.getApplicationId());
+
+        assertNotNull(updatedDTO);
+        assertEquals("Updated Company Name", updatedDTO.getCompanyName());
+        assertEquals("Updated Job Title", updatedDTO.getJobTitle());
+        assertEquals("Updated Applied On", updatedDTO.getAppliedOn());
+        assertEquals("OFFER", updatedDTO.getStatus());
+    }
 }
