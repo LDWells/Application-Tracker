@@ -13,4 +13,5 @@ public interface ApplicationRepository {
     boolean deleteById(int id);
     public ApplicationDTO findByIdWithDetails(int id);
     public List<ApplicationDTO> findAllWithDetails();
+    public ApplicationDTO addWithDetails(ApplicationDTO applicationDTO);
     }

@@ -44,6 +44,15 @@ public class ApplicationController {
         return ErrorResponse.build(result);
     }
 
+    @PostMapping("/dto")
+    public ResponseEntity<Object> addWithDetails(@RequestBody ApplicationDTO applicationDTO) {
+        Result<ApplicationDTO> result = applicationService.addWithDetails(applicationDTO);
+        if (result.isSuccess()) {
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+        }
+        return ErrorResponse.build(result);
+    }
+
     @PutMapping("/{applicationId}")
     public ResponseEntity<Object> update(@PathVariable int applicationId, @RequestBody Application application) {
         if (applicationId != application.getId()) {

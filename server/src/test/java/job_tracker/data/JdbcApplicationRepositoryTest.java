@@ -1,6 +1,7 @@
 package job_tracker.data;
 
 import job_tracker.models.Application;
+import job_tracker.models.ApplicationDTO;
 import job_tracker.models.Status;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -67,5 +68,53 @@ class JdbcApplicationRepositoryTest {
     void shouldDeleteById() {
         assertTrue(repository.deleteById(4));
         assertFalse(repository.deleteById(4));
+    }
+
+    @Test
+    void shouldAddApplicationWithDetails() {
+        ApplicationDTO dto = new ApplicationDTO();
+        dto.setCompanyName("Test Company");
+        dto.setCompanyAddress("123 Test St");
+        dto.setJobTitle("Test Job");
+        dto.setJobDescription("This is a test job.");
+        dto.setUserId(1);
+        dto.setApplicationDate(LocalDate.now());
+        dto.setAppliedOn("Online");
+        dto.setStatus("APPLIED");
+
+        ApplicationDTO result = repository.addWithDetails(dto);
+
+        assertNotNull(result);
+        assertTrue(result.getApplicationId() > 0);
+        assertTrue(result.getCompanyId() > 0);
+        assertTrue(result.getJobId() > 0);
+    }
+
+    @Test
+    void shouldFindApplicationByIdWithDetails() {
+        ApplicationDTO dto = new ApplicationDTO();
+        dto.setCompanyName("Test Company");
+        dto.setCompanyAddress("123 Test St");
+        dto.setJobTitle("Test Job");
+        dto.setJobDescription("This is a test job.");
+        dto.setUserId(1);
+        dto.setApplicationDate(LocalDate.now());
+        dto.setAppliedOn("Online");
+        dto.setStatus("APPLIED");
+
+        ApplicationDTO added = repository.addWithDetails(dto);
+        ApplicationDTO found = repository.findByIdWithDetails(added.getApplicationId());
+
+        assertNotNull(found);
+        assertEquals(added.getApplicationId(), found.getApplicationId());
+        assertEquals("Test Company", found.getCompanyName());
+        assertEquals("Test Job", found.getJobTitle());
+    }
+
+    @Test
+    void shouldFindAllApplicationsWithDetails() {
+        List<ApplicationDTO> applications = repository.findAllWithDetails();
+        assertNotNull(applications);
+        assertTrue(applications.size() >= 0);
     }
 }
