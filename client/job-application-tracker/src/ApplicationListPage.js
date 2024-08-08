@@ -111,6 +111,7 @@ function ApplicationListPage()
 
 	return (
 		<>
+		<h1 className='center'>Applications and Tasks</h1>
 			<section className="modal-body row">
 				<section className='col-md-6'>
 					<h1 className='center'>Applications</h1>

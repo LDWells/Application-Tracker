@@ -12,6 +12,7 @@ import CommunityPage from "./CommunityPage";
 import PostDetailsPage from "./PostDetailsPage"
 import PostFormPage from "./PostFormPage";
 import LogInPage from "./LogInPage";
+import RegisterPage from "./RegisterPage";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/post/add" element={<PostFormPage/>}/>
           <Route path="/post/edit/:id" element={<PostFormPage/>}/>
           <Route path="/login" element={<LogInPage/>}/>
+          <Route path="/register" element={<RegisterPage/>}/>
           <Route path="*" element={<NotFoundPage/>}/>
         </Routes>
       </Router>
