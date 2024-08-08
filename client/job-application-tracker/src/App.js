@@ -25,7 +25,7 @@ function App() {
           <Route path="/applications/:userId" element={<ApplicationListPage/>}/>
           <Route path="/application/:applicationId" element={<ApplicationDetailsPage/>}/>
           <Route path="/application/add" element={<ApplicationFormPage/>}/>
-          <Route path="/application/edit/:userId/applicationId" element={<ApplicationFormPage/>}/>
+          <Route path="/application/edit/:applicationId" element={<ApplicationFormPage/>}/>
           <Route path="/tasks" element={<TaskListPage/>}/>
           <Route path="/task/add" element={<TaskFormPage/>}/>
           <Route path="/task/edit/:id" element={<TaskFormPage/>}/>

@@ -15,7 +15,6 @@ function NavBar()
 					<Link className="dropdown-item dropdownText NavBarDropdownItems" to={"/application/add"}>Add an Application</Link>
 					<li><hr className="dropdown-divider"/></li>
 					<Link className="dropdown-item dropdownText NavBarDropdownItems" to={"/tasks"}>View Tasks</Link>
-					<Link className="dropdown-item dropdownText NavBarDropdownItems" to={"/task/add"}>Add a Task</Link>
 				</div>
 			</div>
 			<div className="dropdown">

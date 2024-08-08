@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react';
+import {Link} from 'react-router-dom';
 import StatusColor from './StatusColor';
 
 function Application({applicationId})
@@ -63,6 +64,9 @@ function Application({applicationId})
 					<h5 className='applicationBoxText center text-dark-50 text-dark'>Status: {<StatusColor status={application.status}/>}</h5>
 				</div>
 			</section>
+			<hr></hr>
+			<section className='center'><Link className="btn btn-outline-light linkButton" to={"/task/add"}>Add a Task</Link></section>
+			
 		</>
 	)
 }
