@@ -2,58 +2,45 @@
 import {useState, useEffect} from 'react';
 import StatusColor from './StatusColor';
 
-const DEFAULT_TASK = {
-	id: 1,
-	applicationId: 1,
-	description: 'Follow up email',
-	dueDate: '01/20/2023',
-	reminderDate: '01/19/2023',
-	status: 'PENDING'
-};
 
-const DEFAULT_TASK2 = {
-	id: 2,
-	applicationId: 1,
-	description: 'Prepare for interview',
-	dueDate: '01/20/2023',
-	reminderDate: '01/19/2023',
-	status: 'COMPLETED'
-};
-
-const DEFAULT_TASKS = [
-	DEFAULT_TASK,
-	DEFAULT_TASK2
-];
-
-
-function TaskList()
+function TaskList({applicationId})
 {
+	const [tasks, setTasks] = useState([]);
+	const token = localStorage.getItem('token');
+	const init = {
+		method: 'GET',
+		headers: {
+			'Authorization': `Bearer ${token}`,
+			},
+		};
 
-	const [tasks, setTasks] = useState(DEFAULT_TASKS);
-
-	const statusColor = (status) => {
-		if (status === "PENDING")
-		{
-			return <span className='text-warning'>{status}</span>;
-		}
-		else if (status === "REJECTED")
-		{
-			return <span className='text-danger'>{status}</span>;
-		}
-		else if (status === "INTERVIEW")
-		{
-			return <span className='text-info'>{status}</span>;
-		}
-		else if (status === "COMPLETED")
-		{
-			return <span className='text-success'>{status}</span>;
-		}
-	}
+	useEffect ( () => {
+		fetch(`http://localhost:8080/api/tasks/application/${applicationId}`, init)
+		.then(response => {
+			if (response.status === 200)
+			{
+				return response.json();
+			}
+			else
+			{
+				return Promise.reject(`Unexpected status code: ${response.status}`);
+			}
+		})
+		.then(data => {
+			if (data)
+			{
+				setTasks(data);
+			}
+			else
+			{
+				console.log("NO DATA");
+			}
+		})
+		.catch(console.log)
+	},[]);
 
 	return (
 		<>
-			{/* <h1>Task List</h1>
-			<p>This will display a list of tasks</p> */}
 			<section className='taskContainer'>
 				<ul>
 					{tasks.map(t => 

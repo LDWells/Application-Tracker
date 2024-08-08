@@ -52,7 +52,7 @@ function LogInPage()
 		.then(data => {
 			if (data)
 			{
-				sessionStorage.setItem('token', data.jwt_token);
+				localStorage.setItem('token', data.jwt_token);
 				// console.log(JSON.parse(atob(data.jwt_token.split('.')[1])));
 				getUserData(username);
 			}
@@ -65,7 +65,7 @@ function LogInPage()
 	};
 
 	const getUserData = (username) => {
-		const token = sessionStorage.getItem('token');
+		const token = localStorage.getItem('token');
 		const init = {
 			method: 'POST',
 			headers: {
@@ -88,6 +88,7 @@ function LogInPage()
 		.then(data => {
 			if (data.appUserId)
 			{
+				localStorage.setItem('appUserId', data.appUserId);
 				navigate(`/applications/${data.appUserId}`);
 			}
 			else

@@ -43,7 +43,6 @@ function RegisterPage()
 		.then(response => {
 			if (response.status === 201)
 			{
-				console.log(response);
 				return response.json();
 			}
 			else

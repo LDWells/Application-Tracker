@@ -49,6 +49,13 @@ hr{
   margin: 1em 0;
   padding: 0;
 }
+/* Home Page */
+.homeButton{
+  width: 10%;
+  height: 20%;
+  font-size: 3rem !important;
+  margin: 10rem 10rem;
+}
 /* NavBar */
 .linkNav{
   font-size: 2rem;

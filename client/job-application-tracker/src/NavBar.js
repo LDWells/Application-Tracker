@@ -10,7 +10,7 @@ function NavBar()
 			<div className="dropdown">
 				<button className="btn btn-outline-light dropdown-toggle NavBarText" type="button" id="dropdownMenu" data-toggle="dropdown">Applications</button>
 				<div className="dropdown-menu bg-dark">
-					<Link className="dropdown-item dropdownText NavBarDropdownItems" to={"/applications"}>Applicaitons</Link>
+					<Link className="dropdown-item dropdownText NavBarDropdownItems" to={`/applications/${localStorage.getItem('appUserId')}`}>Applicaitons</Link>
 					<li><hr className="dropdown-divider"/></li>
 					<Link className="dropdown-item dropdownText NavBarDropdownItems" to={"/application/add"}>Add an Application</Link>
 					<li><hr className="dropdown-divider"/></li>

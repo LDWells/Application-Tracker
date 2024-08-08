@@ -22,9 +22,9 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage/>}/>
           <Route path="/applications/:userId" element={<ApplicationListPage/>}/>
-          <Route path="/application/:userId/:appId" element={<ApplicationDetailsPage/>}/>
+          <Route path="/application/:applicationId" element={<ApplicationDetailsPage/>}/>
           <Route path="/application/add" element={<ApplicationFormPage/>}/>
-          <Route path="/application/edit/:userId/appId" element={<ApplicationFormPage/>}/>
+          <Route path="/application/edit/:userId/applicationId" element={<ApplicationFormPage/>}/>
           <Route path="/task/add" element={<TaskFormPage/>}/>
           <Route path="/task/edit/:id" element={<TaskFormPage/>}/>
           <Route path="/community" element={<CommunityPage/>}/>
