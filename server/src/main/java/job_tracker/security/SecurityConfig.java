@@ -31,11 +31,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         http.authorizeRequests()
                 // TODO add antMatchers here to configure access to specific API endpoints
                 .antMatchers("/api/user/authenticate", "/api/user/register").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/user").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.GET, "api/jobs/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers(HttpMethod.GET, "/applications").hasAnyRole("USER", "ADMIN")
                 .antMatchers(HttpMethod.POST, "/community").hasAnyRole("USER", "ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/community").hasAnyRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/community").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/comments").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/api/comments/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtRequestFilter(authenticationManager(), converter))
                 .sessionManagement()
@@ -64,5 +67,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
             }
         };
     }
-
 }
