@@ -72,6 +72,7 @@ public class ApplicationService {
     }
 
     public boolean deleteById(int id) {
+
         return applicationRepository.deleteById(id);
     }
 

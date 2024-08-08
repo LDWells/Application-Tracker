@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import StatusColor from './StatusColor';
 
 const APPLICATION_DTO_DEFAULT = {
@@ -17,7 +17,7 @@ const APPLICATION_DTO_DEFAULT = {
 function Application({applicationId})
 {
 	const [application, setApplication] = useState(APPLICATION_DTO_DEFAULT);
-
+	const navigate = useNavigate();
 	const token = sessionStorage.getItem('token');
 	const init = {
 		method: 'GET',
@@ -59,14 +59,30 @@ function Application({applicationId})
 	},[]);
 	
 	const handleDeleteApplication = () => {
-		const init2 = {
-			method: 'DELETE',
-			headers: {
-				'Authorization': `Bearer ${token}`,
-				},
-		};
-		
-	}
+		if (window.confirm(`Are you sure you want to your ${application.companyName} application?`))
+		{
+			const init2 = {
+				method: 'DELETE',
+				headers: {
+					'Authorization': `Bearer ${token}`,
+					},
+			};
+			fetch(`http://localhost:8080/api/application/${applicationId}`, init2)
+			.then(response => {
+				if (response.status === 204)
+				{
+					//update lists somehow
+					const tempUserId = sessionStorage.getItem('appUserId');
+					navigate(`/applications/${tempUserId}`)
+				}
+				else
+				{
+					return Promise.reject(`Unexpected status code: ${response.status}`);
+				}
+			})
+			.catch(console.log);
+		}
+	};
 
 	return (
 		<>
@@ -89,7 +105,7 @@ function Application({applicationId})
 			<section className='center'>
 				<Link className="btn btn-outline-primary linkButton" to={`/task/add/${application.applicationId}`}>Add a Task</Link>
 				<Link className="btn btn-outline-secondary linkButton ml-3" to={`/application/edit/${application.applicationId}`}>Edit Application</Link>
-				<button className="btn btn-outline-danger linkButton ml-3">Delete Application</button>
+				<button className="btn btn-outline-danger linkButton ml-3" onClick={handleDeleteApplication}>Delete Application</button>
 			</section>
 			
 		</>
