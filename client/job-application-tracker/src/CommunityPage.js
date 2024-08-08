@@ -7,7 +7,7 @@ function CommunityPage()
 
 	const [communityPosts, setCommunityPosts] = useState([]);
 
-	const token = localStorage.getItem('token');
+	const token = sessionStorage.getItem('token');
 	const init = {
 		method: 'GET',
 		headers: {

@@ -6,7 +6,7 @@ import StatusColor from './StatusColor';
 function TaskList({applicationId})
 {
 	const [tasks, setTasks] = useState([]);
-	const token = localStorage.getItem('token');
+	const token = sessionStorage.getItem('token');
 	const init = {
 		method: 'GET',
 		headers: {

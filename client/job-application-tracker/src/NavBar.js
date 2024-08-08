@@ -1,8 +1,15 @@
-
+import { useState, useEffect } from "react";
 import {Link} from "react-router-dom";
 
 function NavBar()
 {
+	const [userId, setUserId] = useState();
+	useEffect ( () => {
+		window.addEventListener('userIdUpdate', () => {
+			setUserId(parseInt(sessionStorage.getItem('appUserId')));
+			console.log(userId);
+		})
+	},[]);
 
 	return (
 		<nav className="nav bg-dark">
@@ -11,7 +18,7 @@ function NavBar()
 			<div className="dropdown">
 				<button className="btn btn-outline-light dropdown-toggle NavBarText" type="button" id="dropdownMenu" data-toggle="dropdown">Applications</button>
 				<div className="dropdown-menu bg-dark">
-					<Link className="dropdown-item dropdownText NavBarDropdownItems" to={`/applications/${localStorage.getItem('appUserId')}`}>Applicaitons</Link>
+					<Link className="dropdown-item dropdownText NavBarDropdownItems" to={`/applications/${userId}`}>View Applicaitons</Link>
 					<li><hr className="dropdown-divider"/></li>
 					<Link className="dropdown-item dropdownText NavBarDropdownItems" to={"/application/add"}>Add an Application</Link>
 					<li><hr className="dropdown-divider"/></li>

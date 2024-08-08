@@ -24,7 +24,7 @@ function ApplicationListPage()
 	const [tasks, setTasks] = useState([]);
 
 	const {userId} = useParams();
-	const token = localStorage.getItem('token');
+	const token = sessionStorage.getItem('token');
 	const init = {
 		method: 'GET',
 		headers: {

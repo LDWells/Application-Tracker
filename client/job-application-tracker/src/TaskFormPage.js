@@ -17,7 +17,7 @@ function TaskFormPage()
 	const [errors, setErrors] = useState([]);
 	const {applicationId} = useParams();
 	const navigate = useNavigate();
-	const userId = localStorage.getItem('userId');
+	const userId = sessionStorage.getItem('userId');
 	function handleChange(event)
 	{
 		const newTask = {...task};
@@ -38,7 +38,7 @@ function TaskFormPage()
 	const addTask = (tempTask) =>
 	{
 		const url = 'http://localhost:8080/api/tasks'
-		const token = localStorage.getItem('token');
+		const token = sessionStorage.getItem('token');
 		const init = {
 			method: 'POST',
 			headers: {
@@ -61,7 +61,8 @@ function TaskFormPage()
 		.then(data => {
 			if (data.id)
 			{
-				navigate(`/`);
+				const tempUserId = sessionStorage.getItem('appUserId');
+				navigate(`/applications/${tempUserId}`);
 			}
 			else
 			{
@@ -74,7 +75,7 @@ function TaskFormPage()
 	return (
 		<>
 			<section id="formContainer" className="container">
-				<h2 id="formHeading">{localStorage.getItem('updating') === true ? 'Update a Task' : 'Add a Task'}</h2>
+				<h2 id="formHeading">{sessionStorage.getItem('updating') === true ? 'Update a Task' : 'Add a Task'}</h2>
 				{errors.length > 0 && (
 				<div id="error" className='alert alert-danger'>
 					<p>The following errors occured: </p>
@@ -116,7 +117,7 @@ function TaskFormPage()
 						</select>
 					</fieldset>
 					<div className="mt-4 center">
-						<button className="btn btn-outline-primary" type="submit" id="formSubmitButton">{localStorage.getItem('updating') === true ? 'Update Task' : 'Add Task'}</button>
+						<button className="btn btn-outline-primary" type="submit" id="formSubmitButton">{sessionStorage.getItem('updating') === true ? 'Update Task' : 'Add Task'}</button>
 						<Link className="btn btn-outline-danger linkButton ml-5" to={`/applications/${userId}`}>Cancel</Link>
 					</div>
 				</form>

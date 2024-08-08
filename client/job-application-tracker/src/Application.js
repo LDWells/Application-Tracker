@@ -18,7 +18,7 @@ function Application({applicationId})
 {
 	const [application, setApplication] = useState(APPLICATION_DTO_DEFAULT);
 
-	const token = localStorage.getItem('token');
+	const token = sessionStorage.getItem('token');
 	const init = {
 		method: 'GET',
 		headers: {

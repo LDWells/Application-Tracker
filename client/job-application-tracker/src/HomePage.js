@@ -7,7 +7,7 @@ function HomePage()
 		<>
 			<h1 className="center">Home Page -tmep-</h1>
 			<div className="center">
-				<Link className=" btn btn-outline-light center homeButton" to={"/login"}>Log In</Link>
+				<Link className=" btn btn-outline-primary center homeButton" to={"/login"}>Log In</Link>
 			</div>
 		</>
 	)

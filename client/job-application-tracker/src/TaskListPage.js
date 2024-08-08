@@ -9,7 +9,7 @@ function TaskListPage()
 	const [applications, setApplications] = useState([]);
 	const [tasks, setTasks] = useState([]);
 
-	const token = localStorage.getItem('token');
+	const token = sessionStorage.getItem('token');
 	const init = {
 		method: 'GET',
 		headers: {
@@ -32,7 +32,7 @@ function TaskListPage()
 		.then(data => {
 			if (data)
 			{
-				const newApplications = data.filter(a=> a.userId === parseInt(localStorage.getItem('appUserId')));
+				const newApplications = data.filter(a=> a.userId === parseInt(sessionStorage.getItem('appUserId')));
 				setApplications(newApplications);
 				getTasks(newApplications);
 			}
