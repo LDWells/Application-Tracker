@@ -10,7 +10,7 @@ const APPLICATION_DTO_DEFAULT = {
 	userId: 0,
 	applicationDate: '',
 	appliedOn: '',
-	status: ''
+	status: 'APPLIED'
 };
 
 function ApplicationFormPage()
@@ -19,7 +19,7 @@ function ApplicationFormPage()
 	const [application, setApplication] = useState(APPLICATION_DTO_DEFAULT);
 	const [errors, setErrors] = useState([]);
 	const navigate = useNavigate();
-	const userId = localStorage.getItem('userId');
+	const userId = localStorage.getItem('appUserId');
 	const {applicationId} = useParams();
 	const token = localStorage.getItem('token');
 	const init = {
@@ -70,7 +70,7 @@ function ApplicationFormPage()
 
 	const addApplication = () =>
 	{
-		const url = 'http://localhost:8080/api/application/details'
+		const url = 'http://localhost:8080/api/application/dto'
 		const init = {
 			method: 'POST',
 			headers: {
@@ -81,7 +81,7 @@ function ApplicationFormPage()
 		};
 		fetch(url, init)
 		.then(response => {
-			if (response.status === 201)
+			if (response.status === 201 || response.status === 400)
 			{
 				return response.json();
 			}

@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 
 function NavBar()
 {
+
 	return (
 		<nav className="nav bg-dark">
 			<header className="NavBarTitle">Job Application Tracker</header>
