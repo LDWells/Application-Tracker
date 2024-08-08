@@ -62,7 +62,6 @@ function ApplicationListPage()
 		}
 		else
 		{
-			console.log("SETTING APPLICATIONS HERE2");
 			setApplications([]);
 		}
 	},[userId]); 
