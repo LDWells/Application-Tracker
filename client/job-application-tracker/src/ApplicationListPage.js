@@ -120,7 +120,7 @@ function ApplicationListPage()
 							<h6 className='applicationListBoxText'>{a.companyName}---{a.applicationDate}</h6>
 							<h5 className='applicationListBoxText'>
 							Status: <StatusColor status={a.status}/>
-							<Link className="btn btn-outline-light applicationListButton" to={`/application/${a.applicationId}`}>View Application</Link>
+							<Link className="btn btn-outline-primary applicationListButton" to={`/application/${a.applicationId}`}>View Application</Link>
 							</h5>
 						</div>
 					)}

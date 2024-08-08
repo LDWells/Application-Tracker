@@ -45,7 +45,7 @@ hr{
   display: block;
   height: 1px;
   border: 0;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid black;
   margin: 1em 0;
   padding: 0;
 }
@@ -92,7 +92,7 @@ hr{
 /* Application List Page */
 .applicationListBox{
   border-style: solid;
-  border-color: white;
+  border-color: black;
   height: 20rem;
 }
 .applicationListBoxText{
@@ -110,7 +110,7 @@ hr{
 /* Singular Application */
 .applicationBox{
   border-style: solid;
-  border-color: white;
+  border-color: black;
 }
 .applicationBoxText{
   margin: 1rem 2rem;
@@ -122,7 +122,7 @@ hr{
 /* Task List */
 .taskListBox{
   border-style: solid;
-  border-color: rgb(44, 44, 44);
+  border-color: black;
 }
 .taskListBoxText{
   margin: 1rem 2rem;
@@ -130,4 +130,12 @@ hr{
 .taskContainer{
   width: 80%;
   margin: 2% 10%;
+}
+/* Form page */
+.formContainer{
+  border-style: solid;
+  border-color: black;
+}
+.form-group{
+  margin: 1rem 1rem;
 }

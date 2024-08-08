@@ -4,8 +4,8 @@ import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 public class Task {
-    @NotNull(message = "Task ID cannot be null")
-    @Positive(message = "Task ID cannot be negative")
+//    @NotNull(message = "Task ID cannot be null")
+//    @Positive(message = "Task ID cannot be negative")
     private int id;
 
     @NotNull(message = "Application ID cannot be null")

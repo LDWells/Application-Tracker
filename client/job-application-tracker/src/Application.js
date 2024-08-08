@@ -1,9 +1,22 @@
 import {useState, useEffect} from 'react';
+import {Link} from 'react-router-dom';
 import StatusColor from './StatusColor';
+
+const APPLICATION_DTO_DEFAULT = {
+	applicationId: 0,
+	companyName: '',
+	companyAddress: '',
+	jobTitle: '',
+	jobDescription: '',
+	userId: 0,
+	applicationDate: '',
+	appliedOn: '',
+	status: 'APPLIED'
+};
 
 function Application({applicationId})
 {
-	const [application, setApplication] = useState([]);
+	const [application, setApplication] = useState(APPLICATION_DTO_DEFAULT);
 
 	const token = localStorage.getItem('token');
 	const init = {
@@ -43,8 +56,17 @@ function Application({applicationId})
 			{
 				setApplication([]);
 			}
-		},[]);
+	},[]);
 	
+	const handleDeleteApplication = () => {
+		const init2 = {
+			method: 'DELETE',
+			headers: {
+				'Authorization': `Bearer ${token}`,
+				},
+		};
+		
+	}
 
 	return (
 		<>
@@ -63,6 +85,13 @@ function Application({applicationId})
 					<h5 className='applicationBoxText center text-dark-50 text-dark'>Status: {<StatusColor status={application.status}/>}</h5>
 				</div>
 			</section>
+			<hr></hr>
+			<section className='center'>
+				<Link className="btn btn-outline-primary linkButton" to={`/task/add/${application.applicationId}`}>Add a Task</Link>
+				<Link className="btn btn-outline-secondary linkButton ml-3" to={`/application/edit/${application.applicationId}`}>Edit Application</Link>
+				<button className="btn btn-outline-danger linkButton ml-3">Delete Application</button>
+			</section>
+			
 		</>
 	)
 }
