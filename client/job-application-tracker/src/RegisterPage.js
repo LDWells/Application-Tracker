@@ -14,7 +14,7 @@ const DEFAULT_USER = {
 	roles: [""]
 };
 
-function LogInPage()
+function RegisterPage()
 {
 
 	const [user, setUser] = useState(DEFAULT_USER);
@@ -27,10 +27,10 @@ function LogInPage()
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		//attempt to log in
-		handleLogIn(user.username, user.password);
+		handleRegister(user.username, user.password);
 	}
 
-	const handleLogIn = (username, password) => {
+	const handleRegister = (username, password) => {
 		const init = {
 			method: 'POST',
 			headers: {
@@ -38,9 +38,10 @@ function LogInPage()
 			},
 			body: JSON.stringify({username, password})
 		};
-		fetch(`${url}/authenticate`, init)
+		console.log(JSON.stringify({username, password}));
+		fetch(`${url}/register`, init)
 		.then(response => {
-			if (response.status === 200)
+			if (response.status === 201)
 			{
 				return response.json();
 			}
@@ -52,44 +53,7 @@ function LogInPage()
 		.then(data => {
 			if (data)
 			{
-				localStorage.setItem('token', data.jwt_token);
-				// console.log(JSON.parse(atob(data.jwt_token.split('.')[1])));
-				getUserData(username);
-			}
-			else
-			{
-				setErrors(data);
-			}
-		})
-		.catch(console.log)
-	};
-
-	const getUserData = (username) => {
-		const token = localStorage.getItem('token');
-		const init = {
-			method: 'POST',
-			headers: {
-				'Authorization': `Bearer ${token}`,
-				'Content-Type': 'application/json'
-			},
-			body: username
-		};//Authentication header for get
-		fetch(`${url}`, init)
-		.then(response => {
-			if (response.status === 200)
-			{
-				return response.json();
-			}
-			else
-			{
-				return Promise.reject(`Unexcpected status code: ${response.status}`);
-			}
-		})
-		.then(data => {
-			if (data.appUserId)
-			{
-				localStorage.setItem('appUserId', data.appUserId);
-				navigate(`/applications/${data.appUserId}`);
+				navigate('/login')
 			}
 			else
 			{
@@ -113,8 +77,8 @@ function LogInPage()
 						<div className="card bg-dark text-white LogInBoxStyle">
 							<div className="card-body p-5 text-center">
 								<div className="mb-md-1 mt-md-4 pb-5">
-									<h2 className="fw-bold mb-2 text-uppercase">Login</h2>
-									<p className="text-white-50 mb-5">Please enter your login and password!</p>
+									<h2 className="fw-bold mb-2 text-uppercase">REGISTER</h2>
+									<p className="text-white-50 mb-5">Please enter a username and password!</p>
 									<form onSubmit={handleSubmit}>
 										<fieldset data-mdb-input-init className="form-outline form-white mb-4">
 											<label className="form-label" htmlFor="username">Username</label>
@@ -124,16 +88,14 @@ function LogInPage()
 											<label className="form-label" htmlFor="password">Password</label>
 											<input type="password" id="password" name='password' value={user.password} onChange={handleChange} className="form-control form-control-lg" />
 										</fieldset>
-										{/* Option for forgot password, probably won't use */}
-										{/* <p className="small mb-5 pb-lg-2"><a className="text-white-50" href="#!">Forgot password?</a></p> */}
-										<button className="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+										<button className="btn btn-outline-light btn-lg px-5" type="submit">Register</button>
 										<div className="d-flex justify-content-center text-center">
-											<Link className="btn btn-outline-light linkButton mt-5" to={"/"}>Log In With Google</Link>
+											<Link className="btn btn-outline-light linkButton mt-5" to={"/"}>Register With Google</Link>
 										</div>
 									</form>
 								</div>
 								<div>
-									<Link to={"/register"} className="btn btn-outline-light linkButton">Register</Link>
+									<Link to={"/login"} className="btn btn-outline-light linkButton">Have an Account?</Link>
 								</div>
 							</div>
 							{errors.length > 0 && (
@@ -153,4 +115,4 @@ function LogInPage()
 		</section>
 	)
 }
-export default LogInPage;
+export default RegisterPage;

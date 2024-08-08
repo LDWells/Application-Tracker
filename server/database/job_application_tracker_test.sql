@@ -2,13 +2,30 @@ DROP DATABASE IF EXISTS job_application_tracker_test;
 CREATE DATABASE job_application_tracker_test;
 USE job_application_tracker_test;
 
-CREATE TABLE `User` (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    google_id VARCHAR(255) UNIQUE,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(100) NOT NULL,
-    role ENUM('ADMIN', 'USER') NOT NULL
+create table app_user (
+    app_user_id int primary key auto_increment,
+    username varchar(50) not null unique,
+    password_hash varchar(2048) not null,
+    disabled boolean not null default(0),
+    email varchar(250)
+);
+
+create table app_role (
+    app_role_id int primary key auto_increment,
+    `name` varchar(50) not null unique
+);
+
+create table app_user_role (
+    app_user_id int not null,
+    app_role_id int not null,
+    constraint pk_app_user_role
+        primary key (app_user_id, app_role_id),
+    constraint fk_app_user_role_user_id
+        foreign key (app_user_id)
+        references app_user(app_user_id),
+    constraint fk_app_user_role_role_id
+        foreign key (app_role_id)
+        references app_role(app_role_id)
 );
 
 CREATE TABLE Company (
@@ -32,7 +49,7 @@ CREATE TABLE Application (
     application_date DATE,
     applied_on VARCHAR(250),
     status ENUM('APPLIED', 'INTERVIEW', 'OFFER', 'REJECTED'),
-    CONSTRAINT fk_application_user FOREIGN KEY (user_id) REFERENCES `User`(id),
+    CONSTRAINT fk_application_user FOREIGN KEY (user_id) REFERENCES app_user(app_user_id),
     CONSTRAINT fk_application_job FOREIGN KEY (job_id) REFERENCES Job(id)
 );
 
@@ -52,7 +69,7 @@ CREATE TABLE Post (
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
     post_date DATE,
-    CONSTRAINT fk_post_user FOREIGN KEY (user_id) REFERENCES `User`(id)
+    CONSTRAINT fk_post_user FOREIGN KEY (user_id) REFERENCES app_user(app_user_id)
 );
 
 CREATE TABLE `Comment` (
@@ -62,38 +79,28 @@ CREATE TABLE `Comment` (
     content TEXT NOT NULL,
     comment_date DATE,
     CONSTRAINT fk_comment_post FOREIGN KEY (post_id) REFERENCES Post(id),
-    CONSTRAINT fk_comment_user FOREIGN KEY (user_id) REFERENCES `User`(id)
+    CONSTRAINT fk_comment_user FOREIGN KEY (user_id) REFERENCES app_user(app_user_id)
 );
 
-create table app_user (
-    app_user_id int primary key auto_increment,
-    username varchar(50) not null unique,
-    password_hash varchar(2048) not null,
-    disabled boolean not null default(0)
-);
 
-create table app_role (
-    app_role_id int primary key auto_increment,
-    `name` varchar(50) not null unique
-);
+-- Testing Security
+insert into app_role (`name`) values
+    ('USER'),
+    ('ADMIN');
 
-create table app_user_role (
-    app_user_id int not null,
-    app_role_id int not null,
-    constraint pk_app_user_role
-        primary key (app_user_id, app_role_id),
-    constraint fk_app_user_role_user_id
-        foreign key (app_user_id)
-        references app_user(app_user_id),
-    constraint fk_app_user_role_role_id
-        foreign key (app_role_id)
-        references app_role(app_role_id)
-);
+-- passwords are set to "P@ssw0rd!"
+insert into app_user (username, password_hash, disabled)
+    values
+    ('admin', '$2a$10$yzRgjbTQH41nMY5OhHmN8eInejTWmP.6tjNekRoaL7D2/Or1eVxhe', '0'),
+    ('john@smith.com', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 0),
+    ('sally@jones.com', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 0);
 
-INSERT INTO app_role (name) VALUES
-('USER'),
-('ADMIN');
-
+insert into app_user_role
+    values
+    (1, 1),
+    (1, 2),
+    (2, 1),
+    (3, 1);
 DELIMITER //
 
 CREATE PROCEDURE set_known_good_state()
@@ -112,37 +119,20 @@ BEGIN
     DELETE FROM Application;
     DELETE FROM Job;
     DELETE FROM Company;
-    DELETE FROM `User`;
     DELETE FROM app_role;
     DELETE FROM app_user;
     DELETE FROM app_user_role;
 
     -- Reset auto-increment values
-    ALTER TABLE `User` AUTO_INCREMENT = 1;
+    ALTER TABLE app_user AUTO_INCREMENT = 1;
+	ALTER TABLE app_role AUTO_INCREMENT = 1;
+	ALTER TABLE app_user_role AUTO_INCREMENT = 1;
     ALTER TABLE Company AUTO_INCREMENT = 1;
     ALTER TABLE Job AUTO_INCREMENT = 1;
     ALTER TABLE Application AUTO_INCREMENT = 1;
     ALTER TABLE Task AUTO_INCREMENT = 1;
     ALTER TABLE Post AUTO_INCREMENT = 1;
     ALTER TABLE `Comment` AUTO_INCREMENT = 1;
-
-    -- Populate User table with dummy data
-    INSERT INTO `User` (google_id, username, email, password, role) VALUES
-    ('google-123', 'admin_user', 'admin@example.com', 'password123', 'ADMIN'),
-    ('google-124', 'john_doe', 'john@example.com', 'password123', 'USER'),
-    ('google-125', 'jane_smith', 'jane@example.com', 'password123', 'USER'),
-    ('google-126', 'mike_brown', 'mike@example.com', 'password123', 'USER'),
-    ('google-127', 'lisa_white', 'lisa@example.com', 'password123', 'USER'),
-    ('google-128', 'chris_green', 'chris@example.com', 'password123', 'USER'),
-    ('google-129', 'patricia_black', 'patricia@example.com', 'password123', 'USER'),
-    ('google-130', 'matt_gray', 'matt@example.com', 'password123', 'USER'),
-    ('google-131', 'linda_yellow', 'linda@example.com', 'password123', 'USER'),
-    ('google-132', 'dave_blue', 'dave@example.com', 'password123', 'USER'),
-    ('google-133', 'susan_purple', 'susan@example.com', 'password123', 'USER'),
-    ('google-134', 'tom_red', 'tom@example.com', 'password123', 'USER'),
-    ('google-135', 'nancy_orange', 'nancy@example.com', 'password123', 'USER'),
-    ('google-136', 'paul_violet', 'paul@example.com', 'password123', 'USER'),
-    ('google-137', 'carol_turquoise', 'carol@example.com', 'password123', 'USER');
 
     -- Populate Company table with dummy data
     INSERT INTO Company (name, address) VALUES
@@ -185,71 +175,24 @@ BEGIN
     (2, 1, '2023-01-15', 'LinkedIn', 'APPLIED'),
     (3, 2, '2023-02-20', 'Indeed', 'INTERVIEW'),
     (2, 3, '2023-03-10', 'Company Website', 'OFFER'),
-    (4, 4, '2023-01-22', 'Monster', 'REJECTED'),
-    (5, 5, '2023-02-28', 'LinkedIn', 'APPLIED'),
-    (6, 6, '2023-03-05', 'Indeed', 'INTERVIEW'),
-    (7, 7, '2023-01-30', 'Company Website', 'OFFER'),
-    (8, 8, '2023-02-10', 'Monster', 'REJECTED'),
-    (9, 9, '2023-03-15', 'LinkedIn', 'APPLIED'),
-    (10, 10, '2023-01-18', 'Indeed', 'INTERVIEW'),
-    (11, 11, '2023-02-25', 'Company Website', 'OFFER'),
-    (12, 12, '2023-03-20', 'Monster', 'REJECTED'),
-    (13, 13, '2023-01-27', 'LinkedIn', 'APPLIED'),
-    (14, 14, '2023-02-05', 'Indeed', 'INTERVIEW'),
-    (15, 15, '2023-03-12', 'Company Website', 'OFFER');
+    (3, 4, '2023-01-22', 'Monster', 'REJECTED');
 
     -- Populate Task table with dummy data
     INSERT INTO Task (application_id, description, due_date, reminder_date, status) VALUES
     (1, 'Follow up email', '2023-01-20', '2023-01-19', 'PENDING'),
     (2, 'Prepare for interview', '2023-02-25', '2023-02-24', 'PENDING'),
-    (3, 'Send thank you note', '2023-03-15', '2023-03-14', 'COMPLETED'),
-    (4, 'Research company', '2023-01-25', '2023-01-24', 'PENDING'),
-    (5, 'Update resume', '2023-03-01', '2023-02-28', 'PENDING'),
-    (6, 'Submit portfolio', '2023-03-10', '2023-03-09', 'PENDING'),
-    (7, 'Follow up call', '2023-02-15', '2023-02-14', 'COMPLETED'),
-    (8, 'Attend networking event', '2023-03-05', '2023-03-04', 'PENDING'),
-    (9, 'Prepare presentation', '2023-03-20', '2023-03-19', 'PENDING'),
-    (10, 'Send follow-up email', '2023-02-25', '2023-02-24', 'PENDING'),
-    (11, 'Schedule mock interview', '2023-03-10', '2023-03-09', 'PENDING'),
-    (12, 'Review job description', '2023-01-20', '2023-01-19', 'COMPLETED'),
-    (13, 'Create cover letter', '2023-02-15', '2023-02-14', 'PENDING'),
-    (14, 'Complete assessment', '2023-03-20', '2023-03-19', 'PENDING'),
-    (15, 'Prepare for second interview', '2023-04-01', '2023-03-31', 'PENDING');
+    (3, 'Send thank you note', '2023-03-15', '2023-03-14', 'COMPLETED');
     
     -- Populate Post table with dummy data
     INSERT INTO Post (user_id, title, content, post_date) VALUES
     (2, 'My Interview Experience at Tech Corp', 'I had a great experience with the interview process at Tech Corp...', '2023-01-25'),
     (3, 'Tips for Job Applications', 'Here are some useful tips for applying to jobs...', '2023-02-28'),
-    (4, 'Resume Writing Tips', 'Make sure your resume is concise and highlights your achievements...', '2023-03-15'),
-    (5, 'Networking Strategies', 'Networking can significantly boost your job search...', '2023-04-10'),
-    (6, 'How to Ace Your Interviews', 'Preparation is key to acing your interviews...', '2023-05-05'),
-    (7, 'Balancing Multiple Job Offers', 'Deciding between multiple job offers can be challenging...', '2023-06-20'),
-    (8, 'Importance of Follow-Up Emails', 'Sending a follow-up email shows your interest in the position...', '2023-07-15'),
-    (9, 'What to Do After Rejection', 'Handling job rejection gracefully is important...', '2023-08-10'),
-    (10, 'Using LinkedIn for Job Search', 'LinkedIn is a powerful tool for job seekers...', '2023-09-05'),
-    (11, 'Benefits of Job Fairs', 'Job fairs provide a great opportunity to meet potential employers...', '2023-10-01'),
-    (12, 'Preparing for Remote Interviews', 'Remote interviews require different preparation strategies...', '2023-11-20'),
-    (13, 'Creating a Portfolio', 'A portfolio can showcase your skills and projects...', '2023-12-15'),
-    (14, 'Understanding Job Descriptions', 'Reading job descriptions carefully is crucial...', '2024-01-10'),
-    (15, 'Salary Negotiation Tips', 'Negotiating your salary can be intimidating but necessary...', '2024-02-05');
+    (3, '10 MOre Tips for Job Applications', 'different Here are some useful tips for applying to jobs...', '2023-02-28');
 
     -- Populate Comment table with dummy data
     INSERT INTO `Comment` (post_id, user_id, content, comment_date) VALUES
     (1, 3, 'Thanks for sharing your experience!', '2023-01-26'),
-    (2, 2, 'These tips are really helpful!', '2023-03-01'),
-    (3, 4, 'Great advice on resume writing!', '2023-03-16'),
-    (4, 5, 'Networking has really helped me in my job search.', '2023-04-11'),
-    (5, 6, 'I followed these interview tips and it worked!', '2023-05-06'),
-    (6, 7, 'I had to choose between two offers last month.', '2023-06-21'),
-    (7, 8, 'Follow-up emails have definitely made a difference.', '2023-07-16'),
-    (8, 9, 'Rejection is tough but part of the process.', '2023-08-11'),
-    (9, 10, 'LinkedIn helped me land my last job.', '2023-09-06'),
-    (10, 11, 'I found my current job at a job fair.', '2023-10-02'),
-    (11, 12, 'Remote interviews are tricky but manageable.', '2023-11-21'),
-    (12, 13, 'Creating a portfolio showcased my skills.', '2023-12-16'),
-    (13, 14, 'I always read job descriptions carefully.', '2024-01-11'),
-    (14, 15, 'Negotiated my salary successfully last week.', '2024-02-06'),
-    (15, 2, 'This post was very informative.', '2024-02-07');
+    (2, 2, 'These tips are really helpful!', '2023-03-01');
 
 
 -- Testing Security
@@ -260,13 +203,16 @@ insert into app_role (`name`) values
 -- passwords are set to "P@ssw0rd!"
 insert into app_user (username, password_hash, disabled)
     values
+    ('admin', '$2a$10$yzRgjbTQH41nMY5OhHmN8eInejTWmP.6tjNekRoaL7D2/Or1eVxhe', '0'),
     ('john@smith.com', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 0),
     ('sally@jones.com', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 0);
 
 insert into app_user_role
     values
+    (1, 1),
     (1, 2),
-    (2, 1);
+    (2, 1),
+    (3, 1);
 
 	-- Re-enable foreign key checks
     SET FOREIGN_KEY_CHECKS = 1;

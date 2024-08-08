@@ -12,6 +12,8 @@ import CommunityPage from "./CommunityPage";
 import PostDetailsPage from "./PostDetailsPage"
 import PostFormPage from "./PostFormPage";
 import LogInPage from "./LogInPage";
+import RegisterPage from "./RegisterPage";
+import TaskListPage from "./TaskListPage";
 
 function App() {
   return (
@@ -20,10 +22,11 @@ function App() {
         <NavBar/>
         <Routes>
           <Route path="/" element={<HomePage/>}/>
-          <Route path="/applications" element={<ApplicationListPage/>}/>
-          <Route path="/application/:id" element={<ApplicationDetailsPage/>}/>
+          <Route path="/applications/:userId" element={<ApplicationListPage/>}/>
+          <Route path="/application/:applicationId" element={<ApplicationDetailsPage/>}/>
           <Route path="/application/add" element={<ApplicationFormPage/>}/>
-          <Route path="/application/edit/:id" element={<ApplicationFormPage/>}/>
+          <Route path="/application/edit/:userId/applicationId" element={<ApplicationFormPage/>}/>
+          <Route path="/tasks" element={<TaskListPage/>}/>
           <Route path="/task/add" element={<TaskFormPage/>}/>
           <Route path="/task/edit/:id" element={<TaskFormPage/>}/>
           <Route path="/community" element={<CommunityPage/>}/>
@@ -31,6 +34,7 @@ function App() {
           <Route path="/post/add" element={<PostFormPage/>}/>
           <Route path="/post/edit/:id" element={<PostFormPage/>}/>
           <Route path="/login" element={<LogInPage/>}/>
+          <Route path="/register" element={<RegisterPage/>}/>
           <Route path="*" element={<NotFoundPage/>}/>
         </Routes>
       </Router>

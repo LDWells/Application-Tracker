@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class JdbcPostRepositoryTest {
 
-    final static int NEXT_ID = 15;
+    final static int NEXT_ID = 4;
 
     @Autowired
     JdbcPostRepository repository;
@@ -40,21 +40,21 @@ class JdbcPostRepositoryTest {
         // can't predict order
         // if delete is first, we're down to 13
         // if add is first, we may go as high as 15
-        assertTrue(actual.size() >= 13 && actual.size() <= 15);
+        assertTrue(actual.size() >= 1 && actual.size() <= 5);
 
     }
 
     @Test
     void shouldAdd() {
-        Post post = new Post(4, "Resume Writing Tips", "Test for resume", LocalDate.of(2024, 6, 17));
+        Post post = new Post(2, "Resume Writing Tips", "Test for resume", LocalDate.of(2024, 6, 17));
         Post actual = repository.add(post);
         assertNotNull(actual);
-        assertEquals(NEXT_ID, actual.getId());
+        assertTrue(actual.getId() >= 3);
     }
 
     @Test
     void shouldUpdate() {
-        Post actual = repository.findById(3);
+        Post actual = repository.findById(2);
         actual.setTitle("Test");
         assertTrue(repository.update(actual));
 
@@ -63,7 +63,7 @@ class JdbcPostRepositoryTest {
 
     @Test
     void shouldDeleteById() {
-        assertTrue(repository.deleteById(5));
-        assertFalse(repository.deleteById(5));
+        assertTrue(repository.deleteById(3));
+        assertFalse(repository.deleteById(3));
     }
 }

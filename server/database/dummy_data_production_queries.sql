@@ -1,4 +1,4 @@
-use job_application_tracker_test;
+use job_application_tracker;
 
 -- Populate Company table with dummy data
 INSERT INTO Company (name, address) VALUES

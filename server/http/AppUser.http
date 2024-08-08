@@ -49,3 +49,9 @@ Content-Type: application/json
     "username": "joe",
     "password": "P@ssw0rd!"
 }
+
+
+###
+
+GET http://localhost:8080/api/application/details
+Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqb2ItYXBwbGljYXRpb24tdHJhY2tlciIsInN1YiI6ImFkbWluIiwiYXV0aG9yaXRpZXMiOiJST0xFX0FETUlOLFJPTEVfVVNFUiIsImV4cCI6MTcyMzA3ODg4Mn0.8SfFBrkBrxtzKutvS4H-S1ck220fovSv640-gc-YeWU'

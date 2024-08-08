@@ -1,97 +1,126 @@
 
 import {useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
-import TaskList from './TaskList';
+import {Link, useParams} from 'react-router-dom';
 import StatusColor from './StatusColor';
-//Temp code
 
 const APPLICATION_DTO_DEFAULT = {
-	companyId: 1,
-	companyName: 'Tech Corp',
-	campanyAddress: '123 Tech Lane, Silicon Valley, CA',
-	jobId: 1,
-	jobTitle: 'Software Engineer',
-	jobDescription: 'Develop and maintain web applications.',
-	applicationId: 1,
-	userId: 2,
-	applicationDate: '01/15/2023',
-	appliedOn: 'LinkedIn',
-	status: 'OFFER'
+	companyId: 0,
+	companyName: '',
+	campanyAddress: '',
+	jobId: 0,
+	jobTitle: '',
+	jobDescription: '',
+	applicationId: 0,
+	userId: 0,
+	applicationDate: '',
+	appliedOn: '',
+	status: ''
 };
-
-const APPLICATION_DTO_DEFAULT2 = {
-	companyId: 2,
-	companyName: 'Biz Solutions',
-	campanyAddress: '456 Business St, New York, NY',
-	jobId: 2,
-	jobTitle: 'Business Analyst',
-	jobDescription: 'Analyze business processes and requirements.',
-	applicationId: 2,
-	userId: 3,
-	applicationDate: '02/20/2023',
-	appliedOn: 'Indeed',
-	status: 'REJECTED'
-};
-
-const APPLICATION_DTOS_DEFAULT = [
-	APPLICATION_DTO_DEFAULT,
-	APPLICATION_DTO_DEFAULT2
-];
-
-const DEFAULT_TASK = {
-	id: 1,
-	applicationId: 1,
-	description: 'Follow up email',
-	dueDate: '01/20/2023',
-	reminderDate: '01/19/2023',
-	status: 'PENDING'
-};
-
-const DEFAULT_TASK2 = {
-	id: 2,
-	applicationId: 1,
-	description: 'Prepare for interview',
-	dueDate: '01/20/2023',
-	reminderDate: '01/19/2023',
-	status: 'COMPLETED'
-};
-
-const DEFAULT_TASKS = [
-	DEFAULT_TASK,
-	DEFAULT_TASK,
-	DEFAULT_TASK,
-	DEFAULT_TASK,
-	DEFAULT_TASK,
-	DEFAULT_TASK2
-];
-
 
 function ApplicationListPage()
 {
 
-	const [applications, setApplications] = useState(APPLICATION_DTOS_DEFAULT);
-	const [tasks, setTasks] = useState(DEFAULT_TASKS);
+	const [applications, setApplications] = useState([]);
+	const [tasks, setTasks] = useState([]);
 
-	const findApplication = (applicaitonId) =>{
-		return applications.find(a => a.id = applicaitonId);
+	const {userId} = useParams();
+	const token = localStorage.getItem('token');
+	const init = {
+		method: 'GET',
+		headers: {
+			'Authorization': `Bearer ${token}`,
+			},
+		};//Authentication header for get
+
+	useEffect( () => {
+		if (userId)
+		{
+			fetch(`http://localhost:8080/api/application/details`, init)
+			.then(response => {
+				if (response.status === 200)
+				{
+					return response.json();
+				}
+				else
+				{
+					return Promise.reject(`Unexpected status code: ${response.status}`);
+				}
+			})
+			.then(data => {
+				if (data)
+				{
+					const newApplications = data.filter(a=> a.userId === parseInt(userId));
+					setApplications(newApplications);
+					getTasks(newApplications);
+				}
+				else
+				{
+					console.log("NO DATA");
+				}
+			})
+			.catch(console.log)
+		}
+		else
+		{
+			setApplications([]);
+		}
+	},[userId]); 
+
+	const getTasks = (tempApplications) => {
+		fetch('http://localhost:8080/api/tasks', init)
+		.then(response => {
+			if (response.status === 200)
+			{
+				return response.json();
+			}
+			else
+			{
+				return Promise.reject(`Unexpected status code: ${response.status}`);
+			}
+		})
+		.then(data => {
+			if (data)
+			{
+				var newTasks = [];
+				for(let i = 0;i<tempApplications.length;i++)
+				{
+					// console.log(tempApplications[i]);
+					for(let j=0;j<data.length;j++)
+					{
+						// console.log(data[j]);
+						if (data[j].applicationId === tempApplications[i].applicationId)
+						{
+							newTasks.push(data[j])
+						}
+					}
+				}
+				setTasks(newTasks);
+			}
+			else
+			{
+				console.log("NO DATA");
+			}
+		})
+		.catch(console.log)
+	};
+
+	const getApplication = (applicationId) => {
+		return applications.find(a => a.applicationId === applicationId);
 	}
 
 	return (
 		<>
-			{/* <h1>Application List Page</h1>
-			<p>Component to display list of applications in non detailed view</p>
-			<p>this will have for each application, the company name, the job title, the submission date, and the status</p> */}
-			<seciton className="modal-body row">
+		<h1 className='center'>Applications and Tasks</h1>
+			<section className="modal-body row">
 				<section className='col-md-6'>
 					<h1 className='center'>Applications</h1>
 					{applications.map(a => 
-						<div key={a.id} className='applicationListBox mb-5'>
+						<div key={a.applicationId} className='applicationListBox mb-5'>
 							<h1 className='applicationListBoxText'>{a.jobTitle}</h1>
-							
 							<h6 className='applicationListBoxText'>{a.companyName}---{a.applicationDate}</h6>
 							<h5 className='applicationListBoxText'>
 							Status: <StatusColor status={a.status}/>
-							<Link className="btn btn-outline-light applicationListButton" to={`/application/${a.id}`}>View Application</Link>
+							<Link className="btn btn-outline-light applicationListButton" to={`/application/${a.applicationId}`}>View Application</Link>
 							</h5>
 						</div>
 					)}
@@ -100,15 +129,15 @@ function ApplicationListPage()
 					<h1 className='center'>Tasks</h1>
 					{tasks.map(t => 
 						<div key={t.id} className='applicationListBox mb-5'>
-							<h5 className='taskListBoxText'>{findApplication(t.applicationId).jobTitle} at {findApplication(t.applicationId).companyName}</h5>
+							<h5 className='taskListBoxText'>{getApplication(t.applicationId).jobTitle} at {getApplication(t.applicationId).companyName}</h5>
 							<h6 className='taskListBoxText'>{t.description}</h6>
 							<h6 className='taskListBoxText'>Status: <StatusColor status={t.status}/></h6>
 							<h6 className='taskListBoxText'>Due Date: {t.dueDate}</h6>
-							{/* <h6 className='taskListBoxText'>Reminder Date: {t.reminderDate}</h6> */}
+							<h6 className='taskListBoxText'>Reminder Date: {t.reminderDate}</h6>
 						</div>
 					)}
 				</section>
-			</seciton>
+			</section>
 		</>
 	)
 }

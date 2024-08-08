@@ -1,43 +1,50 @@
 import {useState, useEffect} from 'react';
 import StatusColor from './StatusColor';
 
-const APPLICATION_DTO_DEFAULT = {
-	companyId: 1,
-	companyName: 'Tech Corp',
-	campanyAddress: '123 Tech Lane, Silicon Valley, CA',
-	jobId: 1,
-	jobTitle: 'Software Engineer',
-	jobDescription: 'Develop and maintain web applications.',
-	applicationId: 1,
-	userId: 2,
-	applicationDate: '01/15/2023',
-	appliedOn: 'LinkedIn',
-	status: 'OFFER'
-};
-
-function Application()
+function Application({applicationId})
 {
+	const [application, setApplication] = useState([]);
 
-	const [application, setApplication] = useState(APPLICATION_DTO_DEFAULT);
+	const token = localStorage.getItem('token');
+	const init = {
+		method: 'GET',
+		headers: {
+			'Authorization': `Bearer ${token}`,
+			},
+		};
 
-	const statusColor = (status) => {
-		if (status === "APPLIED")
-		{
-			return <span className='text-warning'>{status}</span>;
-		}
-		else if (status === "REJECTED")
-		{
-			return <span className='text-danger'>{status}</span>;
-		}
-		else if (status === "INTERVIEW")
-		{
-			return <span className='text-info'>{status}</span>;
-		}
-		else if (status === "OFFER")
-		{
-			return <span className='text-success'>{status}</span>;
-		}
-	};
+	useEffect( () => {
+		if (applicationId)
+			{
+				fetch(`http://localhost:8080/api/application/details/${applicationId}`, init)
+				.then(response => {
+					if (response.status === 200)
+					{
+						return response.json();
+					}
+					else
+					{
+						return Promise.reject(`Unexpected status code: ${response.status}`);
+					}
+				})
+				.then(data => {
+					if (data)
+					{
+						setApplication(data);
+					}
+					else
+					{
+						console.log("NO DATA");
+					}
+				})
+				.catch(console.log)
+			}
+			else
+			{
+				setApplication([]);
+			}
+		},[]);
+	
 
 	return (
 		<>

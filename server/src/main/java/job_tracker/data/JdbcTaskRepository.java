@@ -11,6 +11,7 @@ import job_tracker.models.Task;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -23,8 +24,23 @@ public class JdbcTaskRepository implements TaskRepository {
     }
 
     @Override
-    public Task findById(int id) {
+    public Task findByTaskId(int id) {
         return jdbcTemplate.queryForObject("SELECT * FROM Task WHERE id = ?", new TaskMapper(), id);
+    }
+
+    @Override
+    public List<Task> findByApplicationId(int id)
+    {
+        List<Task> filteredTasks = new ArrayList<>();
+        List<Task> tasks = findAll();
+        for (Task task : tasks)
+        {
+            if (task.getApplicationId() == id)
+            {
+                filteredTasks.add(task);
+            }
+        }
+        return filteredTasks;
     }
 
     @Override

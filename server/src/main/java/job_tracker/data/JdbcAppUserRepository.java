@@ -25,7 +25,6 @@ public class JdbcAppUserRepository implements AppUserRepository
     public AppUser findByUsername(String username) {
 
         List<String> roles = getRolesByUsername(username);
-
         final String sql = "select app_user_id, username, password_hash, disabled "
                 + "from app_user "
                 + "where username = ?;";

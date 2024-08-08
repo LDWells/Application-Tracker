@@ -67,8 +67,6 @@ public class AuthController
         try {
             String username = credentials.get("username");
             String password = credentials.get("password");
-//            appUser.setUsername(username);
-//            appUser.setPassword(password);
             appUser = new AppUser(0, username, password, false, List.of("USER"));  // Provide default role
             appUser = appUserService.add(appUser);
         } catch (ValidationException ex) {
@@ -83,6 +81,12 @@ public class AuthController
         map.put("appUserId", appUser.getAppUserId());
 
         return new ResponseEntity<>(map, HttpStatus.CREATED);
+    }
+
+    @PostMapping
+    public AppUser loadAppUserByUsername(@RequestBody String username)
+    {
+        return appUserService.loadAppUserByUsername(username);
     }
 
 }

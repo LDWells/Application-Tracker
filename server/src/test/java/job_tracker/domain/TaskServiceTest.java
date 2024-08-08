@@ -21,10 +21,10 @@ public class TaskServiceTest {
     TaskRepository repository;
 
     @Test
-    void shouldFindById(){
+    void shouldFindByTaskId(){
         Task expected = makeTask();
-        when(repository.findById(1)).thenReturn(expected);
-        Task actual = service.findById(1);
+        when(repository.findByTaskId(1)).thenReturn(expected);
+        Task actual = service.findByTaskId(1);
         assertEquals(expected, actual);
     }
 
