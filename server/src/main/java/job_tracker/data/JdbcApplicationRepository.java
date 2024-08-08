@@ -2,8 +2,7 @@ package job_tracker.data;
 
 import job_tracker.data.mappers.ApplicationDtoMapper;
 import job_tracker.data.mappers.ApplicationMapper;
-import job_tracker.models.Application;
-import job_tracker.models.ApplicationDTO;
+import job_tracker.models.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -18,9 +17,13 @@ import java.util.List;
 public class JdbcApplicationRepository implements ApplicationRepository {
 
     private final JdbcTemplate jdbcTemplate;
+    private final CompanyRepository companyRepository;
+    private final JobRepository jobRepository;
 
-    public JdbcApplicationRepository(JdbcTemplate jdbcTemplate) {
+    public JdbcApplicationRepository(JdbcTemplate jdbcTemplate, CompanyRepository companyRepository, JobRepository jobRepository) {
         this.jdbcTemplate = jdbcTemplate;
+        this.companyRepository = companyRepository;
+        this.jobRepository = jobRepository;
     }
 
     @Override
@@ -94,5 +97,34 @@ public class JdbcApplicationRepository implements ApplicationRepository {
                 "WHERE a.id = ?";
 
         return jdbcTemplate.queryForObject(sql, new ApplicationDtoMapper(), id);
+    }
+
+    @Override
+    public ApplicationDTO addWithDetails(ApplicationDTO applicationDTO) {
+        // Always add new company
+        Company company = new Company(applicationDTO.getCompanyName(), applicationDTO.getCompanyAddress());
+        Company storedCompany = companyRepository.add(company);
+        if (storedCompany == null) {
+            return null;
+        }
+        applicationDTO.setCompanyId(storedCompany.getId());
+
+        // Add job
+        Job job = new Job(storedCompany.getId(), applicationDTO.getJobTitle(), applicationDTO.getJobDescription());
+        Job storedJob = jobRepository.add(job);
+        if (storedJob == null) {
+            return null;
+        }
+        applicationDTO.setJobId(storedJob.getId());
+
+        // Add application
+        Application application = new Application(applicationDTO.getUserId(), storedJob.getId(), applicationDTO.getApplicationDate(), applicationDTO.getAppliedOn(), Status.valueOf(applicationDTO.getStatus()));
+        Application storedApplication = add(application);
+        if (storedApplication == null) {
+            return null;
+        }
+        applicationDTO.setApplicationId(storedApplication.getId());
+
+        return applicationDTO;
     }
 }
