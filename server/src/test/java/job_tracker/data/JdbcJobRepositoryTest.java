@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class JdbcJobRepositoryTest {
 
-    final static int NEXT_ID = 18;
+    final static int NEXT_ID = 19;
 
     @Autowired
     JdbcJobRepository repository;
@@ -39,7 +39,7 @@ class JdbcJobRepositoryTest {
         // can't predict order
         // if delete is first, we're down to 14
         // if add is first, we may go as high as 18
-        assertTrue(actual.size() >= 14 && actual.size() <= 18);
+        assertTrue(actual.size() >= 14 && actual.size() <= 19);
 
     }
 

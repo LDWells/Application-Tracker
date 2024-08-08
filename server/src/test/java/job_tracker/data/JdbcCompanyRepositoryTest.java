@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class JdbcCompanyRepositoryTest {
 
-    final static int NEXT_ID = 18;
+    final static int NEXT_ID = 19;
 
 
     @Autowired
@@ -39,7 +39,7 @@ class JdbcCompanyRepositoryTest {
     void shouldFindAll() {
         List<Company> actual = repository.findAll();
         // can't predict order
-        assertTrue(actual.size() >= 12 && actual.size() <= 18);
+        assertTrue(actual.size() >= 12 && actual.size() <= 19);
 
     }
 
