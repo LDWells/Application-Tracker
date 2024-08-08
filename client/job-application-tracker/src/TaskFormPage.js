@@ -7,7 +7,7 @@ const TASK_DTO_DEFAULT = {
 	description: '',
 	dueDate: '',
 	reminderDate: '',
-	status: ''
+	status: 'PENDING'
 };
 
 function TaskFormPage()
@@ -15,9 +15,7 @@ function TaskFormPage()
 
 	const [task, setTask] = useState(TASK_DTO_DEFAULT);
 	const [errors, setErrors] = useState([]);
-
 	const {applicationId} = useParams();
-
 	const navigate = useNavigate();
 	const userId = localStorage.getItem('userId');
 	function handleChange(event)
@@ -31,11 +29,13 @@ function TaskFormPage()
 	{
 		event.preventDefault();
 		// we want to either add or update here
-		task.applicationId = applicationId;
-		addTask();
+		const tempTask = {...task};
+		tempTask.applicationId = parseInt(applicationId);
+		setTask(tempTask);
+		addTask(tempTask);
 	};
 
-	const addTask = () =>
+	const addTask = (tempTask) =>
 	{
 		const url = 'http://localhost:8080/api/tasks'
 		const token = localStorage.getItem('token');
@@ -45,11 +45,11 @@ function TaskFormPage()
 				'Authorization': `Bearer ${token}`,
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify(task)
+			body: JSON.stringify(tempTask)
 		};
 		fetch(url, init)
 		.then(response => {
-			if (response.status === 201)
+			if (response.status === 201 || response.status === 500)
 			{
 				return response.json();
 			}
@@ -59,10 +59,9 @@ function TaskFormPage()
 			}
 		})
 		.then(data => {
-			if (data.applicationId)
+			if (data.id)
 			{
-
-				navigate(`/applications/${userId}`);
+				navigate(`/home`);
 			}
 			else
 			{

@@ -2,9 +2,21 @@ import {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import StatusColor from './StatusColor';
 
+const APPLICATION_DTO_DEFAULT = {
+	applicationId: 0,
+	companyName: '',
+	companyAddress: '',
+	jobTitle: '',
+	jobDescription: '',
+	userId: 0,
+	applicationDate: '',
+	appliedOn: '',
+	status: 'APPLIED'
+};
+
 function Application({applicationId})
 {
-	const [application, setApplication] = useState([]);
+	const [application, setApplication] = useState(APPLICATION_DTO_DEFAULT);
 
 	const token = localStorage.getItem('token');
 	const init = {
@@ -65,7 +77,7 @@ function Application({applicationId})
 				</div>
 			</section>
 			<hr></hr>
-			<section className='center'><Link className="btn btn-outline-light linkButton" to={"/task/add"}>Add a Task</Link></section>
+			<section className='center'><Link className="btn btn-outline-light linkButton" to={`/task/add/${application.applicationId}`}>Add a Task</Link></section>
 			
 		</>
 	)
