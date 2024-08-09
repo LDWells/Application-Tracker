@@ -4,8 +4,7 @@ import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 public class Post {
-    @NotNull(message = "Post ID cannot be null")
-    @Positive(message = "Post ID cannot be negative")
+
     private int id;
 
     @NotNull(message = "User ID cannot be null")

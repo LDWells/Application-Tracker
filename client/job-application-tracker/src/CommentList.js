@@ -14,7 +14,7 @@ const DEFAULT_COMMENT = {
 function CommentList({postId})
 {
 
-	const [comments, setComments] = useState([DEFAULT_COMMENT]);
+	const [comments, setComments] = useState([]);
 	const navigate = useNavigate();
 	const init = {
 		method: 'GET'
@@ -22,7 +22,7 @@ function CommentList({postId})
 	useEffect( () => {
 		fetch(`http://localhost:8080/api/comment/${postId}`, init)
 		.then(response => {
-			if (response.status === 200)
+			if (response.status === 200 || response.status === 404)
 			{
 				return response.json();
 			}

@@ -33,7 +33,6 @@ function App() {
           <Route path="/community" element={<CommunityPage/>}/>
           <Route path="/community/:postId" element={<PostDetailsPage/>}/>
           <Route path="/community/add" element={<PostFormPage/>}/>
-          <Route path="/community/edit/:postId" element={<PostFormPage/>}/>
           <Route path="/comment/add/:postId" element={<CommentFormPage/>}/>
           <Route path="/login" element={<LogInPage/>}/>
           <Route path="/register" element={<RegisterPage/>}/>
