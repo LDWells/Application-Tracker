@@ -177,7 +177,12 @@ hr{
 }
 .commentOnButton{
   font-size: 80%;
-  margin: 0 45%;
+  margin: 0 44.5%;
+  margin-bottom: 2%;
+}
+.deletePostButton{
+  font-size: 80%;
+  margin: 0 44%;
 }
 /* comment lists */
 .commentContainer{

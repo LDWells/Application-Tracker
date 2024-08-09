@@ -43,6 +43,7 @@ function CommunityPage()
 		})
 		.catch(console.log)
 	},[]); 
+
 	return (
 		<>
 			<section className='postContainer'>
