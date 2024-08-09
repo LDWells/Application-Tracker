@@ -47,6 +47,7 @@ function CommunityPage()
 		<>
 			<section className='postContainer'>
 			<h1 className='center'>Community Posts</h1>
+			<hr></hr>
 					{communityPosts.map(cp => 
 						<div key={cp.id} className='postListBox mb-5'>
 							<h1 className='postListBoxText'>{cp.title}</h1>

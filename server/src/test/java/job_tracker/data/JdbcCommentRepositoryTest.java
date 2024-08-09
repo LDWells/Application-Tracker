@@ -27,8 +27,8 @@ class JdbcCommentRepositoryTest {
     }
 
     @Test
-    void shouldFindById() {
-        Comment comment = repository.findById(2);
+    void shouldFindByCommentId() {
+        Comment comment = repository.findByCommentId(2);
         assertNotNull(comment);
         assertEquals(2, comment.getId());
         assertEquals(2, comment.getUserId());
@@ -48,7 +48,7 @@ class JdbcCommentRepositoryTest {
 
     @Test
     void shouldAdd() {
-        Comment comment = new Comment(2,2,"This application took WAY too long", LocalDate.of(2023,1,13) );
+        Comment comment = new Comment(2,2, "john", "This application took WAY too long", LocalDate.of(2023,1,13) );
         Comment actual = repository.add(comment);
         assertNotNull(actual);
         assertEquals(NEXT_ID, actual.getId());
@@ -56,7 +56,7 @@ class JdbcCommentRepositoryTest {
 
     @Test
     void shouldUpdate() {
-        Comment actual = repository.findById(1);
+        Comment actual = repository.findByCommentId(1);
         actual.setCommentDate(LocalDate.of(2023,11,13));
         assertTrue(repository.update(actual));
 

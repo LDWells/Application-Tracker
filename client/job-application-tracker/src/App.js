@@ -14,6 +14,7 @@ import PostFormPage from "./PostFormPage";
 import LogInPage from "./LogInPage";
 import RegisterPage from "./RegisterPage";
 import TaskListPage from "./TaskListPage";
+import CommentFormPage from "./CommentFormPage";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/community/:postId" element={<PostDetailsPage/>}/>
           <Route path="/community/add" element={<PostFormPage/>}/>
           <Route path="/community/edit/:postId" element={<PostFormPage/>}/>
+          <Route path="/comment/add/:postId" element={<CommentFormPage/>}/>
           <Route path="/login" element={<LogInPage/>}/>
           <Route path="/register" element={<RegisterPage/>}/>
           <Route path="*" element={<NotFoundPage/>}/>

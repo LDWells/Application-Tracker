@@ -7,9 +7,7 @@ import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 
 public class Comment {
-    @NotNull(message = "Comment ID cannot be null")
-    @Positive(message = "Comment ID cannot be negative")
-
+    
     private int id;
 
     @NotNull(message = "Post ID cannot be null")
@@ -19,6 +17,9 @@ public class Comment {
     @NotNull(message = "User ID cannot be null")
     @Positive(message = "User ID cannot be negative")
     private int userId;
+
+    @NotNull(message = "Username cannot be null")
+    private String username;
 
     @NotBlank(message = "Content cannot be blank")
     private String content;
@@ -30,21 +31,34 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(int id, int postId, int userId, String content, LocalDate commentDate) {
+    public Comment(int id, int postId, int userId, String username, String content, LocalDate commentDate)
+    {
         this.id = id;
         this.postId = postId;
         this.userId = userId;
+        this.username = username;
         this.content = content;
         this.commentDate = commentDate;
     }
 
-    public Comment(int postId, int userId, String content, LocalDate commentDate) {
+    public Comment(int postId, int userId, String username, String content, LocalDate commentDate)
+    {
         this.postId = postId;
         this.userId = userId;
+        this.username = username;
         this.content = content;
         this.commentDate = commentDate;
     }
 
+    public @NotNull(message = "Username cannot be null") String getUsername()
+    {
+        return username;
+    }
+
+    public void setUsername(@NotNull(message = "Username cannot be null") String username)
+    {
+        this.username = username;
+    }
 
     public int getId() {
         return id;

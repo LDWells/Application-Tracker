@@ -149,7 +149,7 @@ function ApplicationFormPage()
 	return (
 		<>
 			<section id="formContainer" className="container">
-				<h2 id="formHeading" className="center">{sessionStorage.getItem('updating') === true ? 'Update an Application' : 'Add an Application'}</h2>
+				<h2 id="formHeading" className="center">{applicationId ? 'Update an Application' : 'Add an Application'}</h2>
 				{errors.length > 0 && (
 				<div id="error" className='alert alert-danger'>
 					<p>The following errors occured: </p>

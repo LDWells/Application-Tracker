@@ -79,7 +79,7 @@ INSERT INTO Post (user_id, title, summary, content, post_date) VALUES
 (3, '10 MOre Tips for Job Applications', 'different Here are some useful tips for applying to jobs...', 'Have multiple jobs', '2023-02-28');
 
 -- Populate Comment table with dummy data
-INSERT INTO `Comment` (post_id, user_id, content, comment_date) VALUES
-(1, 1, 'Thanks for sharing your experience!', '2023-01-26'),
-(2, 2, 'These tips are really helpful!', '2023-03-01'),
-(3, 3, 'Great advice on resume writing!', '2023-03-16');
+INSERT INTO `Comment` (post_id, user_id, username, content, comment_date) VALUES
+(1, 1, 'joe', 'Thanks for sharing your experience!', '2023-01-26'),
+(2, 2, 'john', 'These tips are really helpful!', '2023-03-01'),
+(3, 3, 'sally', 'Great advice on resume writing!', '2023-03-16');

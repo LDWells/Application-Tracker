@@ -87,17 +87,17 @@ function Application({applicationId})
 		<>
 			<section className='applicationContainer'>
 				<div key={application.id} className='applicationBox mb-5'>	
-					<h1 className='applicationBoxText center'>Company</h1>
-					<h4 className='applicationBoxText center text-dark-50 text-dark'>{application.companyName}</h4>
-					<h6 className='applicationBoxText center text-dark-50 text-dark'>{application.companyAddress}</h6>
+					<h1 className='applicationBoxText'>Company</h1>
+					<h4 className='applicationBoxText '>{application.companyName}</h4>
+					<h6 className='applicationBoxText '>{application.companyAddress}</h6>
 					<hr></hr>
-					<h1 className='applicationBoxText center'>Job</h1>	
-					<h4 className='applicationBoxText center text-dark-50 text-dark'>{application.jobTitle}</h4>
-					<h6 className='applicationBoxText center text-dark-50 text-dark'>{application.jobDescription}</h6>
+					<h1 className='applicationBoxText'>Job</h1>	
+					<h4 className='applicationBoxText'>{application.jobTitle}</h4>
+					<h6 className='applicationBoxText'>{application.jobDescription}</h6>
 					<hr></hr>	
-					<h1 className='applicationBoxText center'>Application</h1>
-					<h6 className='applicationBoxText center text-dark-50 text-dark'>Date: {application.applicationDate}</h6>
-					<h5 className='applicationBoxText center text-dark-50 text-dark'>Status: {<StatusColor status={application.status}/>}</h5>
+					<h1 className='applicationBoxText'>Application</h1>
+					<h6 className='applicationBoxText'>Date: {application.applicationDate}</h6>
+					<h5 className='applicationBoxText'>Status: {<StatusColor status={application.status}/>}</h5>
 				</div>
 			</section>
 			<hr></hr>

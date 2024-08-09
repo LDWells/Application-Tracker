@@ -87,6 +87,7 @@ function TaskListPage()
 		<>
 			<section>
 			<h1 className='center'>Tasks</h1>
+			<hr></hr>
 					{tasks.map(t => 
 						<div key={t.id} className='applicationListBox mb-5'>
 							<h5 className='taskListBoxText'>{getApplication(t.applicationId).jobTitle} at {getApplication(t.applicationId).companyName}</h5>

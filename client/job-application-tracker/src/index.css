@@ -175,3 +175,25 @@ hr{
   margin-right: 2rem;
   width: 15%;
 }
+.commentOnButton{
+  font-size: 80%;
+  margin: 0 45%;
+}
+/* comment lists */
+.commentContainer{
+  width: 80%;
+  margin: 2% 10%;
+}
+.commentBox{
+  border-style: solid;
+  border-color: black;
+}
+.commentBoxText{
+  margin: 1rem 2rem;
+}
+.commmentButton{
+  float: right;
+  font-size: 1.5rem;
+  margin-right: 2rem;
+  width: 15%;
+}

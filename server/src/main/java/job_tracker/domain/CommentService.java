@@ -1,6 +1,5 @@
 package job_tracker.domain;
 
-import job_tracker.models.Application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import job_tracker.data.CommentRepository;
@@ -25,7 +24,12 @@ public class CommentService {
     }
 
     public Comment findCommentById(int id) {
-        return commentRepository.findById(id);
+        return commentRepository.findByCommentId(id);
+    }
+
+    public List<Comment> findCommentsById(int id)
+    {
+        return commentRepository.findByPostId(id);
     }
 
     public Result<Comment> addComment(Comment comment) {

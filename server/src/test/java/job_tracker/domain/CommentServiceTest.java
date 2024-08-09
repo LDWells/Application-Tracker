@@ -1,9 +1,7 @@
 package job_tracker.domain;
 
 import job_tracker.data.CommentRepository;
-import job_tracker.models.Application;
 import job_tracker.models.Comment;
-import job_tracker.models.Status;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,7 +24,7 @@ public class CommentServiceTest {
     @Test
     void shouldFindById(){
         Comment expected = makeComment();
-        when(repository.findById(1)).thenReturn(expected);
+        when(repository.findByCommentId(1)).thenReturn(expected);
         Comment actual = service.findCommentById(1);
         assertEquals(expected, actual);
     }
@@ -34,7 +32,7 @@ public class CommentServiceTest {
     @Test
     void shouldNotFindByInvalidId(){
         Comment expected = makeComment();
-        when(repository.findById(1)).thenReturn(expected);
+        when(repository.findByCommentId(1)).thenReturn(expected);
         Comment actual = service.findCommentById(-5);
         assertNotEquals(expected, actual);
     }
@@ -117,6 +115,7 @@ public class CommentServiceTest {
         Comment comment = new Comment();
         comment.setId(1);
         comment.setUserId(2);
+        comment.setUsername("john");
         comment.setPostId(3);
         comment.setCommentDate(LocalDate.now());
         comment.setContent("Testing comments");

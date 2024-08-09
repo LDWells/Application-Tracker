@@ -72,12 +72,12 @@ function TaskList({applicationId})
 			<section className='taskContainer'>
 				<ul>
 					{tasks.map(t => 
-						<div key={t.id} className='taskListBox center mb-5'>
-							<h2>Task</h2>
-							<h4 className='taskListBoxText text-dark-50 text-dark'>{t.description}</h4>
-							<h6 className='taskListBoxText text-dark-50 text-dark'>Status: <StatusColor status={t.status}/></h6>
-							<h6 className='taskListBoxText text-dark-50 text-dark'>Due Date: {t.dueDate}</h6>
-							<h6 className='taskListBoxText text-dark-50 text-dark'>Reminder Date: {t.reminderDate}</h6>
+						<div key={t.id} className='taskListBox mb-5'>
+							<h2 className='taskListBoxText'>Task</h2>
+							<h4 className='taskListBoxText'>{t.description}</h4>
+							<h6 className='taskListBoxText'>Status: <StatusColor status={t.status}/></h6>
+							<h6 className='taskListBoxText'>Due Date: {t.dueDate}</h6>
+							<h6 className='taskListBoxText'>Reminder Date: {t.reminderDate}</h6>
 							<button className='applicationBoxText center btn btn-outline-danger' onClick={() => handleDeleteTask(t.id)}>Delete Task</button>
 						</div>
 					)}
