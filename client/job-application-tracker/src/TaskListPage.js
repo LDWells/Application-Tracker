@@ -86,7 +86,7 @@ function TaskListPage()
 	return (
 		<>
 			<section>
-			<h1 className='center'>Tasks</h1>
+			<h2 className='center'>Tasks</h2>
 			<hr></hr>
 					{tasks.map(t => 
 						<div key={t.id} className='applicationListBox mb-5'>

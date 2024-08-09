@@ -51,7 +51,7 @@ function CommunityPage()
 			<hr></hr>
 					{communityPosts.map(cp => 
 						<div key={cp.id} className='postListBox mb-5'>
-							<h1 className='postListBoxText'>{cp.title}</h1>
+							<h2 className='postListBoxText'>{cp.title}</h2>
 							<h6 className='postListBoxText'>{cp.summary}</h6>
 							<h6 className='postListBoxText'>
 							{cp.postDate}

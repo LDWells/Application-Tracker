@@ -88,9 +88,6 @@ function RegisterPage()
 											<input type="password" id="password" name='password' value={user.password} onChange={handleChange} className="form-control form-control-lg" />
 										</fieldset>
 										<button className="btn btn-outline-light btn-lg px-5" type="submit">Register</button>
-										<div className="d-flex justify-content-center text-center">
-											<Link className="btn btn-outline-light linkButton mt-5" to={"/"}>Register With Google</Link>
-										</div>
 									</form>
 								</div>
 								<div>

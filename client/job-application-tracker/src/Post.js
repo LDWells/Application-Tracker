@@ -46,7 +46,7 @@ function Post({postId})
 	return (
 		<>
 			<section className='postContainer postBox'>
-				<h1 className='postBoxText'>{post.title}</h1>
+				<h2 className='postBoxText'>{post.title}</h2>
 				<hr></hr>
 				<h3 className='postBoxText'>Summary</h3>
 				<h6 className='postBoxText'>{post.summary}</h6>

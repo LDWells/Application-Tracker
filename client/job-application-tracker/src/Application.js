@@ -87,15 +87,15 @@ function Application({applicationId})
 		<>
 			<section className='applicationContainer'>
 				<div key={application.id} className='applicationBox mb-5'>	
-					<h1 className='applicationBoxText'>Company</h1>
+					<h2 className='applicationBoxText'>Company</h2>
 					<h4 className='applicationBoxText '>{application.companyName}</h4>
 					<h6 className='applicationBoxText '>{application.companyAddress}</h6>
 					<hr></hr>
-					<h1 className='applicationBoxText'>Job</h1>	
+					<h2 className='applicationBoxText'>Job</h2>	
 					<h4 className='applicationBoxText'>{application.jobTitle}</h4>
 					<h6 className='applicationBoxText'>{application.jobDescription}</h6>
 					<hr></hr>	
-					<h1 className='applicationBoxText'>Application</h1>
+					<h2 className='applicationBoxText'>Application</h2>
 					<h6 className='applicationBoxText'>Date: {application.applicationDate}</h6>
 					<h5 className='applicationBoxText'>Status: {<StatusColor status={application.status}/>}</h5>
 				</div>

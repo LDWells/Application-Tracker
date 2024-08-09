@@ -110,7 +110,7 @@ function LogInPage()
 
 	return (
 		<section>
-			<div className="container py-5 h-100">
+			<div className="container py-5 h-100" >
 				<div className="row d-flex justify-content-center align-items-center h-100">
 					<div className="col-12 col-md-8 col-lg-6 col-xl-5">
 						<div className="card bg-dark text-white LogInBoxStyle">
@@ -130,9 +130,6 @@ function LogInPage()
 										{/* Option for forgot password, probably won't use */}
 										{/* <p className="small mb-5 pb-lg-2"><a className="text-white-50" href="#!">Forgot password?</a></p> */}
 										<button className="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
-										<div className="d-flex justify-content-center text-center">
-											<Link className="btn btn-outline-light linkButton mt-5" to={"/"}>Log In With Google</Link>
-										</div>
 									</form>
 								</div>
 								<div>

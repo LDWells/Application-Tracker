@@ -114,10 +114,10 @@ function ApplicationListPage()
 			<hr></hr>
 			<section className="modal-body row">
 				<section className='col-md-6'>
-					<h1 className='center'>Applications</h1>
+					<h2 className='center'>Applications</h2>
 					{applications.map(a => 
 						<div key={a.applicationId} className='applicationListBox mb-5'>
-							<h1 className='applicationListBoxText'>{a.jobTitle}</h1>
+							<h2 className='applicationListBoxText'>{a.jobTitle}</h2>
 							<h6 className='applicationListBoxText'>{a.companyName}---{a.applicationDate}</h6>
 							<h5 className='applicationListBoxText'>
 							Status: <StatusColor status={a.status}/>
@@ -127,7 +127,7 @@ function ApplicationListPage()
 					)}
 				</section>
 				<section className='col-md-6'>
-					<h1 className='center'>Tasks</h1>
+					<h2 className='center'>Tasks</h2>
 					{tasks.map(t => 
 						<div key={t.id} className='applicationListBox mb-5'>
 							<h5 className='taskListBoxText'>{getApplication(t.applicationId).jobTitle} at {getApplication(t.applicationId).companyName}</h5>
