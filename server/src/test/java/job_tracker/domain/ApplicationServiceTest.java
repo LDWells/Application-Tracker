@@ -306,7 +306,7 @@ public class ApplicationServiceTest {
         Result<ApplicationDTO> result = applicationService.updateWithDetails(dto);
 
         assertFalse(result.isSuccess());
-        assertEquals("Job could not be updated.", result.getMessages().get(0));
+        assertEquals("Company could not be updated.", result.getMessages().get(0));
     }
 
     @Test

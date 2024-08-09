@@ -45,7 +45,7 @@ function CommunityPage()
 			<h1 className='center'>Applications</h1>
 					{communityPosts.map(cp => 
 						<div key={cp.id} className='applicationListBox mb-5'>
-							<h1 className='applicationListBoxText'>{cp.title}</h1>
+							<h2 className='applicationListBoxText'>{cp.title}</h2>
 							<h6 className='applicationListBoxText'>{cp.content}</h6>
 							<h5 className='applicationListBoxText'>
 							{cp.postDate}

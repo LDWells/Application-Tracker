@@ -97,6 +97,7 @@ function LogInPage()
 			}
 		})
 		.catch(console.log)
+		let test = localStorage.getItem('token');
 	};
 
 	const handleChange = (event) => {

@@ -4,7 +4,7 @@ function Task()
 {
 	return (
 		<>
-			<h1>Task</h1>
+			<h2>Task</h2>
 			<p>This will display a singular task</p>
 		</>
 	)

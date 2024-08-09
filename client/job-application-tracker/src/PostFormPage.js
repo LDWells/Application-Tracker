@@ -4,7 +4,7 @@ function PostFormPage()
 {
 	return (
 		<>
-			<h1>Post Form Page</h1>
+			<h2>Post Form Page</h2>
 			<p>Page for adding and editing community posts</p>
 		</>
 	)

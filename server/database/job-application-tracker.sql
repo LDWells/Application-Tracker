@@ -109,3 +109,9 @@ insert into app_user_role
     (1, 2),
     (2, 1),
     (3, 1);
+    
+    SELECT c.id AS company_id, c.name AS company_name, c.address AS company_address, 
+    j.id AS job_id, j.title AS job_title, j.description AS job_description,
+    a.id AS application_id, a.user_id, a.application_date, a.applied_on, a.status 
+    FROM Company c LEFT JOIN Job j ON c.id = j.company_id 
+    LEFT JOIN Application a ON j.id = a.job_id;

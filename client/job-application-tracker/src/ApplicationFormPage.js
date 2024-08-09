@@ -4,7 +4,7 @@ function ApplicationFormPage()
 {
 	return (
 		<>
-			<h1>Application Form Page</h1>
+			<h2>Application Form Page</h2>
 			<p>THis will be the form to add an application and edit an applicaiton</p>
 		</>
 	)

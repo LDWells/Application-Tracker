@@ -19,6 +19,13 @@ h1, h2, h3, h4, h5, h6{
 }
 h1{
 	font-size: 4.5rem;
+  height:90vh;
+  background-image: url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+  background-repeat: no-repeat;
+  background-position:center;
+  display:flex;
+  justify-content: center;
+  align-items: center;
 }
 h2{
   font-size: 4rem;
@@ -92,7 +99,7 @@ hr{
 /* Application List Page */
 .applicationListBox{
   border-style: solid;
-  border-color: white;
+  border-color: black;
   height: 20rem;
 }
 .applicationListBoxText{
@@ -110,7 +117,7 @@ hr{
 /* Singular Application */
 .applicationBox{
   border-style: solid;
-  border-color: white;
+  border-color: black;
 }
 .applicationBoxText{
   margin: 1rem 2rem;
