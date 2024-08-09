@@ -67,6 +67,7 @@ CREATE TABLE Post (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     title VARCHAR(255) NOT NULL,
+    summary varchar(255) NOT NULL,
     content TEXT NOT NULL,
     post_date DATE,
     CONSTRAINT fk_post_user FOREIGN KEY (user_id) REFERENCES app_user(app_user_id)
@@ -76,6 +77,7 @@ CREATE TABLE `Comment` (
     id INT AUTO_INCREMENT PRIMARY KEY,
     post_id INT,
     user_id INT,
+    username varchar(255) NOT NULL,
     content TEXT NOT NULL,
     comment_date DATE,
     CONSTRAINT fk_comment_post FOREIGN KEY (post_id) REFERENCES Post(id),
@@ -184,15 +186,15 @@ BEGIN
     (3, 'Send thank you note', '2023-03-15', '2023-03-14', 'COMPLETED');
     
     -- Populate Post table with dummy data
-    INSERT INTO Post (user_id, title, content, post_date) VALUES
-    (2, 'My Interview Experience at Tech Corp', 'I had a great experience with the interview process at Tech Corp...', '2023-01-25'),
-    (3, 'Tips for Job Applications', 'Here are some useful tips for applying to jobs...', '2023-02-28'),
-    (3, '10 MOre Tips for Job Applications', 'different Here are some useful tips for applying to jobs...', '2023-02-28');
+    INSERT INTO Post (user_id, title, summary, content, post_date) VALUES
+    (2, 'My Interview Experience at Tech Corp', 'I had a great experience with the interview process at Tech Corp...', 'The interview was good.', '2023-01-25'),
+    (3, 'Tips for Job Applications', 'Here are some useful tips for applying to jobs...', 'Have a job already', '2023-02-28'),
+    (3, '10 MOre Tips for Job Applications', 'different Here are some useful tips for applying to jobs...', 'Have multiple jobs', '2023-02-28');
 
     -- Populate Comment table with dummy data
-    INSERT INTO `Comment` (post_id, user_id, content, comment_date) VALUES
-    (1, 3, 'Thanks for sharing your experience!', '2023-01-26'),
-    (2, 2, 'These tips are really helpful!', '2023-03-01');
+    INSERT INTO `Comment` (post_id, user_id, username, content, comment_date) VALUES
+    (1, 3, 'john', 'Thanks for sharing your experience!', '2023-01-26'),
+    (2, 2, 'sally', 'These tips are really helpful!', '2023-03-01');
 
 
 -- Testing Security
@@ -204,8 +206,8 @@ insert into app_role (`name`) values
 insert into app_user (username, password_hash, disabled)
     values
     ('admin', '$2a$10$yzRgjbTQH41nMY5OhHmN8eInejTWmP.6tjNekRoaL7D2/Or1eVxhe', '0'),
-    ('john@smith.com', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 0),
-    ('sally@jones.com', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 0);
+    ('john', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 0),
+    ('sally', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 0);
 
 insert into app_user_role
     values

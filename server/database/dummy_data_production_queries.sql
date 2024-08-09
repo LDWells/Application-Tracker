@@ -73,13 +73,13 @@ INSERT INTO Task (application_id, description, due_date, reminder_date, status) 
 (3, 'Prepare for second interview', '2023-04-01', '2023-03-31', 'PENDING');
 
 -- Populate Post table with dummy data
-INSERT INTO Post (user_id, title, content, post_date) VALUES
-(1, 'My Interview Experience at Tech Corp', 'I had a great experience with the interview process at Tech Corp...', '2023-01-25'),
-(2, 'Tips for Job Applications', 'Here are some useful tips for applying to jobs...', '2023-02-28'),
-(3, 'Resume Writing Tips', 'Make sure your resume is concise and highlights your achievements...', '2023-03-15');
+INSERT INTO Post (user_id, title, summary, content, post_date) VALUES
+(2, 'My Interview Experience at Tech Corp', 'I had a great experience with the interview process at Tech Corp...', 'The interview was good.', '2023-01-25'),
+(3, 'Tips for Job Applications', 'Here are some useful tips for applying to jobs...', 'Have a job already', '2023-02-28'),
+(3, '10 MOre Tips for Job Applications', 'different Here are some useful tips for applying to jobs...', 'Have multiple jobs', '2023-02-28');
 
 -- Populate Comment table with dummy data
-INSERT INTO `Comment` (post_id, user_id, content, comment_date) VALUES
-(1, 1, 'Thanks for sharing your experience!', '2023-01-26'),
-(2, 2, 'These tips are really helpful!', '2023-03-01'),
-(3, 3, 'Great advice on resume writing!', '2023-03-16');
+INSERT INTO `Comment` (post_id, user_id, username, content, comment_date) VALUES
+(1, 1, 'joe', 'Thanks for sharing your experience!', '2023-01-26'),
+(2, 2, 'john', 'These tips are really helpful!', '2023-03-01'),
+(3, 3, 'sally', 'Great advice on resume writing!', '2023-03-16');

@@ -52,7 +52,7 @@ hr{
   display: block;
   height: 1px;
   border: 0;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid black;
   margin: 1em 0;
   padding: 0;
 }
@@ -129,7 +129,7 @@ hr{
 /* Task List */
 .taskListBox{
   border-style: solid;
-  border-color: rgb(44, 44, 44);
+  border-color: black;
 }
 .taskListBoxText{
   margin: 1rem 2rem;
@@ -137,4 +137,75 @@ hr{
 .taskContainer{
   width: 80%;
   margin: 2% 10%;
+}
+/* Form page */
+.formContainer{
+  border-style: solid;
+  border-color: black;
+}
+.form-group{
+  margin: 1rem 1rem;
+}
+/* community page */
+.postContainer{
+  width: 80%;
+  margin: 2% 10%;
+}
+.postListBox{
+  border-style: solid;
+  border-color: black;
+}
+.postListBoxText{
+  margin: 1rem 2rem;
+}
+.postListButton{
+  float: right;
+  font-size: 1.5rem;
+  margin-right: 2rem;
+  width: 15%;
+}
+/* singular post page */
+.postContainer{
+  width: 80%;
+  margin: 2% 10%;
+}
+.postBox{
+  border-style: solid;
+  border-color: black;
+}
+.postBoxText{
+  margin: 1rem 2rem;
+}
+.postButton{
+  float: right;
+  font-size: 1.5rem;
+  margin-right: 2rem;
+  width: 15%;
+}
+.commentOnButton{
+  font-size: 80%;
+  margin: 0 44.5%;
+  margin-bottom: 2%;
+}
+.deletePostButton{
+  font-size: 80%;
+  margin: 0 44%;
+}
+/* comment lists */
+.commentContainer{
+  width: 80%;
+  margin: 2% 10%;
+}
+.commentBox{
+  border-style: solid;
+  border-color: black;
+}
+.commentBoxText{
+  margin: 1rem 2rem;
+}
+.commmentButton{
+  float: right;
+  font-size: 1.5rem;
+  margin-right: 2rem;
+  width: 15%;
 }

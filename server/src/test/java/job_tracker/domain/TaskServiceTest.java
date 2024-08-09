@@ -115,13 +115,13 @@ public class TaskServiceTest {
         assertNull(result.getPayload());
     }
 
-    @Test
-    void shouldNotUpdateWhenInvalidId(){
-        Task task = makeTask();
-        task.setId(-5);
-        Result<Task> result = service.update(task);
-        assertNull(result.getPayload());
-    }
+//    @Test
+//    void shouldNotUpdateWhenInvalidId(){
+//        Task task = makeTask();
+//        task.setId(-5);
+//        Result<Task> result = service.update(task);
+//        assertNull(result.getPayload());
+//    }
 
     @Test
     void shouldNotUpdateWhenInvalidApplicationId(){

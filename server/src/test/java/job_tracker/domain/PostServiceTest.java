@@ -137,6 +137,7 @@ public class PostServiceTest {
         post.setPostDate(LocalDate.now());
         post.setTitle("Pocket Monsters");
         post.setUserId(1);
+        post.setSummary("About trouble");
         post.setContent("Prepare for trouble. Make it double.");
 
         return post;

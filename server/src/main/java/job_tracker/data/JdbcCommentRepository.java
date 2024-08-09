@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -22,8 +23,22 @@ public class JdbcCommentRepository implements CommentRepository {
     }
 
     @Override
-    public Comment findById(int id) {
+    public Comment findByCommentId(int id) {
         return jdbcTemplate.queryForObject("SELECT * FROM Comment WHERE id = ?", new CommentMapper(), id);
+    }
+
+    public List<Comment> findByPostId(int id)
+    {
+        List<Comment> comments = findAll();
+        List<Comment> tempComments = new ArrayList<>();
+        for (Comment c : comments)
+        {
+            if (c.getPostId() == id)
+            {
+                tempComments.add(c);
+            }
+        }
+        return tempComments;
     }
 
     @Override
@@ -33,8 +48,8 @@ public class JdbcCommentRepository implements CommentRepository {
 
     @Override
     public Comment add(Comment comment) {
-        final String sql = "INSERT INTO Comment (post_id, user_id, content, comment_date) "
-                + " VALUES (?, ?, ?, ?);";
+        final String sql = "INSERT INTO Comment (post_id, user_id, username, content, comment_date) "
+                + " VALUES (?, ?, ?, ?, ?);";
 
         //Needed to auto-generate primary id
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -42,8 +57,9 @@ public class JdbcCommentRepository implements CommentRepository {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, comment.getPostId());
             ps.setInt(2, comment.getUserId());
-            ps.setString(3, comment.getContent());
-            ps.setDate(4, comment.getCommentDate() == null ? null : Date.valueOf(comment.getCommentDate()));
+            ps.setString(3, comment.getUsername());
+            ps.setString(4, comment.getContent());
+            ps.setDate(5, comment.getCommentDate() == null ? null : Date.valueOf(comment.getCommentDate()));
             return ps;
         }, keyHolder);
 
@@ -58,8 +74,8 @@ public class JdbcCommentRepository implements CommentRepository {
 
     @Override
     public boolean update(Comment comment) {
-        return jdbcTemplate.update("UPDATE Comment SET post_id = ?, user_id = ?, content = ?, comment_date = ? WHERE id = ?",
-                comment.getPostId(), comment.getUserId(), comment.getContent(), comment.getCommentDate(), comment.getId()) > 0;
+        return jdbcTemplate.update("UPDATE Comment SET post_id = ?, user_id = ?, username = ?, content = ?, comment_date = ? WHERE id = ?",
+                comment.getPostId(), comment.getUserId(), comment.getUsername(), comment.getContent(), comment.getCommentDate(), comment.getId()) > 0;
     }
 
     @Override
