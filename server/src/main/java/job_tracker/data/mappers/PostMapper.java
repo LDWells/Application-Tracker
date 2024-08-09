@@ -15,6 +15,7 @@ public class PostMapper implements RowMapper<Post> {
         post.setUserId(resultSet.getInt("user_id"));
         post.setTitle(resultSet.getString("title")); //change to company_name if this cause problems
         post.setContent(resultSet.getString("content"));
+        post.setSummary(resultSet.getString(("summary")));
         if (resultSet.getDate("post_date") != null) {
             post.setPostDate(resultSet.getDate("post_date").toLocalDate());
         }

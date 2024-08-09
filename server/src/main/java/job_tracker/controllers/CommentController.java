@@ -25,13 +25,13 @@ public class CommentController {
         return commentService.findAllComments();
     }
 
-    @GetMapping("/{commentId}")
-    public ResponseEntity<Comment> findById(@PathVariable int commentId) {
-        Comment comment = commentService.findCommentById(commentId);
-        if (comment == null) {
+    @GetMapping("/{postId}")
+    public ResponseEntity<List<Comment>> findByPostId(@PathVariable int postId) {
+        List<Comment> comments = commentService.findCommentsById(postId);
+        if (comments == null || comments.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(comment);
+        return ResponseEntity.ok(comments);
     }
 
     @PostMapping

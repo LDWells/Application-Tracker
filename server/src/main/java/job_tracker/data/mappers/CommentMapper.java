@@ -20,6 +20,7 @@ public class CommentMapper implements RowMapper<Comment> {
         comment.setPostId(resultSet.getInt("post_id"));
         comment.setUserId(resultSet.getInt("user_id"));
         comment.setContent(resultSet.getString("content"));
+        comment.setUsername(resultSet.getString("username"));
         if (resultSet.getDate("comment_date") != null) {
             comment.setCommentDate(resultSet.getDate("comment_date").toLocalDate());
         }

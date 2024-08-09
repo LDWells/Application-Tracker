@@ -19,9 +19,9 @@ function ApplicationFormPage()
 	const [application, setApplication] = useState(APPLICATION_DTO_DEFAULT);
 	const [errors, setErrors] = useState([]);
 	const navigate = useNavigate();
-	const userId = localStorage.getItem('appUserId');
+	const userId = sessionStorage.getItem('appUserId');
 	const {applicationId} = useParams();
-	const token = localStorage.getItem('token');
+	const token = sessionStorage.getItem('token');
 	const init = {
 		method: 'GET',
 		headers: {
@@ -126,7 +126,6 @@ function ApplicationFormPage()
 			.then(response => {
 				if (response.status === 204 || response.status === 400)
 				{
-					console.log(response);
 					return;
 				}
 				else
@@ -150,7 +149,7 @@ function ApplicationFormPage()
 	return (
 		<>
 			<section id="formContainer" className="container">
-				<h2 id="formHeading" className="center">{localStorage.getItem('updating') === true ? 'Update an Application' : 'Add an Application'}</h2>
+				<h2 id="formHeading" className="center">{applicationId ? 'Update an Application' : 'Add an Application'}</h2>
 				{errors.length > 0 && (
 				<div id="error" className='alert alert-danger'>
 					<p>The following errors occured: </p>

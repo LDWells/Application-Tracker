@@ -1,6 +1,5 @@
 
 import {useState, useEffect} from 'react';
-import {Link, useParams} from 'react-router-dom';
 import StatusColor from './StatusColor';
 
 function TaskListPage()
@@ -9,7 +8,7 @@ function TaskListPage()
 	const [applications, setApplications] = useState([]);
 	const [tasks, setTasks] = useState([]);
 
-	const token = localStorage.getItem('token');
+	const token = sessionStorage.getItem('token');
 	const init = {
 		method: 'GET',
 		headers: {
@@ -32,7 +31,7 @@ function TaskListPage()
 		.then(data => {
 			if (data)
 			{
-				const newApplications = data.filter(a=> a.userId === parseInt(localStorage.getItem('appUserId')));
+				const newApplications = data.filter(a=> a.userId === parseInt(sessionStorage.getItem('appUserId')));
 				setApplications(newApplications);
 				getTasks(newApplications);
 			}
@@ -42,7 +41,7 @@ function TaskListPage()
 			}
 		})
 		.catch(console.log)
-	},[]); 
+	}); 
 
 	const getTasks = (tempApplications) => {
 		fetch('http://localhost:8080/api/tasks', init)
@@ -88,6 +87,7 @@ function TaskListPage()
 		<>
 			<section>
 			<h1 className='center'>Tasks</h1>
+			<hr></hr>
 					{tasks.map(t => 
 						<div key={t.id} className='applicationListBox mb-5'>
 							<h5 className='taskListBoxText'>{getApplication(t.applicationId).jobTitle} at {getApplication(t.applicationId).companyName}</h5>

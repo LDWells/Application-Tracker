@@ -5,7 +5,8 @@ import job_tracker.models.Comment;
 import java.util.List;
 
 public interface CommentRepository {
-    Comment findById(int id);
+    Comment findByCommentId(int id);
+    List<Comment> findByPostId(int id);
     List<Comment> findAll();
     Comment add(Comment comment);
     boolean update(Comment comment);

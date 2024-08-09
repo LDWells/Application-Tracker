@@ -37,7 +37,7 @@ public class GlobalExceptionHandlerTest {
     void shouldHandleExceptions() throws Exception {
         when(repository.add(any())).thenThrow(RuntimeException.class);
 
-        Comment comment = new Comment(1, 1, 1, "Test comment", LocalDate.of(2023, 1, 1));
+        Comment comment = new Comment(1, 1, 1, "joe", "Test comment", LocalDate.of(2023, 1, 1));
 
         String commentJson = objectMapper.writeValueAsString(comment);
 
@@ -57,7 +57,7 @@ public class GlobalExceptionHandlerTest {
     void shouldHandleDataIntegrityExceptions() throws Exception {
         when(repository.add(any())).thenThrow(DataIntegrityViolationException.class);
 
-        Comment comment = new Comment(1, 1, 1, "Test comment", LocalDate.of(2023, 1, 1));
+        Comment comment = new Comment(1, 1, 1, "joe", "Test comment", LocalDate.of(2023, 1, 1));
 
         String commentJson = objectMapper.writeValueAsString(comment);
 

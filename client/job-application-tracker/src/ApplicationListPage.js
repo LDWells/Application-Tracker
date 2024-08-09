@@ -24,7 +24,7 @@ function ApplicationListPage()
 	const [tasks, setTasks] = useState([]);
 
 	const {userId} = useParams();
-	const token = localStorage.getItem('token');
+	const token = sessionStorage.getItem('token');
 	const init = {
 		method: 'GET',
 		headers: {
@@ -110,7 +110,8 @@ function ApplicationListPage()
 
 	return (
 		<>
-		<h1 className='center'>Applications and Tasks</h1>
+			<h1 className='center'>Applications and Tasks</h1>
+			<hr></hr>
 			<section className="modal-body row">
 				<section className='col-md-6'>
 					<h1 className='center'>Applications</h1>
