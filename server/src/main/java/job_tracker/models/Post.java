@@ -16,6 +16,10 @@ public class Post {
     @Size(max = 255, message = "Title cannot be longer than 255 characters")
     private String title;
 
+    @NotBlank(message = "Summary cannot be blank")
+    @Size(max = 255, message = "Summary cannot be longer than 255 characters")
+    private String summary;
+
     @NotBlank(message = "Content cannot be blank")
     private String content;
 
@@ -26,19 +30,34 @@ public class Post {
     public Post() {
     }
 
-    public Post(int id, int userId, String title, String content, LocalDate postDate) {
+
+    public Post(int id, int userId, String title, String summary, String content, LocalDate postDate)
+    {
         this.id = id;
         this.userId = userId;
         this.title = title;
+        this.summary = summary;
         this.content = content;
         this.postDate = postDate;
     }
 
-    public Post(int userId, String title, String content, LocalDate postDate) {
+    public Post(int userId, String title, String summary, String content, LocalDate postDate)
+    {
         this.userId = userId;
         this.title = title;
+        this.summary = summary;
         this.content = content;
         this.postDate = postDate;
+    }
+
+    public @NotBlank(message = "Summary cannot be blank") @Size(max = 255, message = "Summary cannot be longer than 255 characters") String getSummary()
+    {
+        return summary;
+    }
+
+    public void setSummary(@NotBlank(message = "Summary cannot be blank") @Size(max = 255, message = "Summary cannot be longer than 255 characters") String summary)
+    {
+        this.summary = summary;
     }
 
     public int getId() {

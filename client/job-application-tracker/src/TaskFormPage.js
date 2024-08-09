@@ -62,7 +62,7 @@ function TaskFormPage()
 			if (data.id)
 			{
 				const tempUserId = sessionStorage.getItem('appUserId');
-				navigate(`/applications/${tempUserId}`);
+				navigate(`/application/${applicationId}`);
 			}
 			else
 			{

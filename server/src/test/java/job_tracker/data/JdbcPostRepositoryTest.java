@@ -46,7 +46,7 @@ class JdbcPostRepositoryTest {
 
     @Test
     void shouldAdd() {
-        Post post = new Post(2, "Resume Writing Tips", "Test for resume", LocalDate.of(2024, 6, 17));
+        Post post = new Post(2, "Resume Writing Tips", "Test for resume", "Test content", LocalDate.of(2024, 6, 17));
         Post actual = repository.add(post);
         assertNotNull(actual);
         assertTrue(actual.getId() >= 3);

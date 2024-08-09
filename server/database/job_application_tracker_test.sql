@@ -67,6 +67,7 @@ CREATE TABLE Post (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     title VARCHAR(255) NOT NULL,
+    summary varchar(255) NOT NULL,
     content TEXT NOT NULL,
     post_date DATE,
     CONSTRAINT fk_post_user FOREIGN KEY (user_id) REFERENCES app_user(app_user_id)
@@ -184,10 +185,10 @@ BEGIN
     (3, 'Send thank you note', '2023-03-15', '2023-03-14', 'COMPLETED');
     
     -- Populate Post table with dummy data
-    INSERT INTO Post (user_id, title, content, post_date) VALUES
-    (2, 'My Interview Experience at Tech Corp', 'I had a great experience with the interview process at Tech Corp...', '2023-01-25'),
-    (3, 'Tips for Job Applications', 'Here are some useful tips for applying to jobs...', '2023-02-28'),
-    (3, '10 MOre Tips for Job Applications', 'different Here are some useful tips for applying to jobs...', '2023-02-28');
+    INSERT INTO Post (user_id, title, summary, content, post_date) VALUES
+    (2, 'My Interview Experience at Tech Corp', 'I had a great experience with the interview process at Tech Corp...', 'The interview was good.', '2023-01-25'),
+    (3, 'Tips for Job Applications', 'Here are some useful tips for applying to jobs...', 'Have a job already', '2023-02-28'),
+    (3, '10 MOre Tips for Job Applications', 'different Here are some useful tips for applying to jobs...', 'Have multiple jobs', '2023-02-28');
 
     -- Populate Comment table with dummy data
     INSERT INTO `Comment` (post_id, user_id, content, comment_date) VALUES

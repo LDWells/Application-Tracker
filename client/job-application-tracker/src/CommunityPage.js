@@ -1,22 +1,26 @@
 import {useState, useEffect} from 'react';
 import {Link, useParams} from 'react-router-dom';
 
+const DEFAULT_POST = {
+	id: 0,
+	userId: 0,
+	title: '',
+	summary: '',
+	content: '',
+	postDate: ''
+}
 
 function CommunityPage()
 {
 
-	const [communityPosts, setCommunityPosts] = useState([]);
+	const [communityPosts, setCommunityPosts] = useState([DEFAULT_POST]);
 
-	const token = sessionStorage.getItem('token');
 	const init = {
-		method: 'GET',
-		headers: {
-			'Authorization': `Bearer ${token}`,
-			},
+		method: 'GET'
 		};//Authentication header for get
 
 	useEffect( () => {
-		fetch(`http://localhost:8080/api/community`, init)
+		fetch(`http://localhost:8080/api/post`, init)
 		.then(response => {
 			if (response.status === 200)
 			{
@@ -41,16 +45,16 @@ function CommunityPage()
 	},[]); 
 	return (
 		<>
-			<section>
-			<h1 className='center'>Applications</h1>
+			<section className='postContainer'>
+			<h1 className='center'>Community Posts</h1>
 					{communityPosts.map(cp => 
-						<div key={cp.id} className='applicationListBox mb-5'>
-							<h1 className='applicationListBoxText'>{cp.title}</h1>
-							<h6 className='applicationListBoxText'>{cp.content}</h6>
-							<h5 className='applicationListBoxText'>
+						<div key={cp.id} className='postListBox mb-5'>
+							<h1 className='postListBoxText'>{cp.title}</h1>
+							<h6 className='postListBoxText'>{cp.summary}</h6>
+							<h6 className='postListBoxText'>
 							{cp.postDate}
-							<Link className="btn btn-outline-light applicationListButton" to={`/community/${cp.id}`}>View Post</Link>
-							</h5>
+							<Link className="btn btn-outline-primary postListButton" to={`/community/${cp.id}`}>View Post</Link>
+							</h6>
 						</div>
 					)}
 			</section>

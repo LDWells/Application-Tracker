@@ -28,11 +28,11 @@ function App() {
           <Route path="/application/edit/:applicationId" element={<ApplicationFormPage/>}/>
           <Route path="/tasks" element={<TaskListPage/>}/>
           <Route path="/task/add/:applicationId" element={<TaskFormPage/>}/>
-          <Route path="/task/edit/:id" element={<TaskFormPage/>}/>
+          <Route path="/task/edit/:taskId" element={<TaskFormPage/>}/>
           <Route path="/community" element={<CommunityPage/>}/>
-          <Route path="/post/:id" element={<PostDetailsPage/>}/>
-          <Route path="/post/add" element={<PostFormPage/>}/>
-          <Route path="/post/edit/:id" element={<PostFormPage/>}/>
+          <Route path="/community/:postId" element={<PostDetailsPage/>}/>
+          <Route path="/community/add" element={<PostFormPage/>}/>
+          <Route path="/community/edit/:postId" element={<PostFormPage/>}/>
           <Route path="/login" element={<LogInPage/>}/>
           <Route path="/register" element={<RegisterPage/>}/>
           <Route path="*" element={<NotFoundPage/>}/>

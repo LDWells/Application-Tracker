@@ -7,7 +7,6 @@ function NavBar()
 	useEffect ( () => {
 		window.addEventListener('userIdUpdate', () => {
 			setUserId(parseInt(sessionStorage.getItem('appUserId')));
-			console.log(userId);
 		})
 	},[]);
 

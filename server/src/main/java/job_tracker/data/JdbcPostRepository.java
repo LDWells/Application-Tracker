@@ -33,8 +33,8 @@ public class JdbcPostRepository implements PostRepository {
 
     @Override
     public Post add(Post post) {
-        final String sql = "INSERT INTO Post (user_id, title, content, post_date) "
-                + " VALUES (?, ?, ?, ?);";
+        final String sql = "INSERT INTO Post (user_id, title, summary, content, post_date) "
+                + " VALUES (?, ?, ?, ?, ?);";
 
         //Needed to auto-generate primary id
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -42,8 +42,9 @@ public class JdbcPostRepository implements PostRepository {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, post.getUserId());
             ps.setString(2, post.getTitle());
-            ps.setString(3, post.getContent());
-            ps.setDate(4, post.getPostDate() == null ? null : Date.valueOf(post.getPostDate()));
+            ps.setString(3, post.getSummary());
+            ps.setString(4, post.getContent());
+            ps.setDate(5, post.getPostDate() == null ? null : Date.valueOf(post.getPostDate()));
 
 
             return ps;
@@ -59,8 +60,8 @@ public class JdbcPostRepository implements PostRepository {
 
     @Override
     public boolean update(Post post) {
-        return jdbcTemplate.update("UPDATE Post SET user_id = ?, title = ?, content = ?, post_date = ? WHERE id = ?",
-                post.getUserId(), post.getTitle(), post.getContent(), post.getPostDate(), post.getId()) > 0;
+        return jdbcTemplate.update("UPDATE Post SET user_id = ?, title = ?, summary = ?, content = ?, post_date = ? WHERE id = ?",
+                post.getUserId(), post.getTitle(), post.getContent(), post.getSummary(), post.getPostDate(), post.getId()) > 0;
     }
 
     @Override

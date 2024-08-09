@@ -19,7 +19,7 @@ function TaskList({applicationId})
 	useEffect ( () => {
 		fetch(`http://localhost:8080/api/tasks/application/${applicationId}`, init)
 		.then(response => {
-			if (response.status === 200 || 404)
+			if (response.status === 200 || response.status === 404)
 			{
 				return response.json();
 			}

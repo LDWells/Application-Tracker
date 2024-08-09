@@ -76,6 +76,7 @@ CREATE TABLE Post (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     title VARCHAR(255) NOT NULL,
+    summary VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
     post_date DATE,
     CONSTRAINT fk_post_user FOREIGN KEY (user_id) REFERENCES app_user(app_user_id)

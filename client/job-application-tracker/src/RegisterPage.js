@@ -38,7 +38,6 @@ function RegisterPage()
 			},
 			body: JSON.stringify({username, password})
 		};
-		console.log(JSON.stringify({username, password}));
 		fetch(`${url}/register`, init)
 		.then(response => {
 			if (response.status === 201)
