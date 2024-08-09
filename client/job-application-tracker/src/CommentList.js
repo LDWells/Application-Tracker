@@ -1,6 +1,6 @@
 
 import {useState, useEffect} from 'react';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 
 const DEFAULT_COMMENT = {
 	id: 0,
@@ -15,7 +15,7 @@ function CommentList({postId})
 {
 
 	const [comments, setComments] = useState([DEFAULT_COMMENT]);
-	const [users, setUsers] = useState([]);
+	const navigate = useNavigate();
 	const init = {
 		method: 'GET'
 	};
@@ -44,6 +44,33 @@ function CommentList({postId})
 		.catch(console.log)
 	},[]); 
 
+	const handleDeleteComment = (commentId) => {
+		if (window.confirm(`Are you sure you want delete this comment?`))
+			{
+				const token = sessionStorage.getItem('token');
+				const init2 = {
+					method: 'DELETE',
+					headers: {
+						'Authorization': `Bearer ${token}`,
+						},
+				};
+				fetch(`http://localhost:8080/api/comment/${commentId}`, init2)
+				.then(response => {
+					if (response.status === 204)
+					{
+						const newComments = comments.filter(c => c.id !== commentId);
+						setComments(newComments);
+						navigate(`/community/${postId}`)
+					}
+					else
+					{
+						return Promise.reject(`Unexpected status code: ${response.status}`);
+					}
+				})
+				.catch(console.log);
+			}
+		};
+
 	return (
 		<>
 			{comments.map( c =>
@@ -54,6 +81,9 @@ function CommentList({postId})
 					<hr></hr>
 					<h4 className='commentBoxText'>Comment</h4>
 					<h6 className='commentBoxText'>{c.content}</h6>
+					{JSON.stringify(sessionStorage.getItem('authorities')).includes('ROLE_ADMIN') &&
+					<button className='btn btn-outline-danger commentBoxText' onClick={() => handleDeleteComment(c.id)}>Delete Comment</button>
+					}
 				</section>
 			)}
 		</>

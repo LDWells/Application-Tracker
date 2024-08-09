@@ -53,8 +53,8 @@ function LogInPage()
 			if (data)
 			{
 				sessionStorage.setItem('token', data.jwt_token);
-				// window.dispatchEvent(new Event('userTokenUpdate'));
-				// console.log(JSON.parse(atob(data.jwt_token.split('.')[1])));
+				sessionStorage.setItem('authorities', JSON.parse(atob(data.jwt_token.split('.')[1])).authorities);
+				console.log(sessionStorage.getItem('authorities'));
 				getUserData(username);
 			}
 			else

@@ -7,7 +7,7 @@ import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 
 public class Comment {
-    
+
     private int id;
 
     @NotNull(message = "Post ID cannot be null")
